@@ -64,7 +64,7 @@
             color: #2d3748;
             border: 1px solid #cbd5e0;
         }
-        .btn-google img { width: 20px; margin-right: 12px; }
+        .btn-google img { width: 22px; height: 22px; margin-right: 12px; }
         .btn-google:hover { background-color: #f7fafc; }
 
         .btn-solicitar { background-color: #2bc48a; color: white; }
@@ -127,7 +127,7 @@
         <div class="subtitle">Ingresa para administrar las compras del hogar.</div>
         
         <button id="btnLogin" class="btn-portal btn-google">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_認證圖標.svg" alt="Google">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
             Continuar con Google
         </button>
         
@@ -167,7 +167,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
         import { getFirestore, collection, addDoc, query, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-        import { getAuth, signInWithRedirect, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+        import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI",
@@ -186,7 +186,17 @@
         const loginCard = document.getElementById("login-card");
         const portalCard = document.getElementById("portal-card");
 
-        // Escucha activa de sesión real (funciona en web y móviles)
+        // Forzar persistencia local para navegadores de celulares
+        setPersistence(auth, browserLocalPersistence)
+            .then(() => {
+                // Manejar el resultado de la redirección al volver de Google
+                return getRedirectResult(auth);
+            })
+            .catch((error) => {
+                console.error("Error de persistencia: ", error.message);
+            });
+
+        // Escucha activa del cambio de estado
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loginCard.classList.add("hidden");
@@ -197,7 +207,6 @@
             }
         });
 
-        // signInWithRedirect es mucho más estable y compatible para navegadores móviles (Safari, Chrome Android)
         document.getElementById("btnLogin").addEventListener("click", () => {
             signInWithRedirect(auth, provider);
         });
