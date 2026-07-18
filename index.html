@@ -43,19 +43,33 @@
 
         .top-user-bar {
             position: absolute;
-            top: -40px;
+            top: -45px;
             right: 10px;
             display: flex;
             align-items: center;
-            gap: 14px;
-            font-size: 14px;
+            gap: 12px;
+            font-size: 15px;
             font-weight: 600;
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
-        .top-user-bar span { color: #f1f5f9; }
-        .icon-top { cursor: pointer; opacity: 0.8; transition: opacity 0.2s; display: inline-flex; align-items: center; justify-content: center; }
-        .icon-top:hover { opacity: 1; }
-        .icon-top svg { width: 20px; height: 20px; fill: currentColor; }
+        .top-user-bar span.user-name { color: #ffffff; margin-right: 4px; }
+        
+        /* ESTILO COPIADO FIELMENTE DE LA IMAGEN (CÍRCULO GRIS CON ICONO) */
+        .icon-top { 
+            cursor: pointer; 
+            width: 36px; 
+            height: 36px; 
+            background: rgba(255, 255, 255, 0.15); 
+            border-radius: 50%; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: background 0.2s, transform 0.1s;
+            color: #ffffff;
+        }
+        .icon-top:hover { background: rgba(255, 255, 255, 0.25); }
+        .icon-top:active { transform: scale(0.95); }
+        .icon-top svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
         .avatar-container {
             width: 140px;
@@ -129,16 +143,18 @@
     <!-- PORTAL PRINCIPAL (LOGUEADO) -->
     <div id="portal-card" class="app-card hidden">
         <div class="top-user-bar">
-            <span id="userNameField">Cargando...</span>
+            <span id="userNameField" class="user-name">Cargando...</span>
             
             <!-- BOTÓN DE COMPARTIR SITIO FAMILIAR -->
             <span id="btnShareUrl" class="icon-top" title="Compartir Sitio Familiar">
-                <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+                <svg viewBox="0 0 24 24" style="fill: currentColor; stroke: none;"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
             </span>
             
-            <!-- NUEVO BOTÓN MINIMALISTA Y PROFESIONAL DE CERRAR SESIÓN (SVG) -->
+            <!-- BOTÓN EXACTO DE CERRAR SESIÓN DE LA IMAGEN ([→) -->
             <span id="btnLogOut" class="icon-top" title="Cerrar Sesión">
-                <svg viewBox="0 0 24 24"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+                </svg>
             </span>
         </div>
 
@@ -256,7 +272,7 @@
             if (user) {
                 loginCard.classList.add("hidden");
                 portalCard.classList.remove("hidden");
-                document.getElementById("userNameField").innerText = user.displayName || "Usuario CPV";
+                document.getElementById("userNameField").innerText = user.displayName || "Usuario CPB";
                 
                 const q = query(collection(db, "compras"), orderBy("fecha", "desc"));
                 unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
