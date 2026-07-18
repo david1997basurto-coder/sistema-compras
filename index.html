@@ -199,7 +199,7 @@ align-items: center; justify-content: center; gap: 8px; min-height: 108px; box-s
 .bg-papeleria   { background-color: #2e363b; }
 .bg-mascotas    { background-color: #332d2b; }
 
-/* RE-DISEÑO: GRID PREMIUM COMPACTO Y MINIMALISTA */
+/* GRID DE PRODUCTOS MINIMALISTA COMPACTO */
 .grid-productos { 
 display: grid; 
 grid-template-columns: repeat(3, 1fr); 
@@ -382,84 +382,63 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 let unsubscribeSnapshot = null; 
 
-// --- CATÁLOGO SEMILLA CORREGIDO CON IMÁGENES REALES Y ALTA VARIEDAD UNIFORME ---
-const baseCatalogoSemilla = {
+// --- CATÁLOGO EXCLUSIVO LOCAL DE ECUADOR (SIN VARIACIONES ARTIFICIALES) ---
+const baseCatálago = {
 frutas_verduras: [
 { name: "Tomate Riñón", img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=250&q=80" },
-{ name: "Cebolla Paiteña", img: "https://images.unsplash.com/photo-1618519764620-7403abdbfee9?auto=format&fit=crop&w=250&q=80" },
+{ name: "Cebolla Paiteña", img: "https://images.unsplash.com/photo-1580145679604-357dbec22915?auto=format&fit=crop&w=250&q=80" },
 { name: "Papa Chola", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
-{ name: "Zanahoria Local", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
-{ name: "Lechuga Crespa", img: "https://images.unsplash.com/photo-1622484211148-716598e0db01?auto=format&fit=crop&w=250&q=80" },
-{ name: "Aguacate Hass", img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
+{ name: "Zanahoria Amarilla", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+{ name: "Plátano Verde", img: "https://images.unsplash.com/photo-1564149601422-54b3cc1f508a?auto=format&fit=crop&w=250&q=80" },
+{ name: "Plátano Maduro", img: "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=250&q=80" },
 { name: "Limón Sutil", img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
-{ name: "Manzana Gala", img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=250&q=80" },
-{ name: "Banano / Guineo", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=250&q=80" },
-{ name: "Piña Golden", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" }
+{ name: "Aguacate Criollo", img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
+{ name: "Piña Golden", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
+{ name: "Maracuyá", img: "https://images.unsplash.com/photo-1528484461747-27430492747c?auto=format&fit=crop&w=250&q=80" },
+{ name: "Yuca", img: "https://images.unsplash.com/photo-1590005354167-6da97870c913?auto=format&fit=crop&w=250&q=80" },
+{ name: "Cebolla Blanca Larga", img: "https://images.unsplash.com/photo-1587334206586-efbfd0efbdf9?auto=format&fit=crop&w=250&q=80" }
 ],
 panaderia: [
-{ name: "Pan de Molde", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=250&q=80" },
-{ name: "Croissant Mantequilla", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=250&q=80" },
-{ name: "Baguette Tradicional", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=250&q=80" }
+{ name: "Pan Reventado / Enrollado", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=250&q=80" },
+{ name: "Pan de Molde Supán", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=250&q=80" }
 ],
 reposteria: [
-{ name: "Polvo de Hornear", img: "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=250&q=80" },
-{ name: "Esencia de Vainilla", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=250&q=80" }
+{ name: "Harina Ya", img: "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=250&q=80" },
+{ name: "Polvo de Hornear Royal", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=250&q=80" }
 ],
 lacteos: [
-{ name: "Leche Entera", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=250&q=80" },
-{ name: "Queso Criollo", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?auto=format&fit=crop&w=250&q=80" },
+{ name: "Leche Entera Vita / Toni", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=250&q=80" },
+{ name: "Queso de Mesa Criollo", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?auto=format&fit=crop&w=250&q=80" },
 { name: "Cubeta de Huevos", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=250&q=80" }
 ],
 secos: [
-{ name: "Arroz Blanco Premium", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=250&q=80" },
-{ name: "Fideos Pasta Larga", img: "https://images.unsplash.com/photo-1621961401348-f099ce520184?auto=format&fit=crop&w=250&q=80" }
+{ name: "Arroz Súper Extra", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=250&q=80" },
+{ name: "Fideos Don Vittorio", img: "https://images.unsplash.com/photo-1621961401348-f099ce520184?auto=format&fit=crop&w=250&q=80" },
+{ name: "Aceite La Favorita", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=250&q=80" }
 ],
-preparadas: [{ name: "Lasaña Congelada", img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" }],
-mariscos: [{ name: "Filete de Corvina", img: "https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?auto=format&fit=crop&w=250&q=80" }],
+preparadas: [{ name: "Humitas / Quimbolitos", img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" }],
+mariscos: [{ name: "Camarón Ecuatoriano", img: "https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?auto=format&fit=crop&w=250&q=80" }],
 congelados: [{ name: "Papas Prefritas", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=250&q=80" }],
-latas: [{ name: "Atún en Aceite", img: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=250&q=80" }],
+latas: [{ name: "Atún Real / Van Camps", img: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=250&q=80" }],
 carne: [
-{ name: "Lomo de Res", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=250&q=80" },
-{ name: "Pechuga de Pollo", img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=250&q=80" }
+{ name: "Pollo Entero Pronaca", img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=250&q=80" },
+{ name: "Carne de Res Molida", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=250&q=80" }
 ],
 vegetal: [{ name: "Hamburguesa Vegana", img: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=250&q=80" }],
-snacks: [{ name: "Papas Fritas", img: "https://images.unsplash.com/photo-1566478431377-9f15d6467166?auto=format&fit=crop&w=250&q=80" }],
-especias: [{ name: "Salsa de Tomate", img: "https://images.unsplash.com/photo-1607305387299-a3d9611cd46f?auto=format&fit=crop&w=250&q=80" }],
-bebidas: [{ name: "Agua Mineral", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" }],
-cafe: [{ name: "Café Instantáneo", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" }],
-alcoholes: [{ name: "Vino Tinto", img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=250&q=80" }],
-personal: [{ name: "Jabón Líquido", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?auto=format&fit=crop&w=250&q=80" }],
-bebe: [{ name: "Pañales Etapa 3", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=250&q=80" }],
+snacks: [{ name: "Chifles Criollos", img: "https://images.unsplash.com/photo-1566478431377-9f15d6467166?auto=format&fit=crop&w=250&q=80" }],
+especias: [{ name: "Salsa de Tomate Maggi", img: "https://images.unsplash.com/photo-1607305387299-a3d9611cd46f?auto=format&fit=crop&w=250&q=80" }],
+bebidas: [{ name: "Agua Güitig / Gaseosa", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" }],
+cafe: [{ name: "Café Buendía / Nescafé", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" }],
+alcoholes: [{ name: "Cerveza Pilsener / Club", img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=250&q=80" }],
+personal: [{ name: "Jabón Protex", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?auto=format&fit=crop&w=250&q=80" }],
+bebe: [{ name: "Pañales Huggies", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=250&q=80" }],
 salud: [{ name: "Alcohol Antiséptico", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" }],
 ropa: [{ name: "Camiseta Algodón", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=250&q=80" }],
-jardin: [{ name: "Planta Decorativa", img: "https://images.unsplash.com/photo-1301049541289-9b1b7bbbfe19?auto=format&fit=crop&w=250&q=80" }],
+jardin: [{ name: "Tierra Abonada", img: "https://images.unsplash.com/photo-1301049541289-9b1b7bbbfe19?auto=format&fit=crop&w=250&q=80" }],
 limpieza: [{ name: "Detergente Deja", img: "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=250&q=80" }],
-papeleria: [{ name: "Cuaderno A4", img: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=250&q=80" }],
-mascotas: [{ name: "Croquetas Perro", img: "https://images.unsplash.com/photo-1589924691995-400dc9ebd109?auto=format&fit=crop&w=250&q=80" }]
+papeleria: [{ name: "Cuaderno Estilo", img: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=250&q=80" }],
+mascotas: [{ name: "ProCan / Dog Chow", img: "https://images.unsplash.com/photo-1589924691995-400dc9ebd109?auto=format&fit=crop&w=250&q=80" }]
 }; 
-
-// --- CONFIGURACIÓN ESTRUCTURAL INTELIGENTE: EVITA REPETICIONES SECUENCIALES ---
-const baseCatálago = {};
-const marcasSimuladas = ["Supermaxi", "Pronaca", "Gourmet", "La Fabril"];
-
-Object.keys(baseCatalogoSemilla).forEach(cat => {
-baseCatálago[cat] = [];
-
-// 1. Inyectamos primero la totalidad de productos únicos y diferentes
-baseCatalogoSemilla[cat].forEach(prod => {
-baseCatálago[cat].push({ name: prod.name, img: prod.img });
-});
-
-// 2. Inyectamos variaciones secundarias de marca al final para mantener el ecosistema amplio
-baseCatalogoSemilla[cat].forEach(prod => {
-marcasSimuladas.forEach(marca => {
-baseCatálago[cat].push({
-name: `${prod.name} ${marca}`,
-img: prod.img
-});
-});
-});
-});
 
 window.cargarProductos = function(categoria) {
 const boxCategoriasWrapper = document.getElementById("box-categorias-wrapper");
@@ -474,17 +453,17 @@ btnVolver.classList.remove("hidden");
 
 boxProductos.innerHTML = "";
 if(baseCatálago[categoria]) {
-// Mapea la lista inteligente mostrando variedad absoluta desde el inicio
-baseCatálago[categoria].slice(0, 60).forEach(p => {
+baseCatálago[categoria].forEach(p => {
+// Se incluye onerror para renderizar un respaldo elegante autogenerado si falla la conexión de la imagen
 boxProductos.innerHTML += `<div class="prod-card" onclick="enviarSolicitudDirecta('${p.name}', '${p.img}')">
-<img src="${p.img}" alt="${p.name}">
+<img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
 <div class="name">${p.name}</div>
 </div>`;
 });
 }
 } 
 
-// Buscador Inteligente en tiempo real
+// Buscador Inteligente Local en tiempo real
 document.getElementById("inputBuscadorPremium").addEventListener("input", (e) => {
 const queryTexto = e.target.value.toLowerCase().trim();
 const boxCategoriasWrapper = document.getElementById("box-categorias-wrapper");
@@ -511,14 +490,14 @@ coincidencias.push(p);
 
 boxProductos.innerHTML = "";
 if(coincidencias.length > 0) {
-coincidencias.slice(0, 120).forEach(p => {
+coincidencias.forEach(p => {
 boxProductos.innerHTML += `<div class="prod-card" onclick="enviarSolicitudDirecta('${p.name}', '${p.img}')">
-<img src="${p.img}" alt="${p.name}">
+<img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
 <div class="name">${p.name}</div>
 </div>`;
 });
 } else {
-boxProductos.innerHTML = `<div style="grid-column: span 3; padding: 40px 10px; color: #71717a; font-size: 13px;">No se encontraron productos coincidentes.</div>`;
+boxProductos.innerHTML = `<div style="grid-column: span 3; padding: 40px 10px; color: #71717a; font-size: 13px;">No se encontraron productos en el mercado local.</div>`;
 }
 });
 
@@ -589,7 +568,7 @@ const contenedor = document.getElementById("historialCompras");
 contenedor.innerHTML = "";
 snapshot.forEach((doc) => {
 const data = doc.data();
-contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block; margin-top:2px;">${data.monto} — Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}" alt="Item"></div>`;
+contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block; margin-top:2px;">${data.monto} — Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}" alt="Item" onerror="this.onerror=null; this.src='https://placehold.co/100x100/232329/ffffff?text=Item';"></div>`;
 });
 });
 } else {
