@@ -117,42 +117,78 @@
         .img-catalogo { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; }
         .hidden { display: none !important; }
 
-        /* INTERFAZ DEL CATÁLOGO DE PANTALLA COMPLETA PREMIUM */
+        /* INTERFAZ DEL CATÁLOGO */
         .catalogo-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            z-index: 9999; display: flex; flex-direction: column; padding: 24px; box-sizing: border-box;
+            background: #181818; 
+            z-index: 9999; display: flex; flex-direction: column; padding: 20px 16px; box-sizing: border-box;
+            overflow-y: auto;
         }
-        .cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
+        .cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .cat-header h2 { margin: 0; font-size: 24px; color: #ffffff; font-weight: 700; }
-        .btn-cerrar-cat { background: rgba(255,255,255,0.1); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; font-weight: bold; cursor: pointer; font-size: 16px; }
         
-        .grid-categorias, .grid-productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; overflow-y: auto; flex: 1; padding-bottom: 20px; }
-        @media(max-width: 360px) { .grid-categorias, .grid-productos { grid-template-columns: 1fr; } }
+        .btn-cerrar-cat { 
+            background: rgba(255, 255, 255, 0.08); border: none; color: white; 
+            width: 36px; height: 36px; border-radius: 50%; font-weight: normal; 
+            cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center;
+        }
+        
+        .cat-seccion-titulo {
+            font-size: 11px;
+            color: #8c8c8c;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 16px 0 10px 4px;
+            text-transform: uppercase;
+        }
 
+        /* Grid de 3 columnas */
+        .grid-categorias { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; 
+            margin-bottom: 12px;
+        }
+        
         .cat-card {
-            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 18px; padding: 24px 16px; text-align: center; cursor: pointer;
-            transition: background 0.2s, transform 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px;
+            border: none;
+            border-radius: 18px; 
+            aspect-ratio: 0.88;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            cursor: pointer;
+            transition: transform 0.2s;
+            padding: 10px 6px;
+            box-sizing: border-box;
         }
-        .cat-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-3px); border-color: var(--btn-solicitar); }
-        .cat-card .emoji { font-size: 36px; }
-        .cat-card .title { font-size: 16px; font-weight: 600; color: white; }
+        .cat-card:active { transform: scale(0.95); }
+        
+        .bg-tierra { background: #3c2f2f; }
+        .bg-cafe { background: #3a3530; }
+        .bg-gris { background: #2c2d31; }
+        .bg-oliva { background: #2e332d; }
+        .bg-petroleo { background: #222d32; }
+        .bg-purpura { background: #322631; }
 
+        .cat-card img { width: 50%; height: auto; object-fit: contain; }
+        .cat-card .title { font-size: 11px; font-weight: 600; color: #ffffff; line-height: 1.2; text-align: center; max-width: 95%; }
+
+        .grid-productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding-bottom: 20px; }
         .prod-card {
-            background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #242424; border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px; padding: 12px; text-align: center; cursor: pointer;
-            display: flex; flex-direction: column; align-items: center; gap: 10px; transition: transform 0.2s, border-color 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
-        .prod-card:hover { transform: scale(1.03); border-color: var(--btn-solicitar); background: rgba(30, 41, 59, 0.9); }
-        .prod-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; background: #1e293b; }
-        .prod-card .name { font-size: 14px; font-weight: 600; color: #f1f5f9; padding: 0 4px; }
-        .btn-volver-cat { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 10px 18px; border-radius: 20px; font-weight: 600; margin-bottom: 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; backdrop-filter: blur(4px); }
+        .prod-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
+        .prod-card .name { font-size: 13px; font-weight: 600; color: #f1f5f9; }
+        .btn-volver-cat { background: rgba(255,255,255,0.08); color: white; border: none; padding: 10px 16px; border-radius: 20px; font-weight: 600; margin-bottom: 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; }
     </style>
 </head>
 <body>
 
-    <!-- PORTAL DE ACCESO (LOGIN) -->
     <div id="login-card" class="app-card">
         <h1 id="txtLoginTitulo">Sistema de Compras<br>Familiar CPB</h1>
         <div id="txtLoginSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
@@ -162,7 +198,6 @@
         </button>
     </div>
 
-    <!-- PORTAL PRINCIPAL (LOGUEADO) -->
     <div id="portal-card" class="app-card hidden">
         <div class="top-user-bar">
             <span id="userNameField" class="user-name">Cargando...</span>
@@ -187,30 +222,51 @@
             <button id="btnMenuAjustes" class="btn-cpb btn-ajustes">⚙️ Ajustes del Sistema</button>
         </div>
 
-        <!-- SECCIÓN DE SEGUIMIENTO HISTÓRICO VISIBLE EN EL PANEL PRINCIPAL -->
         <div class="lista-seccion"><div id="historialCompras"></div></div>
     </div>
 
-    <!-- PANTALLA COMPLETA DE INMEDIATO: CATÁLOGO CON FOTOGRAFÍAS REALES -->
     <div id="catalogo-screen" class="catalogo-overlay hidden">
         <div class="cat-header">
             <h2 id="catalogo-titulo">Catálogo Familiar</h2>
             <button id="btnCerrarCatalogo" class="btn-cerrar-cat">✕</button>
         </div>
         
-        <button id="btnVolverCategorias" class="btn-volver-cat hidden">← Volver a Categorías</button>
+        <button id="btnVolverCategorias" class="btn-volver-cat hidden">← Volver</button>
 
-        <!-- Vista de Categorías -->
-        <div id="box-categorias" class="grid-categorias">
-            <div class="cat-card" onclick="cargarProductos('frutas')"><span class="emoji">🥝</span><span class="title">Frutas</span></div>
-            <div class="cat-card" onclick="cargarProductos('verduras')"><span class="emoji">🥦</span><span class="title">Verduras y Legumbres</span></div>
-            <div class="cat-card" onclick="cargarProductos('lacteos')"><span class="emoji">🥛</span><span class="title">Lácteos y Huevos</span></div>
-            <div class="cat-card" onclick="cargarProductos('bebidas')"><span class="emoji">🥤</span><span class="title">Bebidas y Jugos</span></div>
-            <div class="cat-card" onclick="cargarProductos('salud')"><span class="emoji">🧼</span><span class="title">Salud y Bienestar</span></div>
-            <div class="cat-card" onclick="cargarProductos('aseo')"><span class="emoji">🧹</span><span class="title">Aseo y Limpieza</span></div>
+        <div id="box-wrapper-categorias">
+            <div class="cat-seccion-titulo">Comida</div>
+            <div class="grid-categorias">
+                <div class="cat-card bg-tierra" onclick="cargarProductos('frutas')">
+                    <img src="https://i.ibb.co/VWVg0Ym/tomatoes.png" alt="Frutas">
+                    <span class="title">Frutas y verduras</span>
+                </div>
+                <div class="cat-card bg-cafe" onclick="cargarProductos('lacteos')">
+                    <img src="https://i.ibb.co/vYg6Ym4/cheese.png" alt="Lácteos">
+                    <span class="title">Lácteos y huevos</span>
+                </div>
+                <div class="cat-card bg-gris" onclick="cargarProductos('bebidas')">
+                    <img src="https://i.ibb.co/6P9m9xK/soda.png" alt="Bebidas">
+                    <span class="title">Bebidas y Jugos</span>
+                </div>
+            </div>
+
+            <div class="cat-seccion-titulo">Cuidado Personal y Salud</div>
+            <div class="grid-categorias">
+                <div class="cat-card bg-purpura" onclick="cargarProductos('salud')">
+                    <img src="https://i.ibb.co/9vMhkKy/soap.png" alt="Salud">
+                    <span class="title">Salud y Bienestar</span>
+                </div>
+            </div>
+
+            <div class="cat-seccion-titulo">Hogar y Estilo de Vida</div>
+            <div class="grid-categorias">
+                <div class="cat-card bg-oliva" onclick="cargarProductos('aseo')">
+                    <img src="https://i.ibb.co/0XgVf6p/cleaner.png" alt="Aseo">
+                    <span class="title">Limpieza y lavandería</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Vista de Productos con Imágenes Reales -->
         <div id="box-productos" class="grid-productos hidden"></div>
     </div>
 
@@ -220,15 +276,7 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
         const ADMIN_EMAIL = "david1997basurto@gmail.com";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI", 
-            authDomain: "gestion-compras-cpb.firebaseapp.com", 
-            projectId: "gestion-compras-cpb", 
-            storageBucket: "gestion-compras-cpb.firebasestorage.app", 
-            messagingSenderId: "643471531807", 
-            appId: "1:643471531807:web:9c254668692760ea6a9a2a" 
-        };
+        const firebaseConfig = { apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI", authDomain: "gestion-compras-cpb.firebaseapp.com", projectId: "gestion-compras-cpb", storageBucket: "gestion-compras-cpb.firebasestorage.app", messagingSenderId: "643471531807", appId: "1:643471531807:web:9c254668692760ea6a9a2a" };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -236,181 +284,69 @@
         const provider = new GoogleAuthProvider();
         let unsubscribeSnapshot = null;
 
-        // DICCIONARIO RECONSTRUIDO CON FOTOGRAFÍAS REALES Y DE ALTA DEFINICIÓN
         const baseCatálago = {
-            frutas: [
-                { name: "Tomate de Árbol", img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=250&q=80" },
-                { name: "Guineo / Plátano", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=250&q=80" },
-                { name: "Frutillas", img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" },
-                { name: "Piña", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
-                { name: "Naranjas", img: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=250&q=80" },
-                { name: "Maracuyá", img: "https://images.unsplash.com/photo-1619472714243-7bb0d1951f43?auto=format&fit=crop&w=250&q=80" }
-            ],
-            verduras: [
-                { name: "Tomate Riñón", img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=250&q=80" },
-                { name: "Cebolla Paiteña", img: "https://images.unsplash.com/photo-1618519764620-7403abdbfee9?auto=format&fit=crop&w=250&q=80" },
-                { name: "Pimiento Verde", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=250&q=80" },
-                { name: "Papa Chola", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
-                { name: "Zanahoria", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
-                { name: "Lechuga", img: "https://images.unsplash.com/photo-1622484211148-716598e0db01?auto=format&fit=crop&w=250&q=80" }
-            ],
-            lacteos: [
-                { name: "Leche Entera", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=250&q=80" },
-                { name: "Queso Criollo / Mesa", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?auto=format&fit=crop&w=250&q=80" },
-                { name: "Yogurt", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=250&q=80" },
-                { name: "Mantequilla", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=250&q=80" },
-                { name: "Cubeta de Huevos", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=250&q=80" }
-            ],
-            bebidas: [
-                { name: "Agua Mineral / Sin gas", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" },
-                { name: "Jugos de cartón", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=250&q=80" },
-                { name: "Gaseosas", img: "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=250&q=80" },
-                { name: "Café Soluble", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" }
-            ],
-            salud: [
-                { name: "Jabón de Tocador", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?auto=format&fit=crop&w=250&q=80" },
-                { name: "Champú", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=250&q=80" },
-                { name: "Crema Dental", img: "https://images.unsplash.com/photo-1559591937-e6b368fe7444?auto=format&fit=crop&w=250&q=80" },
-                { name: "Papel Higiénico", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=250&q=80" }
-            ],
-            aseo: [
-                { name: "Detergente para Ropa (Deja)", img: "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=250&q=80" },
-                { name: "Pinoclin / Desinfectante", img: "https://images.unsplash.com/photo-1563453392-403530584df5?auto=format&fit=crop&w=250&q=80" },
-                { name: "Aromatell", img: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=250&q=80" },
-                { name: "Suavizante de Ropa", img: "https://images.unsplash.com/photo-1610557892470-55d9e80e0bce?auto=format&fit=crop&w=250&q=80" },
-                { name: "Jabón de Ropa en Barra", img: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=250&q=80" },
-                { name: "Lavavajillas (Líquido/Pasta)", img: "https://images.unsplash.com/photo-1585832770485-e68a5dbfad52?auto=format&fit=crop&w=250&q=80" },
-                { name: "Trapeador para el Piso", img: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=250&q=80" },
-                { name: "Esponja para Platos", img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&w=250&q=80" },
-                { name: "Escoba para Barrer", img: "https://images.unsplash.com/photo-1562259920-2da33a042940?auto=format&fit=crop&w=250&q=80" }
-            ]
+            frutas: [{ name: "Tomate de Árbol", img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=250&q=80" }, { name: "Guineo / Plátano", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=250&q=80" }, { name: "Frutillas", img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" }, { name: "Piña", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" }, { name: "Naranjas", img: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=250&q=80" }, { name: "Maracuyá", img: "https://images.unsplash.com/photo-1619472714243-7bb0d1951f43?auto=format&fit=crop&w=250&q=80" }],
+            lacteos: [{ name: "Leche Entera", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=250&q=80" }, { name: "Queso Criollo / Mesa", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?auto=format&fit=crop&w=250&q=80" }, { name: "Yogurt", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=250&q=80" }, { name: "Mantequilla", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=250&q=80" }, { name: "Cubeta de Huevos", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=250&q=80" }],
+            bebidas: [{ name: "Agua Mineral", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" }, { name: "Jugos", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=250&q=80" }, { name: "Gaseosas", img: "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=250&q=80" }, { name: "Café", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" }],
+            salud: [{ name: "Jabón", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?auto=format&fit=crop&w=250&q=80" }, { name: "Champú", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=250&q=80" }, { name: "Crema Dental", img: "https://images.unsplash.com/photo-1559591937-e6b368fe7444?auto=format&fit=crop&w=250&q=80" }, { name: "Papel Higiénico", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=250&q=80" }],
+            aseo: [{ name: "Detergente", img: "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=250&q=80" }, { name: "Desinfectante", img: "https://images.unsplash.com/photo-1563453392-403530584df5?auto=format&fit=crop&w=250&q=80" }, { name: "Aromatell", img: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=250&q=80" }, { name: "Suavizante", img: "https://images.unsplash.com/photo-1610557892470-55d9e80e0bce?auto=format&fit=crop&w=250&q=80" }]
         };
 
         window.cargarProductos = function(categoria) {
-            const titulo = document.getElementById("catalogo-titulo");
-            const boxCategorias = document.getElementById("box-categorias");
+            document.getElementById("catalogo-titulo").innerText = categoria.toUpperCase();
+            document.getElementById("box-wrapper-categorias").classList.add("hidden");
+            document.getElementById("box-productos").classList.remove("hidden");
+            document.getElementById("btnVolverCategorias").classList.remove("hidden");
             const boxProductos = document.getElementById("box-productos");
-            const btnVolver = document.getElementById("btnVolverCategorias");
-
-            titulo.innerText = categoria.toUpperCase();
-            boxCategorias.classList.add("hidden");
-            boxProductos.classList.remove("hidden");
-            btnVolver.classList.remove("hidden");
-
             boxProductos.innerHTML = "";
             baseCatálago[categoria].forEach(p => {
-                boxProductos.innerHTML += `
-                    <div class="prod-card" onclick="enviarSolicitudDirecta('${p.name}', '${p.img}')">
-                        <img src="${p.img}" alt="${p.name}">
-                        <div class="name">${p.name}</div>
-                    </div>`;
+                boxProductos.innerHTML += `<div class="prod-card" onclick="enviarSolicitudDirecta('${p.name}', '${p.img}')"><img src="${p.img}" alt="${p.name}"><div class="name">${p.name}</div></div>`;
             });
         }
 
         window.enviarSolicitudDirecta = async function(nombre, img) {
-            try {
-                await addDoc(collection(db, "compras"), {
-                    nombre: nombre,
-                    monto: 0, 
-                    foto: img,
-                    fecha: new Date(),
-                    usuario: auth.currentUser.email
-                });
-                alert("🎯 Solicitud enviada con éxito.");
-                cerrarElCatalogo();
-            } catch (e) {
-                alert("Error al enviar solicitud: " + e.message);
-            }
+            try { await addDoc(collection(db, "compras"), { nombre: nombre, monto: 0, foto: img, fecha: new Date(), usuario: auth.currentUser.email }); alert("🎯 Solicitud enviada."); cerrarElCatalogo(); } catch (e) { alert("Error: " + e.message); }
         }
 
-        function cerrarElCatalogo() {
-            document.getElementById("catalogo-screen").classList.add("hidden");
-            resetearVistaCatalogo();
-        }
+        function cerrarElCatalogo() { document.getElementById("catalogo-screen").classList.add("hidden"); resetearVistaCatalogo(); }
 
         function resetearVistaCatalogo() {
             document.getElementById("catalogo-titulo").innerText = "Catálogo Familiar";
-            document.getElementById("box-categorias").classList.remove("hidden");
+            document.getElementById("box-wrapper-categorias").classList.remove("hidden");
             document.getElementById("box-productos").classList.add("hidden");
             document.getElementById("btnVolverCategorias").classList.add("hidden");
         }
 
-        document.getElementById("btnMenuSolicitar").addEventListener("click", () => {
-            document.getElementById("catalogo-screen").classList.remove("hidden");
-        });
+        document.getElementById("btnMenuSolicitar").addEventListener("click", () => document.getElementById("catalogo-screen").classList.remove("hidden"));
         document.getElementById("btnCerrarCatalogo").addEventListener("click", cerrarElCatalogo);
         document.getElementById("btnVolverCategorias").addEventListener("click", resetearVistaCatalogo);
-
-
-        // --- LÓGICA DE FIREBASE ---
-        const loginCard = document.getElementById("login-card");
-        const portalCard = document.getElementById("portal-card");
-
-        onSnapshot(doc(db, "configuracion", "interfaz"), (docSnap) => {
-            if (docSnap.exists()) {
-                const c = docSnap.data();
-                if(c.titulo) { document.getElementById("txtMainTitulo").innerHTML = c.titulo; document.getElementById("txtLoginTitulo").innerHTML = c.titulo; }
-                if(c.subtítulo) { document.getElementById("txtMainSub").innerText = c.subtítulo; document.getElementById("txtLoginSub").innerText = c.subtítulo; }
-                if(c.fondo) document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('${c.fondo}')`;
-                if(c.avatar) document.getElementById("imgAvatar").src = c.avatar;
-                if(c.btn1Text) document.getElementById("btnMenuSolicitar").innerText = c.btn1Text;
-                if(c.btn1Color) document.getElementById("btnMenuSolicitar").style.backgroundColor = c.btn1Color;
-                if(c.btn2Text) document.getElementById("btnMenuComprar").innerText = c.btn2Text;
-                if(c.btn2Color) document.getElementById("btnMenuComprar").style.backgroundColor = c.btn2Color;
-                if(c.btn3Text) document.getElementById("btnMenuAjustes").innerText = c.btn3Text;
-                if(c.btn3Color) document.getElementById("btnMenuAjustes").style.backgroundColor = c.btn3Color;
-            }
-        });
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loginCard.classList.add("hidden");
                 portalCard.classList.remove("hidden");
                 document.getElementById("userNameField").innerText = user.displayName || "Usuario CPB";
-                
                 const q = query(collection(db, "compras"), orderBy("fecha", "desc"));
                 unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
                     const contenedor = document.getElementById("historialCompras");
                     contenedor.innerHTML = ""; 
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block; margin-top:2px;">$${data.monto} — Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}" alt="Item"></div>`;
+                        contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block;">Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}"></div>`;
                     });
                 });
             } else {
-                if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
+                if (unsubscribeSnapshot) unsubscribeSnapshot();
                 portalCard.classList.add("hidden");
                 loginCard.classList.remove("hidden");
             }
         });
 
-        document.getElementById("btnShareUrl").addEventListener("click", async () => {
-            const shareData = {
-                title: 'Sistema de Compras Familiar CPB',
-                text: 'Hola familia, les comparto el enlace de nuestro sistema de compras para organizar el hogar.',
-                url: window.location.href
-            };
-            if (navigator.share) {
-                try { await navigator.share(shareData); } catch (err) { abrirWhatsApp(shareData.text, shareData.url); }
-            } else { abrirWhatsApp(shareData.text, shareData.url); }
-        });
-
-        function abrirWhatsApp(text, url) {
-            const mensajeEncriptado = encodeURIComponent(`${text}\n\n👉 Accede aquí: ${url}`);
-            window.open(`https://api.whatsapp.com/send?text=${mensajeEncriptado}`, '_blank');
-        }
-
         document.getElementById("btnLogin").addEventListener("click", () => signInWithPopup(auth, provider));
-        document.getElementById("btnLogOut").addEventListener("click", () => { signOut(auth); });
-        document.getElementById("btnMenuComprar").addEventListener("click", () => alert("Módulo consolidado de compras familiares."));
-        
+        document.getElementById("btnLogOut").addEventListener("click", () => signOut(auth));
         document.getElementById("btnMenuAjustes").addEventListener("click", () => {
-            const emailActivo = auth.currentUser ? auth.currentUser.email.toLowerCase() : "";
-            if (emailActivo === ADMIN_EMAIL.toLowerCase()) {
-                alert("⚙️ El panel dinámico de control se administra directamente desde la base de datos de Firebase para máxima seguridad.");
-            } else {
-                alert("❌ ACCESO DENEGADO: Módulo de control absoluto exclusivo para el Administrador.");
-            }
+             const emailActivo = auth.currentUser ? auth.currentUser.email.toLowerCase() : "";
+             if (emailActivo === ADMIN_EMAIL.toLowerCase()) alert("Acceso Administrador Autorizado."); else alert("Acceso Denegado.");
         });
     </script>
 </body>
