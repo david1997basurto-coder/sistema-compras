@@ -3,145 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sistema de Compras Familiar CPB</title>
+    <title>Sistema de Compras Familiar CPV</title>
     <style>
         :root {
+            --primary-glow: #10b981;
             --btn-solicitar: #2bc48a;
             --btn-comprar: #e2e8f0;
             --btn-ajustes: #4a5568;
             --text-light: #ffffff;
         }
-        body { font-family: 'Segoe UI', sans-serif; background-size: cover; background-position: center; background-attachment: fixed; background-color: #141b2d; margin: 0; color: var(--text-light); min-height: 100vh; display: flex; justify-content: center; align-items: center; }
-        .app-card { width: 100%; max-width: 480px; padding: 20px; text-align: center; position: relative; }
-        .top-user-bar { position: absolute; top: -40px; right: 10px; display: flex; gap: 12px; font-size: 14px; font-weight: 600; }
-        .avatar-container { width: 110px; height: 110px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.8); margin: 0 auto 15px; overflow: hidden; background: #2d3748; }
-        .avatar-container img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-        .btn-cpb { width: 100%; padding: 14px; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; margin-bottom: 14px; transition: 0.2s; }
-        .form-box { background: #1e293b; border-radius: 18px; padding: 20px; margin-top: 20px; text-align: left; }
-        input { width: 100%; padding: 10px; margin: 5px 0 10px; border-radius: 10px; border: 1px solid #444; background: #2d3748; color: white; box-sizing: border-box; }
-        .lista-seccion { margin-top: 15px; max-height: 200px; overflow-y: auto; }
-        .compra-tarjeta { background: rgba(255, 255, 255, 0.08); padding: 10px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; font-size: 14px; }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('foto_familiar.jpg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #141b2d;
+            margin: 0;
+            padding: 0;
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .app-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .top-user-bar {
+            position: absolute;
+            top: -40px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+        .top-user-bar span { color: #f1f5f9; }
+        .icon-top { cursor: pointer; opacity: 0.8; transition: opacity 0.2s; font-size: 18px; display: inline-flex; align-items: center; }
+        .icon-top:hover { opacity: 1; }
+
+        .avatar-container {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            margin-bottom: 15px;
+            overflow: hidden;
+            background: #2d3748;
+        }
+        
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top; 
+        }
+
+        h1 { font-size: 28px; font-weight: 700; margin: 0 0 8px 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); color: #ffffff; line-height: 1.2; }
+        .subtitle { color: #e2e8f0; font-size: 14px; margin: 0 0 35px 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); max-width: 90%; }
+
+        .menu-actions { width: 100%; display: flex; flex-direction: column; gap: 14px; }
+
+        .btn-cpb {
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .btn-cpb:active { transform: scale(0.98); }
+
+        .btn-solicitar { background-color: var(--btn-solicitar); color: white; }
+        .btn-comprar { background-color: var(--btn-comprar); color: #2d3748; }
+        .btn-ajustes { background-color: rgba(74, 85, 104, 0.9); color: white; border: 1px solid rgba(255,255,255,0.1); }
+
+        .form-box { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 20px; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; margin-top: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left; }
+        .form-box h3 { margin: 0 0 10px 0; font-size: 18px; color: #2bc48a; text-align: center;}
+        .form-box label { font-size: 12px; color: #94a3b8; font-weight: 600; margin-bottom: -6px; display: block;}
+        
+        input { width: 100%; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; box-sizing: border-box; font-size: 15px; background: rgba(255,255,255,0.05); color: white; margin-bottom: 5px; }
+        input:focus { outline: none; border-color: var(--btn-solicitar); }
+        
+        .lista-seccion { margin-top: 10px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .compra-tarjeta { background: rgba(255, 255, 255, 0.08); padding: 12px; border-left: 4px solid var(--btn-solicitar); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+        .img-catalogo { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
+
+    <!-- PORTAL DE ACCESO -->
     <div id="login-card" class="app-card">
-        <h1 id="txtLoginTitulo">Acceso a la familia CPB</h1>
-        <button id="btnLogin" class="btn-cpb" style="background:white; color:black;">Continuar con Google</button>
+        <h1 id="txtLoginTitulo">Acceso a la familia CPV</h1>
+        <div id="txtLoginSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
+        <button id="btnLogin" class="btn-cpb" style="background: white; color: #1a202c; border-radius: 25px;">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:20px;">
+            Continuar con Google
+        </button>
     </div>
 
+    <!-- PORTAL PRINCIPAL -->
     <div id="portal-card" class="app-card hidden">
         <div class="top-user-bar">
-            <span id="userNameField">Usuario</span>
-            <span id="btnLogOut" style="cursor:pointer;">↪️</span>
+            <span id="userNameField">Cargando...</span>
+            <span id="btnLogOut" class="icon-top" title="Cerrar Sesión">↪️</span>
         </div>
-        <div class="avatar-container"><img id="imgAvatar" src="perfil.jpg.jpeg" alt="Perfil"></div>
-        <h1 id="txtMainTitulo">Sistema de Compras</h1>
-        <div id="txtMainSub" style="margin-bottom:20px;">Organiza las compras.</div>
+
+        <div class="avatar-container">
+            <img id="imgAvatar" src="perfil.jpg.jpeg" alt="Perfil Familiar">
+        </div>
+
+        <h1 id="txtMainTitulo">Sistema de Compra<br>Familia CPV</h1>
+        <div id="txtMainSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
         
-        <button id="btnMenuSolicitar" class="btn-cpb" style="background:var(--btn-solicitar);">Solicitar Compra</button>
-        <button id="btnMenuComprar" class="btn-cpb" style="background:var(--btn-comprar);">Comprar Ahora</button>
-        <button id="btnMenuAjustes" class="btn-cpb" style="background:var(--btn-ajustes); color:white;">Ajustes del Sistema</button>
-
-        <div id="despliegue-solicitud" class="form-box hidden">
-            <h3>Nueva Solicitud</h3>
-            <input type="text" id="producto" placeholder="Producto">
-            <input type="number" id="precio" placeholder="Precio ($)">
-            <input type="text" id="fotoUrl" placeholder="Link de imagen">
-            <button id="btnGuardarDatos" class="btn-cpb" style="background:var(--btn-solicitar);">Enviar Solicitud</button>
-            <div class="lista-seccion" id="historialCompras"></div>
+        <div class="menu-actions">
+            <button id="btnMenuSolicitar" class="btn-cpb btn-solicitar">🛒 Solicitar Compra</button>
+            <button id="btnMenuComprar" class="btn-cpb btn-comprar">✔️ Comprar Ahora</button>
+            <button id="btnMenuAjustes" class="btn-cpb btn-ajustes">⚙️ Ajustes del Sistema</button>
         </div>
 
-        <div id="despliegue-ajustes" class="form-box hidden" style="max-height:400px; overflow-y:auto;">
-            <h3>🛠️ Panel de Control Total</h3>
-            <label>Título:</label><input type="text" id="cfgTitulo">
-            <label>Subtítulo:</label><input type="text" id="cfgSub">
-            <label>Link Imagen Fondo:</label><input type="text" id="cfgFondo">
-            <label>Link Avatar:</label><input type="text" id="cfgAvatar">
-            <label>Btn 1 (Solicitar) Texto:</label><input type="text" id="cfgBtn1Text">
-            <label>Btn 1 Color:</label><input type="text" id="cfgBtn1Color">
-            <label>Btn 2 (Comprar) Texto:</label><input type="text" id="cfgBtn2Text">
-            <label>Btn 3 (Ajustes) Texto:</label><input type="text" id="cfgBtn3Text">
-            <button id="btnAplicarCambios" class="btn-cpb" style="background:#10b981;">Guardar Cambios Globales</button>
+        <!-- MÓDULO SOLICITAR COMPRA -->
+        <div id="despliegue-solicitud" class="form-box hidden">
+            <h3 id="lblSolTitulo">Nueva Solicitud</h3>
+            <label>Producto</label>
+            <input type="text" id="producto" placeholder="Nombre del producto">
+            <label>Precio</label>
+            <input type="number" id="precio" placeholder="Precio ($)">
+            <label>Link de Foto</label>
+            <input type="text" id="fotoUrl" placeholder="Link del catálogo (Opcional)">
+            <button id="btnGuardarDatos" class="btn-cpb btn-solicitar" style="padding: 10px; margin-top: 10px;">Enviar Solicitud</button>
+            <div class="lista-seccion"><div id="historialCompras"></div></div>
+        </div>
+
+        <!-- PANEL DE CONTROL TOTAL EXCLUSIVO (DAVID BAZURTO) -->
+        <div id="despliegue-ajustes" class="form-box hidden" style="max-height: 400px; overflow-y: auto;">
+            <h3 style="color: #f59e0b;">🛠️ Panel de Control Total</h3>
+            <p style="font-size: 11px; color: #94a3b8; margin-top: -5px; text-align: center;">Acceso exclusivo de Administrador</p>
+            
+            <label>Nombre del Sistema</label>
+            <input type="text" id="cfgTitulo" placeholder="Sistema de Compra Familia CPV">
+            
+            <label>Eslogan / Letras del Subtítulo</label>
+            <input type="text" id="cfgSub" placeholder="Organiza las compras de tu hogar de forma inteligente.">
+            
+            <label>Foto de Portada (Fondo)</label>
+            <input type="text" id="cfgFondo" placeholder="foto_familiar.jpg.jpeg">
+            
+            <label>Foto dentro del Círculo (Avatar)</label>
+            <input type="text" id="cfgAvatar" placeholder="perfil.jpg.jpeg">
+
+            <label>Botón 1 (Texto e Icono)</label>
+            <input type="text" id="cfgBtn1Text" placeholder="🛒 Solicitar Compra">
+            <label>Color Botón 1 (Hexadecimal)</label>
+            <input type="text" id="cfgBtn1Color" placeholder="#2bc48a">
+
+            <label>Botón 2 (Texto e Icono)</label>
+            <input type="text" id="cfgBtn2Text" placeholder="✔️ Comprar Ahora">
+            <label>Color Botón 2 (Hexadecimal)</label>
+            <input type="text" id="cfgBtn2Color" placeholder="#e2e8f0">
+            
+            <label>Botón 3 (Texto e Icono)</label>
+            <input type="text" id="cfgBtn3Text" placeholder="⚙️ Ajustes del Sistema">
+            <label>Color Botón 3 (Hexadecimal)</label>
+            <input type="text" id="cfgBtn3Color" placeholder="#4a5568">
+
+            <label>Contenido interno: Guía Campo Producto</label>
+            <input type="text" id="cfgPlaceholder1" placeholder="Nombre del producto">
+            <label>Contenido interno: Guía Campo Precio</label>
+            <input type="text" id="cfgPlaceholder2" placeholder="Precio ($)">
+
+            <button id="btnAplicarCambios" class="btn-cpb" style="padding: 10px; margin-top: 15px; background:#10b981; color: white;">Guardar Cambios Globales</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-        import { getFirestore, doc, onSnapshot, setDoc, collection, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, orderBy, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-        const ADMIN_EMAIL = "david1997basurto@gmail.com"; 
+        // BLINDAJE DE SEGURIDAD ABSOLUTO
+        const ADMIN_EMAIL = "david1997basurto@gmail.com";
+
         const firebaseConfig = { apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI", authDomain: "gestion-compras-cpb.firebaseapp.com", projectId: "gestion-compras-cpb", storageBucket: "gestion-compras-cpb.firebasestorage.app", messagingSenderId: "643471531807", appId: "1:643471531807:web:9c254668692760ea6a9a2a" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
+        let unsubscribeSnapshot = null;
 
-        // Carga de configuración y datos
-        onSnapshot(doc(db, "configuracion", "interfaz"), (s) => {
-            if (s.exists()) {
-                const c = s.data();
-                if(c.titulo) document.getElementById("txtMainTitulo").innerText = c.titulo;
-                if(c.subtítulo) document.getElementById("txtMainSub").innerText = c.subtítulo;
-                if(c.fondo) document.body.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${c.fondo}')`;
+        // Escucha cambios en Firebase para renderizar la interfaz personalizada
+        onSnapshot(doc(db, "configuracion", "interfaz"), (docSnap) => {
+            if (docSnap.exists()) {
+                const c = docSnap.data();
+                if(c.titulo) { document.getElementById("txtMainTitulo").innerHTML = c.titulo; document.getElementById("txtLoginTitulo").innerText = c.titulo; }
+                if(c.subtítulo) { document.getElementById("txtMainSub").innerText = c.subtítulo; document.getElementById("txtLoginSub").innerText = c.subtítulo; }
+                if(c.fondo) document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('${c.fondo}')`;
                 if(c.avatar) document.getElementById("imgAvatar").src = c.avatar;
                 if(c.btn1Text) document.getElementById("btnMenuSolicitar").innerText = c.btn1Text;
                 if(c.btn1Color) document.getElementById("btnMenuSolicitar").style.backgroundColor = c.btn1Color;
                 if(c.btn2Text) document.getElementById("btnMenuComprar").innerText = c.btn2Text;
+                if(c.btn2Color) document.getElementById("btnMenuComprar").style.backgroundColor = c.btn2Color;
                 if(c.btn3Text) document.getElementById("btnMenuAjustes").innerText = c.btn3Text;
+                if(c.btn3Color) document.getElementById("btnMenuAjustes").style.backgroundColor = c.btn3Color;
+                if(c.placeholder1) document.getElementById("producto").placeholder = c.placeholder1;
+                if(c.placeholder2) document.getElementById("precio").placeholder = c.placeholder2;
             }
         });
 
-        // Carga de historial de compras
-        onSnapshot(query(collection(db, "compras"), orderBy("fecha", "desc")), (snap) => {
-            const container = document.getElementById("historialCompras");
-            container.innerHTML = "";
-            snap.forEach(d => {
-                const data = d.data();
-                container.innerHTML += `<div class="compra-tarjeta"><span>${data.nombre}</span><span>$${data.monto}</span></div>`;
-            });
-        });
-
-        onAuthStateChanged(auth, (u) => {
-            if (u) {
-                document.getElementById("login-card").classList.add("hidden");
-                document.getElementById("portal-card").classList.remove("hidden");
-                document.getElementById("userNameField").innerText = u.displayName;
+        // Manejo del estado de la sesión familiar
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginCard.classList.add("hidden");
+                portalCard.classList.remove("hidden");
+                document.getElementById("userNameField").innerText = user.displayName || "Usuario CPV";
+                
+                const q = query(collection(db, "compras"), orderBy("fecha", "desc"));
+                unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+                    const contenedor = document.getElementById("historialCompras");
+                    contenedor.innerHTML = ""; 
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block; margin-top:2px;">$${data.monto} — Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}" alt="Item"></div>`;
+                    });
+                });
             } else {
-                document.getElementById("portal-card").classList.add("hidden");
-                document.getElementById("login-card").classList.remove("hidden");
+                if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
+                portalCard.classList.add("hidden");
+                loginCard.classList.remove("hidden");
             }
-        });
-
-        document.getElementById("btnMenuAjustes").addEventListener("click", () => {
-            if (auth.currentUser?.email === ADMIN_EMAIL) {
-                document.getElementById("despliegue-ajustes").classList.toggle("hidden");
-            } else { alert("❌ ACCESO DENEGADO: Módulo exclusivo para David Basurto."); }
-        });
-
-        document.getElementById("btnGuardarDatos").addEventListener("click", async () => {
-            await addDoc(collection(db, "compras"), { nombre: document.getElementById("producto").value, monto: Number(document.getElementById("precio").value), fecha: new Date() });
-            alert("Solicitud Enviada.");
-        });
-
-        document.getElementById("btnAplicarCambios").addEventListener("click", async () => {
-            await setDoc(doc(db, "configuracion", "interfaz"), {
-                titulo: document.getElementById("cfgTitulo").value,
-                subtítulo: document.getElementById("cfgSub").value,
-                fondo: document.getElementById("cfgFondo").value,
-                avatar: document.getElementById("cfgAvatar").value,
-                btn1Text: document.getElementById("cfgBtn1Text").value,
-                btn1Color: document.getElementById("cfgBtn1Color").value,
-                btn2Text: document.getElementById("cfgBtn2Text").value,
-                btn3Text: document.getElementById("cfgBtn3Text").value
-            }, { merge: true });
-            alert("✅ Sistema Actualizado.");
         });
 
         document.getElementById("btnLogin").addEventListener("click", () => signInWithPopup(auth, provider));
-        document.getElementById("btnLogOut").addEventListener("click", () => signOut(auth));
-        document.getElementById("btnMenuSolicitar").addEventListener("click", () => document.getElementById("despliegue-solicitud").classList.toggle("hidden"));
+        document.getElementById("btnLogOut").addEventListener("click", () => { signOut(auth); document.getElementById("despliegue-solicitud").classList.add("hidden"); document.getElementById("despliegue-ajustes").classList.add("hidden"); });
+        document.getElementById("btnMenuSolicitar").addEventListener("click", () => { document.getElementById("despliegue-solicitud").classList.toggle("hidden"); document.getElementById("despliegue-ajustes").classList.add("hidden"); });
+        document.getElementById("btnMenuComprar").addEventListener("click", () => alert("Módulo consolidado de compras familiares."));
+        
+        // RESTRICCIÓN INQUEBRANTABLE: SÓLO ACCEDE DAVID BAZURTO
+        document.getElementById("btnMenuAjustes").addEventListener("click", () => {
+            const emailActivo = auth.currentUser ? auth.currentUser.email.toLowerCase() : "";
+            if (emailActivo === ADMIN_EMAIL.toLowerCase()) {
+                document.getElementById("despliegue-ajustes").classList.toggle("hidden");
+                document.getElementById("despliegue-solicitud").classList.add("hidden");
+            } else {
+                alert("❌ ACCESO DENEGADO: Módulo de control absoluto exclusivo para David Bazurto.");
+            }
+        });
+
+        // Envío de la personalización completa a Firebase
+        document.getElementById("btnAplicarCambios").addEventListener("click", async () => {
+            try {
+                await setDoc(doc(db, "configuracion", "interfaz"), {
+                    titulo: document.getElementById("cfgTitulo").value || null,
+                    subtítulo: document.getElementById("cfgSub").value || null,
+                    fondo: document.getElementById("cfgFondo").value || null,
+                    avatar: document.getElementById("cfgAvatar").value || null,
+                    btn1Text: document.getElementById("cfgBtn1Text").value || null,
+                    btn1Color: document.getElementById("cfgBtn1Color").value || null,
+                    btn2Text: document.getElementById("cfgBtn2Text").value || null,
+                    btn2Color: document.getElementById("cfgBtn2Color").value || null,
+                    btn3Text: document.getElementById("cfgBtn3Text").value || null,
+                    btn3Color: document.getElementById("cfgBtn3Color").value || null,
+                    placeholder1: document.getElementById("cfgPlaceholder1").value || null,
+                    placeholder2: document.getElementById("cfgPlaceholder2").value || null
+                }, { merge: true });
+                alert("🎯 ¡Control Total! Configuración general del sistema guardada con éxito.");
+            } catch (error) {
+                alert("Error de guardado: " + error.message);
+            }
+        });
+
+        // Registro de compras familiares
+        document.getElementById("btnGuardarDatos").addEventListener("click", async () => {
+            const producto = document.getElementById("producto").value;
+            const precio = document.getElementById("precio").value;
+            const fotoUrl = document.getElementById("fotoUrl").value || "https://via.placeholder.com/150";
+            if(!producto || !precio) return alert("Complete los campos obligatorios.");
+            try { await addDoc(collection(db, "compras"), { nombre: producto, monto: Number(precio), foto: fotoUrl, fecha: new Date(), usuario: auth.currentUser.email }); document.getElementById("producto").value = ""; document.getElementById("precio").value = ""; document.getElementById("fotoUrl").value = ""; } catch (e) { alert("Error: " + e.message); }
+        });
     </script>
 </body>
 </html>
