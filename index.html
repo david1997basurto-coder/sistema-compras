@@ -227,6 +227,10 @@ aspect-ratio: 1 / 1;
 object-fit: cover; 
 border-radius: 10px; 
 background: #232329; 
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+user-select: none;
+cursor: pointer;
 }
 .prod-card .name { 
 font-size: 11px; 
@@ -410,7 +414,7 @@ frutas_verduras: [
     { name: "Guanábana", desc: "Fruta de pulpa blanca y dulce para jugos.", price: 3.00, img: "https://images.unsplash.com/photo-1610450914442-99a224ef4da2?auto=format&fit=crop&w=250&q=80" },
     { name: "Pitahaya", desc: "Tanto la amarilla (nativa de Palora) como la roja.", price: 2.00, img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
     { name: "Naranjilla", desc: "Indispensable para jugos, canelazos y el tradicional seco de chivo.", price: 0.25, img: "https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&w=250&q=80" },
-    { name: "Tamarindo", desc: "Utilizado para refrescos ácidos.", price: 0.75, img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tamarindo", desc: "Utilizado para reflexes ácidos.", price: 0.75, img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
     { name: "Granadilla", desc: "Muy consumida por niños por su facilidad de digestión.", price: 0.40, img: "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=250&q=80" },
     { name: "Taxo", desc: "Fruta andina ácida usada para jugos y helados.", price: 0.30, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
     { name: "Tomate de Árbol", desc: "Esencial para jugos y el ají de mesa ecuatoriano.", price: 0.30, img: "https://images.unsplash.com/photo-1610450914442-99a224ef4da2?auto=format&fit=crop&w=250&q=80" },
@@ -593,6 +597,36 @@ mascotas: [
 ]
 }; 
 
+// --- ALGORITMO DE PULSACIÓN LARGA (LONG PRESS) ---
+window.iniciarPulsacionLarga = function(elemento, categoria, idx, esBusqueda) {
+    elemento.timeoutPulsacion = setTimeout(() => {
+        let nuevoLink = prompt("✨ Personalizar Producto\n\nPegue el URL o link de la nueva imagen de su preferencia:", elemento.src);
+        if (nuevoLink && nuevoLink.trim() !== "") {
+            elemento.src = nuevoLink.trim();
+            if (!esBusqueda) {
+                if (baseCatálago[categoria] && baseCatálago[categoria][idx]) {
+                    baseCatálago[categoria][idx].img = nuevoLink.trim();
+                }
+            } else {
+                let nombreProd = elemento.alt;
+                Object.keys(baseCatálago).forEach(cat => {
+                    baseCatálago[cat].forEach(p => {
+                        if (p.name === nombreProd) {
+                            p.img = nuevoLink.trim();
+                        }
+                    });
+                });
+            }
+        }
+    }, 800);
+};
+
+window.cancelarPulsacionLarga = function(elemento) {
+    if (elemento.timeoutPulsacion) {
+        clearTimeout(elemento.timeoutPulsacion);
+    }
+};
+
 window.cargarProductos = function(categoria) {
 const boxCategoriasWrapper = document.getElementById("box-categorias-wrapper");
 const boxProductos = document.getElementById("box-productos");
@@ -611,7 +645,14 @@ const descHTML = p.desc ? `<div class="desc">${p.desc}</div>` : '';
 const defPrice = p.price !== undefined ? p.price.toFixed(2) : "0.00";
 
 boxProductos.innerHTML += `<div class="prod-card">
-<img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
+<img src="${p.img}" alt="${p.name}" 
+     onmousedown="iniciarPulsacionLarga(this, '${categoria}', ${idx}, false)" 
+     ontouchstart="iniciarPulsacionLarga(this, '${categoria}', ${idx}, false)" 
+     onmouseup="cancelarPulsacionLarga(this)" 
+     onmouseleave="cancelarPulsacionLarga(this)" 
+     ontouchend="cancelarPulsacionLarga(this)" 
+     ontouchmove="cancelarPulsacionLarga(this)"
+     onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
 <div style="flex:1; width:100%; display:flex; flex-direction:column; justify-content:flex-start;">
     <div class="name">${p.name}</div>
     ${descHTML}
@@ -661,7 +702,14 @@ const defPrice = p.price !== undefined ? p.price.toFixed(2) : "0.00";
 const uniqueId = `search-${idx}-${Math.floor(Math.random()*1000)}`;
 
 boxProductos.innerHTML += `<div class="prod-card">
-<img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
+<img src="${p.img}" alt="${p.name}" 
+     onmousedown="iniciarPulsacionLarga(this, '', null, true)" 
+     ontouchstart="iniciarPulsacionLarga(this, '', null, true)" 
+     onmouseup="cancelarPulsacionLarga(this)" 
+     onmouseleave="cancelarPulsacionLarga(this)" 
+     ontouchend="cancelarPulsacionLarga(this)" 
+     ontouchmove="cancelarPulsacionLarga(this)"
+     onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
 <div style="flex:1; width:100%; display:flex; flex-direction:column; justify-content:flex-start;">
     <div class="name">${p.name}</div>
     ${descHTML}
