@@ -255,6 +255,892 @@ margin-top: 2px;
 padding: 0 2px;
 }
 
+/* ESTILO NUEVO PARA EL PRECIO DINÁMICO */
+.prod-card .price {
+font-size: 13px;
+font-weight: 700;
+color: var(--primary-glow);
+background: rgba(16, 185, 129, 0.15);
+padding: 4px 8px;
+border-radius: 8px;
+margin-top: auto;
+cursor: pointer;
+transition: background 0.2s;
+width: 100%;
+box-sizing: border-box;
+}
+.prod-card .price:hover {
+background: rgba(16, 185, 129, 0.3);
+}
+
+.btn-volver-cat-premium {
+background: #232329; color: white; border: none; padding: 10px 16px; border-radius: 20px;
+font-weight: 600; margin-top: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; font-size: 13px;
+}
+
+/* MODAL MODERNO DE PERSONALIZACIÓN */
+.modal-url-overlay {
+position: fixed; top:0; left:0; width:100%; height:100%;
+background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px); z-index: 100000;
+display: flex; align-items: center; justify-content: center;
+opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+}
+.modal-url-overlay.active { opacity: 1; pointer-events: auto; }
+.modal-url-box {
+background: #1c1c21; border: 1px solid #2d2d35; border-radius: 20px;
+width: 90%; max-width: 360px; padding: 22px; box-sizing: border-box;
+box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+transform: scale(0.9); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.modal-url-overlay.active .modal-url-box { transform: scale(1); }
+.modal-url-title { font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 6px; text-align: left; display: flex; align-items: center; gap: 6px; }
+.modal-url-subtitle { font-size: 12px; color: #a1a1aa; margin-bottom: 16px; text-align: left; line-height: 1.4; }
+.modal-url-input { width: 100%; background: #232329; border: 1px solid #3f3f46; border-radius: 12px; padding: 12px; font-size: 13px; color: white; outline: none; box-sizing: border-box; transition: border-color 0.2s; }
+.modal-url-input:focus { border-color: var(--primary-glow); }
+.modal-url-buttons { display: flex; gap: 10px; margin-top: 18px; justify-content: flex-end; }
+.modal-url-btn { border: none; padding: 10px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+.btn-url-cancel { background: #2d2d35; color: #e4e4e7; }
+.btn-url-cancel:hover { background: #3f3f46; }
+.btn-url-save { background: var(--primary-glow); color: white; }
+.btn-url-save:hover { filter: brightness(1.1); }
+</style>
+</head>
+<body> 
+
+<!-- PORTAL DE ACCESO (LOGIN) -->
+<div id="login-card" class="app-card">
+<h1 id="txtLoginTitulo">Sistema de Compras<br>Familiar CPB</h1>
+<div id="txtLoginSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
+<button id="btnLogin" class="btn-cpb" style="background: white; color: #1a202c; border-radius: 25px; padding: 16px 24px; font-size: 18px;">
+<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:22px;">
+Continuar con Google
+</button>
+</div> 
+
+<!-- PORTAL PRINCIPAL (LOGUEADO) -->
+<div id="portal-card" class="app-card hidden">
+<div class="top-user-bar">
+<span id="userNameField" class="user-name">Cargando...</span>
+<span id="btnShareUrl" class="icon-top" title="Compartir Sitio Familiar">
+<svg viewBox="0 0 24 24" style="fill: currentColor; stroke: none;"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+</span>
+<span id="btnLogOut" class="icon-top" title="Cerrar Sesión">
+<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+</span>
+</div> 
+
+<div class="avatar-container">
+<img id="imgAvatar" src="perfil.jpg.jpeg" alt="Perfil Familiar">
+</div> 
+
+<h1 id="txtMainTitulo">Sistema de Compras<br>Familiar CPB</h1>
+<div id="txtMainSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div> 
+
+<div class="menu-actions">
+<button id="btnMenuSolicitar" class="btn-cpb btn-solicitar">🛒 Solicitar Compra</button>
+<button id="btnMenuComprar" class="btn-cpb btn-comprar">✔️ Comprar Ahora</button>
+<button id="btnMenuAjustes" class="btn-cpb btn-ajustes">⚙️ Ajustes del Sistema</button>
+</div> 
+
+<!-- SECCIÓN DE SEGUIMIENTO HISTÓRICO VISIBLE EN EL PANEL PRINCIPAL -->
+<div class="lista-seccion"><div id="historialCompras"></div></div>
+</div> 
+
+<!-- INTERFAZ PREMIUM CATÁLOGO -->
+<div id="catalogo-screen" class="catalogo-overlay hidden">
+<div class="cat-header-premium">
+<button id="btnCerrarCatalogo" class="btn-back-premium">
+<svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+</button>
+<div class="search-container-premium">
+<svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+<input type="text" id="inputBuscadorPremium" class="search-input-premium" placeholder="Agregar nuevo producto..." autocomplete="off">
+</div>
+<div class="right-icons-premium">
+<svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v4M8 23h8"></path></svg>
+<svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+</div>
+</div> 
+
+<div class="cat-scroll-container">
+<button id="btnVolverCategorias" class="btn-volver-cat-premium hidden">← Volver a Categorías</button> 
+
+<!-- Vista Completa de Categorías Estructuradas -->
+<div id="box-categorias-wrapper">
+<div class="cat-section-title">Comida</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-frutas" onclick="cargarProductos('frutas_verduras')"><span class="emoji">🍅</span><span class="title">Frutas y verduras</span></div>
+<div class="cat-card-premium bg-panaderia" onclick="cargarProductos('panaderia')"><span class="emoji">🍞</span><span class="title">Panadería</span></div>
+<div class="cat-card-premium bg-reposteria" onclick="cargarProductos('reposteria')"><span class="emoji">🧁</span><span class="title">Productos para repostería</span></div>
+<div class="cat-card-premium bg-lacteos" onclick="cargarProductos('lacteos')"><span class="emoji">🧀</span><span class="title">Lácteos y huevos</span></div>
+<div class="cat-card-premium bg-secos" onclick="cargarProductos('secos')"><span class="emoji">🌾</span><span class="title">Productos secos</span></div>
+<div class="cat-card-premium bg-preparadas" onclick="cargarProductos('preparadas')"><span class="emoji">🥟</span><span class="title">Comidas preparadas</span></div>
+<div class="cat-card-premium bg-mariscos" onclick="cargarProductos('mariscos')"><span class="emoji">🐟</span><span class="title">Pescado y mariscos</span></div>
+<div class="cat-card-premium bg-congelados" onclick="cargarProductos('congelados')"><span class="emoji">❄️</span><span class="title">Congelados</span></div>
+<div class="cat-card-premium bg-latas" onclick="cargarProductos('latas')"><span class="emoji">🥫</span><span class="title">Latas y tarros</span></div>
+<div class="cat-card-premium bg-carne" onclick="cargarProductos('carne')"><span class="emoji">🥩</span><span class="title">Carne y Embutidos</span></div>
+<div class="cat-card-premium bg-vegetal" onclick="cargarProductos('vegetal')"><span class="emoji">🥗</span><span class="title">Vegetal</span></div>
+<div class="cat-card-premium bg-snacks" onclick="cargarProductos('snacks')"><span class="emoji">🍬</span><span class="title">Snacks y dulces</span></div>
+<div class="cat-card-premium bg-especias" onclick="cargarProductos('especias')"><span class="emoji">🌶️</span><span class="title">Especias, salsas y aceites</span></div>
+</div>
+
+<div class="cat-section-title">Bebidas</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-bebidas" onclick="cargarProductos('bebidas')"><span class="emoji">🥤</span><span class="title">Bebidas</span></div>
+<div class="cat-card-premium bg-cafe" onclick="cargarProductos('cafe')"><span class="emoji">☕</span><span class="title">Café y té</span></div>
+<div class="cat-card-premium bg-alcoholes" onclick="cargarProductos('alcoholes')"><span class="emoji">🍷</span><span class="title">Alcoholes</span></div>
+</div>
+
+<div class="cat-section-title">Cuidado Personal y Salud</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-personal" onclick="cargarProductos('personal')"><span class="emoji">🧴</span><span class="title">Cuidado personal</span></div>
+<div class="cat-card-premium bg-bebe" onclick="cargarProductos('bebe')"><span class="emoji">🧸</span><span class="title">Bebé</span></div>
+<div class="cat-card-premium bg-salud" onclick="cargarProductos('salud')"><span class="emoji">🩹</span><span class="title">Salud</span></div>
+</div>
+
+<div class="cat-section-title">Hogar y Estilo de Vida</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-ropa" onclick="cargarProductos('ropa')"><span class="emoji">👕</span><span class="title">Ropa</span></div>
+<div class="cat-card-premium bg-jardin" onclick="cargarProductos('jardin')"><span class="emoji">🌹</span><span class="title">Hogar y jardín</span></div>
+<div class="cat-card-premium bg-limpieza" onclick="cargarProductos('limpieza')"><span class="emoji">🧽</span><span class="title">Limpieza y lavandería</span></div>
+<div class="cat-card-premium bg-papeleria" onclick="cargarProductos('papeleria')"><span class="emoji">📚</span><span class="title">Papelería</span></div>
+</div>
+
+<div class="cat-section-title">Otro</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-mascotas" onclick="cargarProductos('mascotas')"><span class="emoji">🦴</span><span class="title">Mascotas</span></div>
+</div>
+</div> 
+
+<!-- Vista de Productos y Resultados del Buscador -->
+<div id="box-productos" class="grid-productos hidden"></div>
+</div>
+</div> 
+
+<!-- MODAL ELEGANTE REEMPLAZO DE PROMPT NATIVO -->
+<div id="modalUrlPersonalizar" class="modal-url-overlay">
+<div class="modal-url-box">
+<div class="modal-url-title">✨ Personalizar imagen</div>
+<div class="modal-url-subtitle">Pega el nuevo enlace o URL de la imagen que prefieras para este producto.</div>
+<input type="text" id="inputModalUrl" class="modal-url-input" placeholder="https://ejemplo.com/imagen.jpg" autocomplete="off">
+<div class="modal-url-buttons">
+<button id="btnModalUrlCancelar" class="modal-url-btn btn-url-cancel">Cancelar</button>
+<button id="btnModalUrlGuardar" class="modal-url-btn btn-url-save">Guardar</button>
+</div>
+</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+// SE AGREGÓ setDoc PARA GUARDAR LOS PRECIOS
+import { getFirestore, collection, addDoc, query, onSnapshot, orderBy, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js"; 
+
+const ADMIN_EMAIL = "david1997basurto@gmail.com"; 
+
+const firebaseConfig = {
+apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI",
+authDomain: "gestion-compras-cpb.firebaseapp.com",
+projectId: "gestion-compras-cpb",
+storageBucket: "gestion-compras-cpb.firebasestorage.app",
+messagingSenderId: "643471531807",
+appId: "1:643471531807:web:9c254668692760ea6a9a2a"
+}; 
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+let unsubscribeSnapshot = null; 
+
+// --- BASE DE DATOS MASIVA Y REAL DEL MERCADO ECUATORIANO ---
+const baseCatálago = {
+frutas_verduras: [
+    { name: "Banano (Guineo)", desc: "Base de la exportación y dieta nacional.", price: 0.10, img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Plátano Verde (Barraganete)", desc: "Esencial para bolones, tigrillos y caldos.", price: 0.25, img: "https://images.unsplash.com/photo-1566393028639-d108a42c46a7?auto=format&fit=crop&w=250&q=80" },
+    { name: "Plátano Maduro", desc: "Consumido frito, asado o en repostería.", price: 0.25, img: "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=250&q=80" },
+    { name: "Orito", desc: "Banano pequeño y muy dulce.", price: 0.15, img: "https://images.unsplash.com/photo-1543218024-57a70143c369?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mango", desc: "En variedades como de chupó, de canela o de manga.", price: 0.50, img: "https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=250&q=80" },
+    { name: "Piña Golden", desc: "Principalmente la variedad Golden.", price: 1.50, img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
+    { name: "Papaya", desc: "Consumida en jugos o porciones matutinas.", price: 1.20, img: "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=250&q=80" },
+    { name: "Sandía", desc: "Muy popular en las zonas costeras.", price: 2.50, img: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=250&q=80" },
+    { name: "Melón", desc: "Variedades cantalupo y esmeralda.", price: 1.30, img: "https://images.unsplash.com/photo-1571506191605-e366da669ba2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Maracuyá", desc: "Conocida como \"la fruta de la pasión\", usada para jugos y salsas.", price: 0.35, img: "https://images.unsplash.com/photo-1534432194684-44931a37c814?auto=format&fit=crop&w=250&q=80" },
+    { name: "Guayaba", desc: "Utilizada para dulces y jaleas.", price: 0.40, img: "https://images.unsplash.com/photo-1534432194684-44931a37c814?auto=format&fit=crop&w=250&q=80" },
+    { name: "Guanábana", desc: "Fruta de pulpa blanca y dulce para jugos.", price: 3.00, img: "https://images.unsplash.com/photo-1610450914442-99a224ef4da2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pitahaya", desc: "Tanto la amarilla (nativa de Palora) como la roja.", price: 2.00, img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
+    { name: "Naranjilla", desc: "Indispensable para jugos, canelazos y el tradicional seco de chivo.", price: 0.25, img: "https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tamarindo", desc: "Utilizado para reflexes ácidos.", price: 0.75, img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
+    { name: "Granadilla", desc: "Muy consumida por niños por su facilidad de digestión.", price: 0.40, img: "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=250&q=80" },
+    { name: "Taxo", desc: "Fruta andina ácida usada para jugos y helados.", price: 0.30, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tomate de Árbol", desc: "Esencial para jugos y el ají de mesa ecuatoriano.", price: 0.30, img: "https://images.unsplash.com/photo-1610450914442-99a224ef4da2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Chirimoya", desc: "De pulpa dulce y cremosa.", price: 2.50, img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
+    { name: "Babaco", desc: "Fruta andina usada casi exclusivamente para dulces en almíbar.", price: 1.80, img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
+    { name: "Arazá", desc: "Fruta amazónica muy ácida para jugos.", price: 1.25, img: "https://images.unsplash.com/photo-1534432194684-44931a37c814?auto=format&fit=crop&w=250&q=80" },
+    { name: "Chonta", desc: "Fruto de palmera amazónica que se consume cocinado.", price: 1.50, img: "https://images.unsplash.com/photo-1590005354167-6da97870c913?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zapote", desc: "De pulpa anaranjada y dulce.", price: 1.00, img: "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=250&q=80" },
+    { name: "Achotillo", desc: "Similar al rambután, de temporada en la Costa.", price: 1.50, img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" },
+    { name: "Naranja", desc: "Variedades para jugo y de mesa.", price: 0.15, img: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mandarina", desc: "Consumo masivo en época de cosecha serrana.", price: 0.15, img: "https://images.unsplash.com/photo-1552089123-2d26226fc2b7?auto=format&fit=crop&w=250&q=80" },
+    { name: "Limón Sutil", desc: "Pequeño y muy ácido, clave para ceviches.", price: 0.10, img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
+    { name: "Limón Meyer / Real", desc: "Más grande y menos ácido.", price: 0.20, img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
+    { name: "Toronja", desc: "Consumida en ayunas o jugos.", price: 0.60, img: "https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Aguacate Criollo", desc: "Variedades Hass y el fuerte nacional (guatemalteco).", price: 0.75, img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
+    { name: "Frutillas", desc: "Cultivada extensamente en provincias como Tungurahua.", price: 1.50, img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mora de Castilla", desc: "Base para jugos, batidos y la colada morada.", price: 1.00, img: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Manzana", desc: "Variedades locales (pequeñas y ácidas) e importadas.", price: 0.40, img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pera", desc: "Producción local en los valles andinos.", price: 0.40, img: "https://images.unsplash.com/photo-1514986879802-efecfb9ab47e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Durazno / Melocotón", desc: "Consumido fresco o en abrillantados.", price: 0.50, img: "https://images.unsplash.com/photo-1595124201382-702b331fe372?auto=format&fit=crop&w=250&q=80" },
+    { name: "Uvilla", desc: "Pequeña fruta dorada, ácida y alta en vitamina C.", price: 0.80, img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=250&q=80" },
+    { name: "Capulí", desc: "Cereza deadlines andina que aparece en los primeros meses del año.", price: 1.00, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Higo", desc: "Consumido tierno en el tradicional \"dulce de higos\" con queso.", price: 0.30, img: "https://images.unsplash.com/photo-1562967916-eb82221dfb92?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tuna", desc: "Fruta espinosa de zonas secas como los valles de Pichincha e Imbabura.", price: 0.50, img: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=250&q=80" },
+    { name: "Papa Chola", desc: "Más de 300 variedades nativas (Súper Chola, Cecilia, Uvilla, etc.).", price: 0.40, img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
+    { name: "Yuca", desc: "Base de la comida amazónica y costeña (en yapingachos o panes).", price: 0.45, img: "https://images.unsplash.com/photo-1590005354167-6da97870c913?auto=format&fit=crop&w=250&q=80" },
+    { name: "Camote", desc: "Variedades morada y amarilla.", price: 0.40, img: "https://images.unsplash.com/photo-1590005354167-6da97870c913?auto=format&fit=crop&w=250&q=80" },
+    { name: "Melloco", desc: "Tubérculo andino pequeño y de textura viscosa.", price: 0.60, img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
+    { name: "Oca", desc: "Tubérculo andino dulce que se asolea antes de cocinar.", price: 0.50, img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zanahoria Blanca (Arracacha)", desc: "Muy usada en sopas de bebés y locros.", price: 0.70, img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zanahoria Amarilla", desc: "Consumo diario en ensaladas y estofados.", price: 0.30, img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+    { name: "Rábano", desc: "Usado principalmente en ensaladas crudas.", price: 0.20, img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+    { name: "Lechuga", desc: "Variedades crespa, romana, de seda y morada.", price: 0.50, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Col / Repollo", desc: "Col blanca y col morada para ensaladas y caldos.", price: 0.60, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Brócoli", desc: "Cultivado masivamente en la Sierra para consumo local y exportación.", price: 0.80, img: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=250&q=80" },
+    { name: "Coliflor", desc: "Usada en caiguas rellenas, sopas o gratinados.", price: 0.70, img: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=250&q=80" },
+    { name: "Espinaca", desc: "Consumida en cremas y ensaladas.", price: 0.50, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Acelga", desc: "Muy común en los huertos andinos.", price: 0.45, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Col de Bruselas", desc: "Consumo menor pero presente en mercados urbanos.", price: 1.20, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tomate Riñón", desc: "El tomate rojo estándar de mesa.", price: 0.40, img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cebolla Paiteña", desc: "Esencial para los curtidos de los encebollados y ceviches.", price: 0.45, img: "https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cebolla Blanca Larga", desc: "Base para todos los refritos (\"mapahuira\" o refrito base).", price: 0.35, img: "https://images.unsplash.com/photo-1514517604298-cf80e0fb7f1e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cebolla Perla", desc: "Usada en menor medida para ensaladas o guisos específicos.", price: 0.50, img: "https://images.unsplash.com/photo-1514517604298-cf80e0fb7f1e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pimiento Verde", desc: "Principalmente verde, seguido por el rojo y amarillo.", price: 0.30, img: "https://images.unsplash.com/photo-1563565042-432a588b3687?auto=format&fit=crop&w=250&q=80" },
+    { name: "Ajo", desc: "Condimento diario insustituible.", price: 0.15, img: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zucchini (Calabacín)", desc: "Verde y amarillo, popular en zonas urbanas.", price: 0.60, img: "https://images.unsplash.com/photo-1563565042-432a588b3687?auto=format&fit=crop&w=250&q=80" },
+    { name: "Berenjena", desc: "Consumo moderado en guisos.", price: 0.75, img: "https://images.unsplash.com/photo-1563565042-432a588b3687?auto=format&fit=crop&w=250&q=80" },
+    { name: "Arveja", desc: "Consumida tierna en arroces y ensaladas de ensaladilla.", price: 0.80, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Fréjol Tierno (Poroto)", desc: "Base para la fanesca y menestras.", price: 0.90, img: "https://images.unsplash.com/photo-1551462147-3a919e3e536c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Haba", desc: "Consumida cocida con queso en la Sierra.", price: 0.45, img: "https://images.unsplash.com/photo-1551462147-3a919e3e536c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Choclo Tierno", desc: "Usado para humitas, tortas y mote pillo.", price: 0.40, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Vainita (Judía Verde)", desc: "Común en arroces compuestos y ensaladas.", price: 0.60, img: "https://images.unsplash.com/photo-1551462147-3a919e3e536c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Garbanzo y Lenteja", desc: "Consumidos mayormente en grano seco rehidratado.", price: 0.80, img: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zapallo", desc: "Calabaza grande usada para sopas y dulces.", price: 1.50, img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zambo", desc: "Similar al zapallo, su semilla tostada (pepa de zambo) es muy cotizada.", price: 1.20, img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Achogcha (Caigua)", desc: "Verdura hueca que se consume rellena de carne o queso.", price: 0.25, img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Yerbita / Cilantro", desc: "Toque final obligatorio de caldos y ceviches en la Costa.", price: 0.15, img: "https://images.unsplash.com/photo-1614882894176-bf1059f1be0c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Perejil", desc: "Usado diariamente en la Sierra para sazonar.", price: 0.15, img: "https://images.unsplash.com/photo-1614882894176-bf1059f1be0c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Apio", desc: "Bases para dar sabor a caldos y fondos de sopa.", price: 0.25, img: "https://images.unsplash.com/photo-1614882894176-bf1059f1be0c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tomate, cebolla y pimiento", desc: "Los tres pilares del refrito ecuatoriano, vendidos por peso o en mallas.", img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=250&q=80" },
+    { name: "Papas", desc: "Variedades locales como papa chola en fundas o al granel.", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
+    { name: "Hierbas frescas", desc: "Atados de cilantro (yerbita), perejil y apio.", img: "https://images.unsplash.com/photo-1614882894176-bf1059f1be0c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Frutas locales", desc: "Bananos, piñas, papayas y naranjas frescas.", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=250&q=80" }
+],
+panaderia: [
+    { name: "Pan Enrollado / Reventado", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pan de Molde Supán", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tostadas Supán", img: "https://images.unsplash.com/photo-1589134731114-1e0f0559f977?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pan para Hamburguesa", img: "https://images.unsplash.com/photo-1598144003015-8889146fb745?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pan de molde", desc: "Supán, Bimbo o Panadería Supermaxi (integral, blanco, artesanal).", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pan de hamburguesa / hot dog", desc: "Paquetes de la marca Bimbo o Supán.", img: "https://images.unsplash.com/photo-1598144003015-8889146fb745?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pan de agua y enrollado", desc: "Fundas preparadas en la sección de panadería fresca.", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tortillas de trigo / maíz", desc: "Rapiditas Bimbo o marcas locales como TortiRicas.", img: "https://images.unsplash.com/photo-1615486171448-4fb3246ba727?auto=format&fit=crop&w=250&q=80" }
+],
+reposteria: [
+    { name: "Harina Ya", img: "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Polvo de Hornear Royal", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Esencia de Vainilla", img: "https://images.unsplash.com/photo-1534432194684-44931a37c814?auto=format&fit=crop&w=250&q=80" },
+    { name: "Azúcar Impalpable", img: "https://images.unsplash.com/photo-1600431521340-491ecd88062a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Harina de trigo", desc: "Harina Ya (leudante y suave) o Haz de Oro.", img: "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Polvo de hornear y esencia de vainilla", desc: "Productos de la marca Royal o Levapan.", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Azúcar impalpable y chispas de chocolate", desc: "Marcas Negrita o Nestlé Repostería.", img: "https://images.unsplash.com/photo-1600431521340-491ecd88062a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Crema de leche para batir", desc: "La Avelina o Nestlé.", img: "https://images.unsplash.com/photo-1622484211148-716598e04141?auto=format&fit=crop&w=250&q=80" }
+],
+lacteos: [
+    { name: "Leche Entera Vita (Funda)", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=250&q=80" },
+    { name: "Leche Toni (Tetrapak)", img: "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=250&q=80" },
+    { name: "Queso de Mesa Criollo", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?auto=format&fit=crop&w=250&q=80" },
+    { name: "Queso Mozzarella Kiosko", img: "https://images.unsplash.com/photo-1552763442-1b412fbe8577?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cubeta de Huevos (30 un)", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=250&q=80" },
+    { name: "Yogur Toni Familiar", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mantequilla Girasol", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=250&q=80" },
+    { name: "Crema de Leche Nestlé", img: "https://images.unsplash.com/photo-1622484211148-716598e04141?auto=format&fit=crop&w=250&q=80" },
+    { name: "Leche en funda o cartón", desc: "Toni, Vita, Reyleche o Parmalat (entera, semidescremada).", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=250&q=80" },
+    { name: "Yogur", desc: "Toni (con colchón de frutas o funcional) o Persa.", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=250&q=80" },
+    { name: "Quesos", desc: "Queso mesa, mozzarella o de mesa de marcas como Kiosko, Mondel o Toni.", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?auto=format&fit=crop&w=250&q=80" },
+    { name: "Huevos", desc: "Cubetas de 30 o 15 unidades de marcas como Indaves o Pío Pío.", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mantequilla", desc: "Mantequilla Girasol o Tulipán.", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=250&q=80" }
+],
+secos: [
+    { name: "Arroz Súper Extra Blanquita", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Fideo Macarrón Don Vittorio", img: "https://images.unsplash.com/photo-1621961401348-f099ce520184?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tallarín Sumesa", img: "https://images.unsplash.com/photo-1551462147-ff29053bfc14?auto=format&fit=crop&w=250&q=80" },
+    { name: "Aceite La Favorita", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=250&q=80" },
+    { name: "Aceite Sabrosón", img: "https://images.unsplash.com/photo-1620706857370-e1b977f87002?auto=format&fit=crop&w=250&q=80" },
+    { name: "Azúcar Valdez / San Carlos", img: "https://images.unsplash.com/photo-1581447101795-7fd29d7cca9e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Sal Cris Yodada", img: "https://images.unsplash.com/photo-1604514281313-030999bd0034?auto=format&fit=crop&w=250&q=80" },
+    { name: "Avena Polaca Ya", img: "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&w=250&q=80" },
+    { name: "Lenteja en Grano", img: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=250&q=80" },
+    { name: "Fréjol Canario", img: "https://images.unsplash.com/photo-1551462147-3a919e3e536c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Arroz", desc: "Fundas de 1kg a 5kg de marcas como Arroz Súper Extra, Conejo o Diana.", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Fideos y pastas", desc: "Spaghetti, macarrón o tornillos de marcas Don Vittorio, Sumesa o Toñito.", img: "https://images.unsplash.com/photo-1621961401348-f099ce520184?auto=format&fit=crop&w=250&q=80" },
+    { name: "Granos secos", desc: "Lentejas, fréjol (negro, canario) y garbanzos en funda marca Goya o Sabrosón.", img: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=250&q=80" },
+    { name: "Avena", desc: "Avena Quaker (en hojuelas o molida).", img: "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&w=250&q=80" }
+],
+preparadas: [
+    { name: "Humitas Criollas", img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Quimbolitos", img: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=250&q=80" },
+    { name: "Empanadas de Viento", img: "https://images.unsplash.com/photo-1562967916-eb82221dfb92?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pollo asado / horneado", desc: "Disponible listo para llevar en las vitrinas calientes de Supermaxi o Aki.", img: "https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?auto=format&fit=crop&w=250&q=80" },
+    { name: "Ensaladas preparadas", desc: "Mezclas de lechugas y vegetales listos con aderezo (marcas como Veggie Fresh).", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=250&q=80" },
+    { name: "Platos típicos empacados", desc: "Humitas, quimbolitos o tamales listos para calentar (marcas Facundo o propias).", img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" }
+],
+mariscos: [
+    { name: "Camarón Ecuatoriano", img: "https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?auto=format&fit=crop&w=250&q=80" },
+    { name: "Filete de Corvina", img: "https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&w=250&q=80" },
+    { name: "Picudo en Rodajas", img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Atún en lata", desc: "Real, Van Camp's o Isabel (en aceite, agua o con vegetales).", img: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Filetes de pescado congelado", desc: "Corvina, dorado o tilapia empacados por la marca Tecopesca o Promarisco.", img: "https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&w=250&q=80" },
+    { name: "Camarones", desc: "Bolsas de camarón pelado y desvenado listo para cocinar.", img: "https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?auto=format&fit=crop&w=250&q=80" },
+    { name: "Sardinas", desc: "Sardinas en salsa de tomate marcas Real o Van Camp's.", img: "https://images.unsplash.com/photo-1616684530325-3004318d8442?auto=format&fit=crop&w=250&q=80" }
+],
+congelados: [
+    { name: "Papas Prefritas Supermaxi", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=250&q=80" },
+    { name: "Nuggets de Pollo Pronaca", img: "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=250&q=80" },
+    { name: "Papas fritas listas", desc: "Bolsas de papas corte francés marcas Mc Cain o Guandú.", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=250&q=80" },
+    { name: "Legumbres picadas", desc: "Mezclas de zanahoria, arveja y choclo congeladas de la marca Facundo o Supermaxi.", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+    { name: "Bocaditos", desc: "Empanadas de viento, deditos de queso o nuggets de pollo congelados (marcas Plumrose o Mr. Pollo).", img: "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=250&q=80" },
+    { name: "Helados", desc: "Envases familiares o paletas de marcas Pingüino o Topsy.", img: "https://images.unsplash.com/photo-1570197780821-cb5eb37c02b3?auto=format&fit=crop&w=250&q=80" }
+],
+latas: [
+    { name: "Atún Real en Aceite", img: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Atún Van Camp's (Agua)", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=250&q=80" },
+    { name: "Sardinas Real en Tomate", img: "https://images.unsplash.com/photo-1616684530325-3004318d8442?auto=format&fit=crop&w=250&q=80" },
+    { name: "Granos de Choclo Facundo", img: "https://images.unsplash.com/photo-1536630596251-b01556efc91a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Choclo y arvejas en lata", desc: "Facundo, Los Andes o Snob.", img: "https://images.unsplash.com/photo-1536630596251-b01556efc91a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Sardinas y atún", desc: "Conservas esenciales de marcas nacionales (Real, Van Camp's).", img: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Duraznos en almíbar", desc: "Latas de la marca Dos Caballos o Facundo.", img: "https://images.unsplash.com/photo-1595124201382-702b331fe372?auto=format&fit=crop&w=250&q=80" },
+    { name: "Champiñones", desc: "Enteros o rebanados en lata marca Facundo o Monteverde.", img: "https://images.unsplash.com/photo-1511688878353-3a2f5be94cd7?auto=format&fit=crop&w=250&q=80" }
+],
+carne: [
+    { name: "Pollo Entero Pronaca", img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pecharo / Pechuga de Pollo", img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=250&q=80" },
+    { name: "Carne de Res Molida Súper", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=250&q=80" },
+    { name: "Chuleta de Cerdo", img: "https://images.unsplash.com/photo-1602489114881-46a04f30b99f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Carne para Seco (Res)", img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=250&q=80" },
+    { name: "Salchicha d'Fraca", img: "https://images.unsplash.com/photo-1541048611158-a42d2b68565c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Jamón Juris", img: "https://images.unsplash.com/photo-1524438422290-64789531ca17?auto=format&fit=crop&w=250&q=80" },
+    { name: "Carne de res y cerdo", desc: "Cortes empacados al vacío de Pronaca (Mr. Chancho) o La Estancia.", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pollo fresco / congelado", desc: "Pollo entero, pechugas o muslos de la marca Mr. Pollo.", img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=250&q=80" },
+    { name: "Embutidos", desc: "Salchichas, jamón, mortadela y tocino de las marcas Juris, Plumrose, La Europea o Indurina.", img: "https://images.unsplash.com/photo-1524438422290-64789531ca17?auto=format&fit=crop&w=250&q=80" }
+],
+vegetal: [
+    { name: "Hamburguesa Vegana", img: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=250&q=80" }
+],
+snacks: [
+    { name: "Chifles Criollos", img: "https://images.unsplash.com/photo-1566478431377-9f15d6467166?auto=format&fit=crop&w=250&q=80" },
+    { name: "Papitas / Ruffles", img: "https://images.unsplash.com/photo-1566478431377-9f15d6467166?auto=format&fit=crop&w=250&q=80" },
+    { name: "Galletas Amor Fresa", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Galletas Club Social", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Chocolates Manicho", img: "https://images.unsplash.com/photo-1548907040-4d42b52115ca?auto=format&fit=crop&w=250&q=80" },
+    { name: "Chifles y patacones", desc: "Snacks de plátano verde marcas Tortlines, Inka Crops o Kiwa.", img: "https://images.unsplash.com/photo-1566478431377-9f15d6467166?auto=format&fit=crop&w=250&q=80" },
+    { name: "Papas fritas y nachos", desc: "Ruffies, Doritos o papas Pringles.", img: "https://images.unsplash.com/photo-1566478431377-9f15d6467166?auto=format&fit=crop&w=250&q=80" },
+    { name: "Chocolates", desc: "Tabletas de chocolate Galak, Manicho, Nestlé o chocolates finos Pacari.", img: "https://images.unsplash.com/photo-1548907040-4d42b52115ca?auto=format&fit=crop&w=250&q=80" },
+    { name: "Galletas", desc: "Galletas Amor, Oreo, Ritz, Club Social o ricas galletas de sal de la marca Pozuelo.", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=250&q=80" }
+],
+especias: [
+    { name: "Salsa de Tomate Maggi", img: "https://images.unsplash.com/photo-1607305387299-a3d9611cd46f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mayonesa Gustadina", img: "https://images.unsplash.com/photo-1585238342427-4a00dc9ebd10?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mostaza Gustadina", img: "https://images.unsplash.com/photo-1594911774802-8822a707cbb3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cubitos de Caldo Maggi", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Aliño Casero Sabrosón", img: "https://images.unsplash.com/photo-1608897013039-887f21d8c804?auto=format&fit=crop&w=250&q=80" },
+    { name: "Aceite de cocina", desc: "Aceite de girasol o soya de marcas La Favorita, Girasol o Sabrosón.", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=250&q=80" },
+    { name: "Salsas listas", desc: "Salsa de tomate, mayonesa y mostaza de las marcas Maggi, Facundo o Los Andes.", img: "https://images.unsplash.com/photo-1607305387299-a3d9611cd46f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Aliños y especias", desc: "Aliño casero completo, comino, pimienta y achiote de marcas Ile o Maggi.", img: "https://images.unsplash.com/photo-1608897013039-887f21d8c804?auto=format&fit=crop&w=250&q=80" }
+],
+bebidas: [
+    { name: "Agua Mineral Güitig", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Coca-Cola Sabor Original", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=250&q=80" },
+    { name: "Fioravanti Fresa", img: "https://images.unsplash.com/photo-1527960656366-ee2a99613356?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pony Malta", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Jugo Frugos Naranja", img: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=250&q=80" },
+    { name: "Gaseosas", desc: "Coca-Cola, Fioravanti (sabor tradicional ecuatoriano), Fanta o Sprite.", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=250&q=80" },
+    { name: "Jugos empacados", desc: "Jugos de cartón marcas Watts, Tampico o Del Valle.", img: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=250&q=80" },
+    { name: "Agua embotellada", desc: "Agua Güitig (mineral con gas), Dasani o All Natural.", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Bebidas hidratantes", desc: "Gatorade o Sporade.", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=250&q=80" }
+],
+cafe: [
+    { name: "Café Buendía Soluble", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" },
+    { name: "Café Pres2 Pasado", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" },
+    { name: "Nescafé Tradición", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" },
+    { name: "Té de Manzanilla Hornimans", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Horchata Lojana", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Café soluble", desc: "Nescafé Tradición, Café Buendía o el clásico ecuatoriano Café Pres2.", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" },
+    { name: "Café molido", desc: "Café Gardella, Café Loja o Minerva (tradicional para pasar).", img: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=250&q=80" },
+    { name: "Té e infusiones", desc: "Té negro, manzanilla, aromáticas de frutas marcas Sangay o Hornimans.", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=250&q=80" }
+],
+alcoholes: [
+    { name: "Cerveza Pilsener", img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cerveza Club Verde", img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Aguardiente Zhumir", img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cervezas", desc: "Cerveza Club Premium, Pilsener (la más consumida del país) o marcas artesanales locales.", img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Aguardiente / Ron", desc: "Ron San Miguel, Zhumir o Cristal.", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=250&q=80" },
+    { name: "Vinos", desc: "Vinos importados de Chile/Argentina y opciones locales como vino de consagrar u otras marcas accesibles.", img: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=250&q=80" }
+],
+personal: [
+    { name: "Jabón Protex", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?auto=format&fit=crop&w=250&q=80" },
+    { name: "Champú Savital / Sedal", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=250&q=80" },
+    { name: "Crema Dental Colgate", img: "https://images.unsplash.com/photo-1559599141-3816a0b7be11?auto=format&fit=crop&w=250&q=80" },
+    { name: "Papel Higiénico Familia", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Champú y acondicionador", desc: "Sedal, Pantene, Head & Shoulders o Elvive.", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=250&q=80" },
+    { name: "Jabón de baño", desc: "Jabones en barra o líquidos marcas Protex, Palmolive o Dove.", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?auto=format&fit=crop&w=250&q=80" },
+    { name: "Desodorante", desc: "Rexona, Axe o Speed Stick.", img: "https://images.unsplash.com/photo-1629851458872-68041d8e12b7?auto=format&fit=crop&w=250&q=80" },
+    { name: "Crema dental y cepillos", desc: "Colgate (Triple Acción / Total 12) u Oral-B.", img: "https://images.unsplash.com/photo-1559599141-3816a0b7be11?auto=format&fit=crop&w=250&q=80" }
+],
+bebe: [
+    { name: "Pañales Huggies", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pañales desechables", desc: "Huggies (Active Sec), Pampers o marcas locales como Babysec.", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=250&q=80" },
+    { name: "Toallitas húmedas", desc: "Paquetes de viaje o familiares de marcas Huggies o Pequeñín.", img: "https://images.unsplash.com/photo-1584824486509-112e4181ff6b?auto=format&fit=crop&w=250&q=80" },
+    { name: "Fórmula infantil", desc: "Leche de tarro marcas Enfamil, Nan o Similac.", img: "https://images.unsplash.com/photo-1515486191156-27083d03708a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Champú y jabón líquido para bebé", desc: "Productos suaves de las marcas Johnson's Baby o Simond's.", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cremas antipañalitis", desc: "Pomadas protectoras como Desitin o Era.", img: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=250&q=80" }
+],
+salud: [
+    { name: "Alcohol Antiséptico", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Paracetamol / Ibuprofeno", desc: "Analgésicos básicos de venta libre (marcas como Umbral o Buprex).", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Alcohol antiséptico", desc: "Botellas líquidas o en gel para desinfección.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mascarillas quirúrgicas", desc: "Cajas o empaques individuales de protección respiratoria.", img: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Curitas / Venditas", desc: "Apósitos adhesivos de la marca Band-Aid o Nexcare.", img: "https://images.unsplash.com/photo-1583324113626-70df0f4deaab?auto=format&fit=crop&w=250&q=80" },
+    { name: "Gasa y esparadrapo", desc: "Materiales de curación básica.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Suero oral", desc: "Bebidas de rehidratación como Pedialyte o Hydralyte.", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pastillas para la garganta", desc: "Caramelos medicinales como Strepsils o Multi-O Omitos.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Antiácidos", desc: "Sal de Andrews, Alka-Seltzer o Mylanta.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Antigripales", desc: "Medicamentos de venta libre como Nastizol o GripaCé.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Preservativos", desc: "Marcas de planificación familiar como Durex o Piel.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Algodón", desc: "Paquetes de algodón hidrófilo en bolas o pliegos.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Toallas sanitarias y tampones", desc: "Nosotras, Kotex o Always.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Termómetro", desc: "Digitales básicos para botiquín casero.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Crema para quemaduras o picaduras", desc: "Pomadas con base de óxido de zinc o Menticol.", img: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pañuelos desechables", desc: "Paquetes de bolsillo de la marca Familia o Scott.", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=250&q=80" }
+],
+ropa: [
+    { name: "Camiseta Algodón", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=250&q=80" },
+    { name: "Camisetas básicas", desc: "De algodón unicolor para hombre o mujer (marcas propias o nacionales).", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=250&q=80" },
+    { name: "Interiores / Ropa interior", desc: "Calvin Klein, Diane, o marcas económicas locales de algodón.", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=250&q=80" },
+    { name: "Medias / Calcetines", desc: "Paquetes de medias deportivas o formales (marcas como Moletto).", img: "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pantalones Jean", desc: "Jeans de marcas accesibles o marcas propias de los comisariatos.", img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pijamas", desc: "Conjuntos cómodos para dormir de tela ligera o térmica.", img: "https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?auto=format&fit=crop&w=250&q=80" },
+    { name: "Sandalias / Zapatillas de casa", desc: "Playeras plásticas o pantuflas básicas.", img: "https://images.unsplash.com/photo-1562183241-b937e95585b6?auto=format&fit=crop&w=250&q=80" },
+    { name: "Sudaderas / Chompas ligeras", desc: "Ropa de abrigo básica para climas fríos/sierra.", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=250&q=80" },
+    { name: "Ropa de bebé / Bodis", desc: "Monitos y prendas de algodón para recién nacidos.", img: "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=250&q=80" },
+    { name: "Gorra / Sombreros básicos", desc: "Accesorios de protección solar.", img: "https://images.unsplash.com/photo-1521369909029-2afed882ba54?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pantalones deportivos / Leggings", desc: "Ropa cómoda o de ejercicio para el día a día.", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=250&q=80" }
+],
+jardin: [
+    { name: "Tierra Abonada", img: "https://images.unsplash.com/photo-1301049541289-9b1b7bbbfe19?auto=format&fit=crop&w=250&q=80" },
+    { name: "Velas y fósforos", desc: "Velas blancas básicas y fósforos El Gallo o Jirafa.", img: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=250&q=80" },
+    { name: "Focos / Bombillos LED", desc: "Iluminación para el hogar de marcas General Electric o Sylvania.", img: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Extensiones eléctricas", desc: "Cables y regletas de conexiones múltiples.", img: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Insecticidas", desc: "Insecticidas en spray o tabletas de la marca Raid o Baygon.", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=250&q=80" },
+    { name: "Organizadores plásticos", desc: "Cajas y cajoneras de la marca nacional Plásticos Estra o Reyplast.", img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=250&q=80" },
+    { name: "Vajilla básica", desc: "Platos y tazas de cerámica o vidrio sueltos.", img: "https://images.unsplash.com/photo-1512163143273-abeefab70b86?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tierra preparada / Abono", desc: "Fundas de tierra abonada listas para macetas de jardín.", img: "https://images.unsplash.com/photo-1301049541289-9b1b7bbbfe19?auto=format&fit=crop&w=250&q=80" },
+    { name: "Macetas plásticas", desc: "Recipientes para plantas de diferentes tamaños.", img: "https://images.unsplash.com/photo-1485955907726-60a3d50f06ef?auto=format&fit=crop&w=250&q=80" }
+]
+};
+
+// ----------------------------------------------------------------------------------
+// SISTEMA DE PRECIOS EN TIEMPO REAL CON FIRESTORE (NUEVO CÓDIGO)
+// ----------------------------------------------------------------------------------
+let preciosGlobales = {};
+const preciosRef = doc(db, "configuracion_cpb", "precios_dinamicos");
+
+// Escuchar cambios de la base de datos en TIEMPO REAL
+onSnapshot(preciosRef, (docSnap) => {
+    if (docSnap.exists()) {
+        preciosGlobales = docSnap.data();
+        actualizarPreciosEnPantalla(); // Si la pantalla está abierta, actualiza al instante
+    }
+});
+
+// Función para repintar los precios sin recargar la página
+function actualizarPreciosEnPantalla() {
+    const elementosPrecios = document.querySelectorAll('.prod-card .price');
+    elementosPrecios.forEach(el => {
+        const prodName = el.getAttribute('data-prod-name');
+        const defaultPrice = parseFloat(el.getAttribute('data-default-price')) || 0.00;
+        // Tomar el precio global de Firestore, o el default si no existe
+        const precioActual = preciosGlobales[prodName] !== undefined ? preciosGlobales[prodName] : defaultPrice;
+        el.textContent = `$${parseFloat(precioActual).toFixed(2)}`;
+    });
+}
+
+// ----------------------------------------------------------------------------------
+// LÓGICA DE NAVEGACIÓN Y RENDERIZADO DEL CATÁLOGO
+// ----------------------------------------------------------------------------------
+window.cargarProductos = function(categoria) {
+    const boxCategorias = document.getElementById('box-categorias-wrapper');
+    const boxProductos = document.getElementById('box-productos');
+    const btnVolver = document.getElementById('btnVolverCategorias');
+
+    boxCategorias.classList.add('hidden');
+    boxProductos.classList.remove('hidden');
+    btnVolver.classList.remove('hidden');
+    boxProductos.innerHTML = '';
+
+    const productos = baseCatálago[categoria] || [];
+
+    productos.forEach(prod => {
+        const card = document.createElement('div');
+        card.className = 'prod-card';
+
+        const img = document.createElement('img');
+        img.src = prod.img;
+
+        const name = document.createElement('div');
+        name.className = 'name';
+        name.textContent = prod.name;
+
+        const desc = document.createElement('div');
+        desc.className = 'desc';
+        desc.textContent = prod.desc || '';
+
+        // -- Elemento de Precio (NUEVO) --
+        const priceDiv = document.createElement('div');
+        priceDiv.className = 'price';
+        priceDiv.setAttribute('data-prod-name', prod.name);
+        
+        const basePrice = prod.price || 0.00;
+        priceDiv.setAttribute('data-default-price', basePrice);
+        
+        const currentPrice = preciosGlobales[prod.name] !== undefined ? preciosGlobales[prod.name] : basePrice;
+        priceDiv.textContent = `$${parseFloat(currentPrice).toFixed(2)}`;
+        priceDiv.title = "Haz clic para cambiar el precio en tiempo real";
+
+        // Evento que permite cambiar el precio al presionar la tarjeta
+        priceDiv.onclick = () => {
+            const nuevoPrecioStr = prompt(`Actualizar precio para:\n${prod.name}`, parseFloat(currentPrice).toFixed(2));
+            if (nuevoPrecioStr !== null && nuevoPrecioStr.trim() !== '') {
+                const nuevoPrecio = parseFloat(nuevoPrecioStr.replace(',', '.'));
+                if (!isNaN(nuevoPrecio)) {
+                    // Guardar en Firestore. Se actualizará para TODOS inmediatamente gracias al onSnapshot
+                    setDoc(preciosRef, {
+                        [prod.name]: nuevoPrecio
+                    }, { merge: true }).catch(err => alert("Error al sincronizar precio: " + err.message));
+                } else {
+                    alert("Por favor, ingresa un número válido.");
+                }
+            }
+        };
+
+        card.appendChild(img);
+        card.appendChild(name);
+        card.appendChild(desc);
+        card.appendChild(priceDiv); // Agregando el precio a la tarjeta
+        boxProductos.appendChild(card);
+    });
+};
+
+// ----------------------------------------------------------------------------------
+// LÓGICA DE BOTONES Y AUTENTICACIÓN
+// ----------------------------------------------------------------------------------
+document.getElementById('btnLogin').onclick = () => signInWithPopup(auth, provider).catch(console.error);
+document.getElementById('btnLogOut').onclick = () => signOut(auth);
+
+// Manejo de pantallas de los botones principales
+document.getElementById('btnMenuSolicitar').onclick = () => {
+    document.getElementById('catalogo-screen').classList.remove('hidden');
+    document.getElementById('box-categorias-wrapper').classList.remove('hidden');
+    document.getElementById('box-productos').classList.add('hidden');
+    document.getElementById('btnVolverCategorias').classList.add('hidden');
+};
+
+document.getElementById('btnCerrarCatalogo').onclick = () => {
+    document.getElementById('catalogo-screen').classList.add('hidden');
+};
+
+document.getElementById('btnVolverCategorias').onclick = () => {
+    document.getElementById('box-categorias-wrapper').classList.remove('hidden');
+    document.getElementById('box-productos').classList.add('hidden');
+    document.getElementById('btnVolverCategorias').classList.add('hidden');
+};
+
+// Control de Sesión
+onAuthStateChanged(auth, user => {
+    if (user) {
+        document.getElementById('login-card').classList.add('hidden');
+        document.getElementById('portal-card').classList.remove('hidden');
+        document.getElementById('userNameField').textContent = user.displayName.split(' ')[0];
+        if (user.photoURL) document.getElementById('imgAvatar').src = user.photoURL;
+    } else {
+        document.getElementById('login-card').classList.remove('hidden');
+        document.getElementById('portal-card').classList.add('hidden');
+    }
+});
+
+</script>
+</body>
+</html>
+
+
+El sáb, 18 de jul de 2026, 05:55, Milca Coellopavon <milcacoellopavon@gmail.com> escribió:
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sistema de Compras Familiar CPB</title>
+<style>
+:root {
+--primary-glow: #10b981;
+--btn-solicitar: #2bc48a;
+--btn-comprar: #e2e8f0;
+--btn-ajustes: #4a5568;
+--text-light: #ffffff;
+--bg-dark-app: #121214;
+} 
+
+body {
+font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('foto_familiar.jpg.jpeg');
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+background-color: #141b2d;
+margin: 0;
+padding: 0;
+color: var(--text-light);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+box-sizing: border-box;
+} 
+
+.app-card {
+width: 100%;
+max-width: 480px;
+padding: 20px 24px;
+text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+position: relative;
+} 
+
+.top-user-bar {
+position: absolute;
+top: -45px;
+right: 10px;
+display: flex;
+align-items: center;
+gap: 12px;
+font-size: 15px;
+font-weight: 600;
+text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+.top-user-bar span.user-name { color: #ffffff; margin-right: 6px; } 
+
+.icon-top {
+cursor: pointer;
+width: 36px;
+height: 36px;
+background: rgba(255, 255, 255, 0.18);
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+border-radius: 50%;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+color: #ffffff;
+box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.icon-top:hover { background: rgba(255, 255, 255, 0.28); box-shadow: 0 4px 12px rgba(0,0,0,0.35); }
+.icon-top:active { transform: scale(0.95); }
+.icon-top svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; } 
+
+.avatar-container {
+width: 140px;
+height: 140px;
+border-radius: 50%;
+border: 3px solid rgba(255, 255, 255, 0.9);
+box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+margin-bottom: 20px;
+overflow: hidden;
+background: #2d3748;
+} 
+
+.avatar-container img { width: 100%; height: 100%; object-fit: cover; object-position: top; } 
+
+h1 { font-size: 32px; font-weight: 700; margin: 0 0 12px 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); color: #ffffff; line-height: 1.2; }
+.subtitle { color: #ffffff; font-size: 16px; margin: 0 0 35px 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); max-width: 90%; font-weight: 400; } 
+
+.menu-actions { width: 100%; display: flex; flex-direction: column; gap: 14px; margin-bottom: 25px; } 
+
+.btn-cpb {
+width: 100%;
+padding: 14px 20px;
+border: none;
+border-radius: 25px;
+font-size: 16px;
+font-weight: 600;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+transition: transform 0.2s;
+}
+.btn-cpb:active { transform: scale(0.98); } 
+
+.btn-solicitar { background-color: var(--btn-solicitar); color: white; }
+.btn-comprar { background-color: var(--btn-comprar); color: #2d3748; }
+.btn-ajustes { background-color: rgba(74, 85, 104, 0.9); color: white; border: 1px solid rgba(255,255,255,0.1); } 
+
+.lista-seccion { margin-top: 15px; width: 100%; max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.compra-tarjeta { background: rgba(255, 255, 255, 0.08); padding: 12px; border-left: 4px solid var(--btn-solicitar); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+.img-catalogo { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; }
+.hidden { display: none !important; } 
+
+/* INTERFAZ DEL CATÁLOGO DE PANTALLA COMPLETA PREMIUM */
+.catalogo-overlay {
+position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+background: var(--bg-dark-app);
+z-index: 9999; display: flex; flex-direction: column; box-sizing: border-box;
+overflow: hidden;
+}
+
+.cat-header-premium {
+display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+background: #16161a; border-bottom: 1px solid #232329;
+}
+
+.btn-back-premium {
+background: none; border: none; color: #ffffff; cursor: pointer;
+display: flex; align-items: center; justify-content: center; padding: 4px;
+}
+.btn-back-premium svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+.search-container-premium {
+flex: 1; background: #232329; border-radius: 24px; display: flex; align-items: center;
+padding: 2px 14px; color: #f4f4f5; gap: 8px;
+}
+.search-container-premium svg.search-icon { width: 18px; height: 18px; stroke: #a1a1aa; stroke-width: 2.5; fill: none; min-width: 18px; }
+.search-input-premium {
+flex: 1; background: none; border: none; color: white; font-size: 15px;
+padding: 10px 0; outline: none; width: 100%;
+}
+.search-input-premium::placeholder { color: #71717a; }
+
+.right-icons-premium { display: flex; align-items: center; gap: 12px; color: #a1a1aa; padding-left: 4px; }
+.right-icons-premium svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; cursor: pointer; }
+
+.cat-scroll-container {
+flex: 1; overflow-y: auto; padding: 0 12px 24px 12px; display: flex; flex-direction: column;
+}
+
+.cat-section-title {
+font-size: 11px; font-weight: 700; color: #71717a; margin: 20px 0 10px 4px;
+letter-spacing: 0.8px; text-transform: uppercase; text-align: left;
+}
+
+.grid-categorias-premium {
+display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%;
+}
+
+.cat-card-premium {
+border-radius: 16px; padding: 14px 4px; text-align: center; cursor: pointer;
+transition: transform 0.1s, filter 0.1s; display: flex; flex-direction: column;
+align-items: center; justify-content: center; gap: 8px; min-height: 108px; box-sizing: border-box;
+}
+.cat-card-premium:active { transform: scale(0.95); filter: brightness(0.85); }
+.cat-card-premium .emoji { font-size: 28px; line-height: 1; }
+.cat-card-premium .title { font-size: 12px; font-weight: 600; color: #f4f4f5; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; padding: 0 2px; }
+
+/* Paleta de Colores de Categorías */
+.bg-frutas      { background-color: #3d2828; }
+.bg-panaderia   { background-color: #382f24; }
+.bg-reposteria  { background-color: #3b2c34; }
+.bg-lacteos     { background-color: #24332c; }
+.bg-secos       { background-color: #313327; }
+.bg-preparadas  { background-color: #253136; }
+.bg-mariscos    { background-color: #272f38; }
+.bg-congelados  { background-color: #2b2d3d; }
+.bg-latas       { background-color: #3d2b33; }
+.bg-carne       { background-color: #3d282c; }
+.bg-vegetal     { background-color: #26362d; }
+.bg-snacks      { background-color: #2d3328; }
+.bg-especias    { background-color: #382830; }
+.bg-bebidas     { background-color: #212e3b; }
+.bg-cafe        { background-color: #302d28; }
+.bg-alcoholes   { background-color: #38262a; }
+.bg-personal    { background-color: #30283b; }
+.bg-bebe        { background-color: #292c3d; }
+.bg-salud       { background-color: #332c36; }
+.bg-ropa        { background-color: #263330; }
+.bg-jardin      { background-color: #2b3628; }
+.bg-limpieza    { background-color: #233336; }
+.bg-papeleria   { background-color: #2e363b; }
+.bg-mascotas    { background-color: #332d2b; }
+
+/* GRID DE PRODUCTOS MINIMALISTA COMPACTO MEJORADO */
+.grid-productos { 
+display: grid; 
+grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); 
+gap: 10px; 
+padding-top: 14px; 
+}
+.prod-card {
+background: #1c1c21; 
+border: 1px solid #2d2d35;
+border-radius: 14px; 
+padding: 8px; 
+text-align: center; 
+display: flex; 
+flex-direction: column; 
+align-items: center; 
+justify-content: space-between;
+gap: 6px; 
+transition: transform 0.1s;
+box-sizing: border-box;
+min-height: 210px;
+}
+.prod-card img { 
+width: 100%; 
+aspect-ratio: 1 / 1; 
+object-fit: cover; 
+border-radius: 10px; 
+background: #232329; 
+user-select: none;
+cursor: pointer;
+}
+.prod-card .name { 
+font-size: 11px; 
+font-weight: 600; 
+color: #e4e4e7; 
+line-height: 1.25; 
+text-align: center;
+display: -webkit-box; 
+-webkit-line-clamp: 2; 
+-webkit-box-orient: vertical; 
+overflow: hidden; 
+padding: 0 2px;
+}
+.prod-card .desc {
+font-size: 9.5px;
+color: #a1a1aa;
+line-height: 1.2;
+text-align: center;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow: hidden;
+margin-top: 2px;
+padding: 0 2px;
+}
+
 .btn-volver-cat-premium {
 background: #232329; color: white; border: none; padding: 10px 16px; border-radius: 20px;
 font-weight: 600; margin-top: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; font-size: 13px;
