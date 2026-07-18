@@ -185,25 +185,52 @@
 
         const loginCard = document.getElementById("login-card");
         const portalCard = document.getElementById("portal-card");
+        let unsubscribeSnapshot = null; // Variable de control para limpiar la base de datos al cerrar sesión
 
-        // Escucha en tiempo real del estado de autenticación
+        // Control de flujo seguro de pantallas
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loginCard.classList.add("hidden");
                 portalCard.classList.remove("hidden");
+                
+                // Cargar la base de datos ÚNICAMENTE cuando el usuario está 100% validado
+                const q = query(collection(db, "compras"), orderBy("fecha", "desc"));
+                unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+                    const contenedor = document.getElementById("historialCompras");
+                    contenedor.innerHTML = ""; 
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        contenedor.innerHTML += `
+                            <div class="compra-tarjeta">
+                                <div>
+                                    <strong>${data.nombre}</strong> — $${data.monto}
+                                    <br><small style="color:#718096;">Por: ${data.usuario || 'Familiar'}</small>
+                                </div>
+                                <img class="img-catalogo" src="${data.foto}" alt="Catálogo">
+                            </div>
+                        `;
+                    });
+                }, (error) => {
+                    console.error("Error en base de datos controlado:", error.message);
+                });
+
             } else {
+                // Si no hay usuario, limpiar la escucha activa de la base de datos y mandar al login
+                if (unsubscribeSnapshot) {
+                    unsubscribeSnapshot();
+                    unsubscribeSnapshot = null;
+                }
                 portalCard.classList.add("hidden");
                 loginCard.classList.remove("hidden");
             }
         });
 
-        // Inicio de sesión mediante ventana emergente para evitar recargas infinitas en móviles
+        // Ejecución limpia mediante Popup
         document.getElementById("btnLogin").addEventListener("click", () => {
-            signInWithPopup(auth, provider)
-                .catch((error) => {
-                    console.error("Error en la autenticación:", error.code, error.message);
-                    alert("No se pudo iniciar sesión de forma emergente. Si está dentro de WhatsApp, elija 'Abrir en el navegador Chrome/Safari'.");
-                });
+            signInWithPopup(auth, provider).catch((error) => {
+                console.error("Error de login:", error.message);
+                alert("Para iniciar sesión correctamente, asegúrese de abrir el enlace en el navegador independiente de su celular (Chrome o Safari).");
+            });
         });
 
         document.getElementById("btnLogOut").addEventListener("click", () => {
@@ -249,27 +276,8 @@
                 document.getElementById("precio").value = "";
                 document.getElementById("fotoUrl").value = "";
             } catch (e) {
-                alert("Error: " + e.message);
+                alert("Error al guardar: " + e.message);
             }
-        });
-
-        const q = query(collection(db, "compras"), orderBy("fecha", "desc"));
-        onSnapshot(q, (snapshot) => {
-            const contenedor = document.getElementById("historialCompras");
-            contenedor.innerHTML = ""; 
-
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                contenedor.innerHTML += `
-                    <div class="compra-tarjeta">
-                        <div>
-                            <strong>${data.nombre}</strong> — $${data.monto}
-                            <br><small style="color:#718096;">Por: ${data.usuario || 'Familiar'}</small>
-                        </div>
-                        <img class="img-catalogo" src="${data.foto}" alt="Catálogo">
-                    </div>
-                `;
-            });
         });
     </script>
 </body>
