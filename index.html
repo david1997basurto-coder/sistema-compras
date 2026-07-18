@@ -167,7 +167,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
         import { getFirestore, collection, addDoc, query, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-        import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI",
@@ -186,17 +186,7 @@
         const loginCard = document.getElementById("login-card");
         const portalCard = document.getElementById("portal-card");
 
-        // Forzar persistencia local para navegadores de celulares
-        setPersistence(auth, browserLocalPersistence)
-            .then(() => {
-                // Manejar el resultado de la redirección al volver de Google
-                return getRedirectResult(auth);
-            })
-            .catch((error) => {
-                console.error("Error de persistencia: ", error.message);
-            });
-
-        // Escucha activa del cambio de estado
+        // Escucha en tiempo real del estado de autenticación
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loginCard.classList.add("hidden");
@@ -207,8 +197,13 @@
             }
         });
 
+        // Inicio de sesión mediante ventana emergente para evitar recargas infinitas en móviles
         document.getElementById("btnLogin").addEventListener("click", () => {
-            signInWithRedirect(auth, provider);
+            signInWithPopup(auth, provider)
+                .catch((error) => {
+                    console.error("Error en la autenticación:", error.code, error.message);
+                    alert("No se pudo iniciar sesión de forma emergente. Si está dentro de WhatsApp, elija 'Abrir en el navegador Chrome/Safari'.");
+                });
         });
 
         document.getElementById("btnLogOut").addEventListener("click", () => {
