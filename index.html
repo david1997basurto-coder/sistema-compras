@@ -1,481 +1,516 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sistema de Compras Familiar CPB</title>
-    <style>
-        :root {
-            --primary-glow: #10b981;
-            --btn-solicitar: #2bc48a;
-            --btn-comprar: #e2e8f0;
-            --btn-ajustes: #4a5568;
-            --text-light: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sistema de Compras Familiar CPB</title>
+<style>
+:root {
+--primary-glow: #10b981;
+--btn-solicitar: #2bc48a;
+--btn-comprar: #e2e8f0;
+--btn-ajustes: #4a5568;
+--text-light: #ffffff;
+--bg-dark-app: #121214;
+} 
 
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('foto_familiar.jpg.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-color: #141b2d;
-            margin: 0;
-            padding: 0;
-            color: var(--text-light);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-sizing: border-box;
-        }
+body {
+font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('foto_familiar.jpg.jpeg');
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+background-color: #141b2d;
+margin: 0;
+padding: 0;
+color: var(--text-light);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+box-sizing: border-box;
+} 
 
-        .app-card {
-            width: 100%;
-            max-width: 480px;
-            padding: 20px 24px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
+.app-card {
+width: 100%;
+max-width: 480px;
+padding: 20px 24px;
+text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+position: relative;
+} 
 
-        .top-user-bar {
-            position: absolute;
-            top: -45px;
-            right: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-        }
-        .top-user-bar span.user-name { color: #ffffff; margin-right: 6px; }
-        
-        .icon-top { 
-            cursor: pointer; 
-            width: 36px; 
-            height: 36px; 
-            background: rgba(255, 255, 255, 0.18); 
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            border-radius: 50%; 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-            color: #ffffff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .icon-top:hover { background: rgba(255, 255, 255, 0.28); box-shadow: 0 4px 12px rgba(0,0,0,0.35); }
-        .icon-top:active { transform: scale(0.95); }
-        .icon-top svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.top-user-bar {
+position: absolute;
+top: -45px;
+right: 10px;
+display: flex;
+align-items: center;
+gap: 12px;
+font-size: 15px;
+font-weight: 600;
+text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+.top-user-bar span.user-name { color: #ffffff; margin-right: 6px; } 
 
-        .avatar-container {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-            margin-bottom: 20px;
-            overflow: hidden;
-            background: #2d3748;
-        }
-        
-        .avatar-container img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.icon-top {
+cursor: pointer;
+width: 36px;
+height: 36px;
+background: rgba(255, 255, 255, 0.18);
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+border-radius: 50%;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+color: #ffffff;
+box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.icon-top:hover { background: rgba(255, 255, 255, 0.28); box-shadow: 0 4px 12px rgba(0,0,0,0.35); }
+.icon-top:active { transform: scale(0.95); }
+.icon-top svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; } 
 
-        h1 { font-size: 32px; font-weight: 700; margin: 0 0 12px 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); color: #ffffff; line-height: 1.2; }
-        .subtitle { color: #ffffff; font-size: 16px; margin: 0 0 35px 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); max-width: 90%; font-weight: 400; }
+.avatar-container {
+width: 140px;
+height: 140px;
+border-radius: 50%;
+border: 3px solid rgba(255, 255, 255, 0.9);
+box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+margin-bottom: 20px;
+overflow: hidden;
+background: #2d3748;
+} 
 
-        .menu-actions { width: 100%; display: flex; flex-direction: column; gap: 14px; margin-bottom: 25px; }
+.avatar-container img { width: 100%; height: 100%; object-fit: cover; object-position: top; } 
 
-        .btn-cpb {
-            width: 100%;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-        }
-        .btn-cpb:active { transform: scale(0.98); }
+h1 { font-size: 32px; font-weight: 700; margin: 0 0 12px 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); color: #ffffff; line-height: 1.2; }
+.subtitle { color: #ffffff; font-size: 16px; margin: 0 0 35px 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); max-width: 90%; font-weight: 400; } 
 
-        .btn-solicitar { background-color: var(--btn-solicitar); color: white; }
-        .btn-comprar { background-color: var(--btn-comprar); color: #2d3748; }
-        .btn-ajustes { background-color: rgba(74, 85, 104, 0.9); color: white; border: 1px solid rgba(255,255,255,0.1); }
+.menu-actions { width: 100%; display: flex; flex-direction: column; gap: 14px; margin-bottom: 25px; } 
 
-        .lista-seccion { margin-top: 15px; width: 100%; max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .compra-tarjeta { background: rgba(255, 255, 255, 0.08); padding: 12px; border-left: 4px solid var(--btn-solicitar); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
-        .img-catalogo { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; }
-        .hidden { display: none !important; }
+.btn-cpb {
+width: 100%;
+padding: 14px 20px;
+border: none;
+border-radius: 25px;
+font-size: 16px;
+font-weight: 600;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+transition: transform 0.2s;
+}
+.btn-cpb:active { transform: scale(0.98); } 
 
-        /* INTERFAZ DEL CATÁLOGO DE PANTALLA COMPLETA */
-        .catalogo-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #181818; 
-            z-index: 9999; display: flex; flex-direction: column; padding: 20px 16px; box-sizing: border-box;
-            overflow-y: auto;
-        }
-        .cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .cat-header h2 { margin: 0; font-size: 24px; color: #ffffff; font-weight: 700; }
-        
-        .btn-cerrar-cat { 
-            background: rgba(255, 255, 255, 0.08); border: none; color: white; 
-            width: 36px; height: 36px; border-radius: 50%; font-weight: normal; 
-            cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center;
-        }
-        
-        .cat-seccion-titulo {
-            font-size: 11px;
-            color: #8c8c8c;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin: 16px 0 10px 4px;
-            text-transform: uppercase;
-        }
+.btn-solicitar { background-color: var(--btn-solicitar); color: white; }
+.btn-comprar { background-color: var(--btn-comprar); color: #2d3748; }
+.btn-ajustes { background-color: rgba(74, 85, 104, 0.9); color: white; border: 1px solid rgba(255,255,255,0.1); } 
 
-        /* Grid elegante de 3 columnas */
-        .grid-categorias { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 10px; 
-            margin-bottom: 12px;
-        }
-        
-        .cat-card {
-            border: none;
-            border-radius: 18px; 
-            aspect-ratio: 0.88;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 8px; 
-            cursor: pointer;
-            transition: transform 0.2s;
-            padding: 10px 6px;
-            box-sizing: border-box;
-        }
-        .cat-card:active { transform: scale(0.95); }
-        
-        /* Paleta de colores Premium */
-        .bg-tierra { background: #3c2f2f; }
-        .bg-cafe { background: #3a3530; }
-        .bg-gris { background: #2c2d31; }
-        .bg-oliva { background: #2e332d; }
-        .bg-purpura { background: #322631; }
+.lista-seccion { margin-top: 15px; width: 100%; max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.compra-tarjeta { background: rgba(255, 255, 255, 0.08); padding: 12px; border-left: 4px solid var(--btn-solicitar); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+.img-catalogo { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; }
+.hidden { display: none !important; } 
 
-        .cat-card img { width: 45%; height: auto; object-fit: contain; }
-        .cat-card .title { font-size: 11px; font-weight: 600; color: #ffffff; line-height: 1.2; text-align: center; max-width: 95%; }
+/* INTERFAZ DEL CATÁLOGO DE PANTALLA COMPLETA PREMIUM (ESTILO PREMIUM IN-APP) */
+.catalogo-overlay {
+position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+background: var(--bg-dark-app);
+z-index: 9999; display: flex; flex-direction: column; box-sizing: border-box;
+overflow: hidden;
+}
 
-        .grid-productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding-bottom: 20px; }
-        .prod-card {
-            background: #242424; border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px; padding: 12px; text-align: center; cursor: pointer;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-        }
-        .prod-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
-        .prod-card .name { font-size: 13px; font-weight: 600; color: #f1f5f9; }
-        .btn-volver-cat { background: rgba(255,255,255,0.08); color: white; border: none; padding: 10px 16px; border-radius: 20px; font-weight: 600; margin-bottom: 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; }
-    </style>
+.cat-header-premium {
+display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+background: #1a1a1e; border-bottom: 1px solid #26262b;
+}
+
+.btn-back-premium {
+background: none; border: none; color: #ffffff; cursor: pointer;
+display: flex; align-items: center; justify-content: center; padding: 4px;
+}
+.btn-back-premium svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+.search-bar-mock {
+flex: 1; background: #26262b; border-radius: 24px; display: flex; align-items: center;
+padding: 10px 16px; color: #a1a1aa; font-size: 15px; gap: 10px;
+}
+.search-bar-mock svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.5; fill: none; }
+
+.cat-scroll-container {
+flex: 1; overflow-y: auto; padding: 0 16px 24px 16px; display: flex; flex-direction: column;
+}
+
+.cat-section-title {
+font-size: 12px; font-weight: 700; color: #71717a; margin: 22px 0 12px 4px;
+letter-spacing: 0.8px; text-transform: uppercase; text-align: left;
+}
+
+.grid-categorias-premium {
+display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%;
+}
+
+.cat-card-premium {
+border-radius: 16px; padding: 16px 8px; text-align: center; cursor: pointer;
+transition: transform 0.15s, filter 0.15s; display: flex; flex-direction: column;
+align-items: center; justify-content: center; gap: 8px; min-height: 105px; box-sizing: border-box;
+}
+.cat-card-premium:active { transform: scale(0.96); filter: brightness(0.9); }
+.cat-card-premium .emoji { font-size: 28px; line-height: 1; }
+.cat-card-premium .title { font-size: 12px; font-weight: 600; color: #f4f4f5; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Paleta de Colores Moteados Oscuros Exactos */
+.bg-frutas      { background-color: #382525; }
+.bg-panaderia   { background-color: #332920; }
+.bg-reposteria  { background-color: #362830; }
+.bg-lacteos     { background-color: #232e28; }
+.bg-secos       { background-color: #2e2e24; }
+.bg-bebidas     { background-color: #202b36; }
+.bg-salud       { background-color: #2d2433; }
+.bg-aseo        { background-color: #22302d; }
+.bg-carnes      { background-color: #382226; }
+.bg-snacks      { background-color: #2c2f24; }
+.bg-mascotas    { background-color: #2e2a26; }
+
+/* Grid de Productos */
+.grid-productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding-top: 10px; }
+.prod-card {
+background: #1a1a1e; border: 1px solid #26262b;
+border-radius: 16px; padding: 12px; text-align: center; cursor: pointer;
+display: flex; flex-direction: column; align-items: center; gap: 10px; transition: transform 0.15s;
+}
+.prod-card:active { transform: scale(0.97); }
+.prod-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; background: #26262b; }
+.prod-card .name { font-size: 14px; font-weight: 600; color: #f4f4f5; padding: 0 2px; }
+
+.btn-volver-cat-premium {
+background: #26262b; color: white; border: none; padding: 10px 16px; border-radius: 20px;
+font-weight: 600; margin-top: 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; font-size: 14px;
+}
+</style>
 </head>
-<body>
+<body> 
 
-    <!-- PORTAL DE ACCESO (LOGIN) -->
-    <div id="login-card" class="app-card">
-        <h1 id="txtLoginTitulo">Sistema de Compras<br>Familiar CPB</h1>
-        <div id="txtLoginSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
-        <button id="btnLogin" class="btn-cpb" style="background: white; color: #1a202c; border-radius: 25px; padding: 16px 24px; font-size: 18px;">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:22px;">
-            Continuar con Google
-        </button>
-    </div>
+<!-- PORTAL DE ACCESO (LOGIN) -->
+<div id="login-card" class="app-card">
+<h1 id="txtLoginTitulo">Sistema de Compras<br>Familiar CPB</h1>
+<div id="txtLoginSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
+<button id="btnLogin" class="btn-cpb" style="background: white; color: #1a202c; border-radius: 25px; padding: 16px 24px; font-size: 18px;">
+<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:22px;">
+Continuar con Google
+</button>
+</div> 
 
-    <!-- PORTAL PRINCIPAL (LOGUEADO) -->
-    <div id="portal-card" class="app-card hidden">
-        <div class="top-user-bar">
-            <span id="userNameField" class="user-name">Cargando...</span>
-            <span id="btnShareUrl" class="icon-top" title="Compartir Sitio Familiar">
-                <svg viewBox="0 0 24 24" style="fill: currentColor; stroke: none;"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
-            </span>
-            <span id="btnLogOut" class="icon-top" title="Cerrar Sesión">
-                <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-            </span>
-        </div>
+<!-- PORTAL PRINCIPAL (LOGUEADO) -->
+<div id="portal-card" class="app-card hidden">
+<div class="top-user-bar">
+<span id="userNameField" class="user-name">Cargando...</span>
+<span id="btnShareUrl" class="icon-top" title="Compartir Sitio Familiar">
+<svg viewBox="0 0 24 24" style="fill: currentColor; stroke: none;"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+</span>
+<span id="btnLogOut" class="icon-top" title="Cerrar Sesión">
+<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+</span>
+</div> 
 
-        <div class="avatar-container">
-            <img id="imgAvatar" src="perfil.jpg.jpeg" alt="Perfil Familiar">
-        </div>
+<div class="avatar-container">
+<img id="imgAvatar" src="perfil.jpg.jpeg" alt="Perfil Familiar">
+</div> 
 
-        <h1 id="txtMainTitulo">Sistema de Compras<br>Familiar CPB</h1>
-        <div id="txtMainSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
-        
-        <div class="menu-actions">
-            <button id="btnMenuSolicitar" class="btn-cpb btn-solicitar">🛒 Solicitar Compra</button>
-            <button id="btnMenuComprar" class="btn-cpb btn-comprar">✔️ Comprar Ahora</button>
-            <button id="btnMenuAjustes" class="btn-cpb btn-ajustes">⚙️ Ajustes del Sistema</button>
-        </div>
+<h1 id="txtMainTitulo">Sistema de Compras<br>Familiar CPB</h1>
+<div id="txtMainSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div> 
 
-        <div class="lista-seccion"><div id="historialCompras"></div></div>
-    </div>
+<div class="menu-actions">
+<button id="btnMenuSolicitar" class="btn-cpb btn-solicitar">🛒 Solicitar Compra</button>
+<button id="btnMenuComprar" class="btn-cpb btn-comprar">✔️ Comprar Ahora</button>
+<button id="btnMenuAjustes" class="btn-cpb btn-ajustes">⚙️ Ajustes del Sistema</button>
+</div> 
 
-    <!-- PANTALLA DEL CATÁLOGO MULTICATEGORÍA -->
-    <div id="catalogo-screen" class="catalogo-overlay hidden">
-        <div class="cat-header">
-            <h2 id="catalogo-titulo">Catálogo Familiar</h2>
-            <button id="btnCerrarCatalogo" class="btn-cerrar-cat">✕</button>
-        </div>
-        
-        <button id="btnVolverCategorias" class="btn-volver-cat hidden">← Volver</button>
+<!-- SECCIÓN DE SEGUIMIENTO HISTÓRICO VISIBLE EN EL PANEL PRINCIPAL -->
+<div class="lista-seccion"><div id="historialCompras"></div></div>
+</div> 
 
-        <!-- Contenedor de las Secciones del Catálogo -->
-        <div id="box-wrapper-categorias">
-            <div class="cat-seccion-titulo">Comida</div>
-            <div class="grid-categorias">
-                <div class="cat-card bg-tierra" onclick="cargarProductos('frutas')">
-                    <img src="https://i.ibb.co/VWVg0Ym/tomatoes.png" alt="Frutas">
-                    <span class="title">Frutas</span>
-                </div>
-                <div class="cat-card bg-tierra" onclick="cargarProductos('verduras')">
-                    <img src="https://i.ibb.co/6ndVfS4/broccoli.png" alt="Verduras">
-                    <span class="title">Verduras y Legumbres</span>
-                </div>
-                <div class="cat-card bg-cafe" onclick="cargarProductos('lacteos')">
-                    <img src="https://i.ibb.co/vYg6Ym4/cheese.png" alt="Lácteos">
-                    <span class="title">Lácteos y Huevos</span>
-                </div>
-            </div>
+<!-- INTERFAZ PREMIUM TOTALMENTE EDITADA AL ESTILO DE LAS CAPTURAS -->
+<div id="catalogo-screen" class="catalogo-overlay hidden">
+<div class="cat-header-premium">
+<button id="btnCerrarCatalogo" class="btn-back-premium">
+<svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+</button>
+<div class="search-bar-mock">
+<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+<span id="txtSearchPlaceholder">Agregar nuevo producto...</span>
+</div>
+</div> 
 
-            <div class="cat-seccion-titulo">Bebidas e Infusiones</div>
-            <div class="grid-categorias">
-                <div class="cat-card bg-gris" onclick="cargarProductos('bebidas')">
-                    <img src="https://i.ibb.co/6P9m9xK/soda.png" alt="Bebidas">
-                    <span class="title">Bebidas y Jugos</span>
-                </div>
-            </div>
+<div class="cat-scroll-container">
+<button id="btnVolverCategorias" class="btn-volver-cat-premium hidden">← Volver a Categorías</button> 
 
-            <div class="cat-seccion-titulo">Cuidado Personal y Salud</div>
-            <div class="grid-categorias">
-                <div class="cat-card bg-purpura" onclick="cargarProductos('salud')">
-                    <img src="https://i.ibb.co/9vMhkKy/soap.png" alt="Salud">
-                    <span class="title">Salud y Bienestar</span>
-                </div>
-            </div>
+<!-- Vista de Categorías en Bloques Estructurados (Identico a tus capturas) -->
+<div id="box-categorias-wrapper">
+<div class="cat-section-title">Comida</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-frutas" onclick="cargarProductos('frutas_verduras')"><span class="emoji">🍅</span><span class="title">Frutas y verduras</span></div>
+<div class="cat-card-premium bg-panaderia" onclick="cargarProductos('panaderia')"><span class="emoji">🍞</span><span class="title">Panadería</span></div>
+<div class="cat-card-premium bg-reposteria" onclick="cargarProductos('reposteria')"><span class="emoji">🧁</span><span class="title">Productos de repostería</span></div>
+<div class="cat-card-premium bg-lacteos" onclick="cargarProductos('lacteos')"><span class="emoji">🥛</span><span class="title">Lácteos y huevos</span></div>
+<div class="cat-card-premium bg-secos" onclick="cargarProductos('secos')"><span class="emoji">🍝</span><span class="title">Productos secos</span></div>
+<div class="cat-card-premium bg-carnes" onclick="cargarProductos('carnes')"><span class="emoji">🥩</span><span class="title">Carne</span></div>
+<div class="cat-card-premium bg-snacks" onclick="cargarProductos('snacks')"><span class="emoji">🍬</span><span class="title">Snacks y dulces</span></div>
+</div>
 
-            <div class="cat-seccion-titulo">Hogar y Estilo de Vida</div>
-            <div class="grid-categorias">
-                <div class="cat-card bg-oliva" onclick="cargarProductos('aseo')">
-                    <img src="https://i.ibb.co/0XgVf6p/cleaner.png" alt="Aseo">
-                    <span class="title">Aseo y Limpieza</span>
-                </div>
-            </div>
-        </div>
+<div class="cat-section-title">Bebidas</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-bebidas" onclick="cargarProductos('bebidas')"><span class="emoji">🥤</span><span class="title">Bebidas</span></div>
+</div>
 
-        <!-- Panel de despliegue de ítems -->
-        <div id="box-productos" class="grid-productos hidden"></div>
-    </div>
+<div class="cat-section-title">Cuidado Personal y Salud</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-salud" onclick="cargarProductos('salud')"><span class="emoji">🩹</span><span class="title">Salud</span></div>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, query, onSnapshot, orderBy, doc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+<div class="cat-section-title">Hogar y Estilo de Vida</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-aseo" onclick="cargarProductos('aseo')"><span class="emoji">🧼</span><span class="title">Limpieza y lavandería</span></div>
+</div>
 
-        const ADMIN_EMAIL = "david1997basurto@gmail.com";
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI", 
-            authDomain: "gestion-compras-cpb.firebaseapp.com", 
-            projectId: "gestion-compras-cpb", 
-            storageBucket: "gestion-compras-cpb.firebasestorage.app", 
-            messagingSenderId: "643471531807", 
-            appId: "1:643471531807:web:9c254668692760ea6a9a2a" 
-        };
+<div class="cat-section-title">Otro</div>
+<div class="grid-categorias-premium">
+<div class="cat-card-premium bg-mascotas" onclick="cargarProductos('mascotas')"><span class="emoji">🐶</span><span class="title">Mascotas</span></div>
+</div>
+</div> 
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-        let unsubscribeSnapshot = null;
+<!-- Vista de Productos -->
+<div id="box-productos" class="grid-productos hidden"></div>
+</div>
+</div> 
 
-        // DICCIONARIO COMPLETO RECONSTRUIDO CON SUS FOTOGRAFÍAS DE ALTA DEFINICIÓN
-        const baseCatálago = {
-            frutas: [
-                { name: "Tomate de Árbol", img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=250&q=80" },
-                { name: "Guineo / Plátano", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=250&q=80" },
-                { name: "Frutillas", img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" },
-                { name: "Piña", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
-                { name: "Naranjas", img: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=250&q=80" },
-                { name: "Maracuyá", img: "https://images.unsplash.com/photo-1619472714243-7bb0d1951f43?auto=format&fit=crop&w=250&q=80" }
-            ],
-            verduras: [
-                { name: "Tomate Riñón", img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=250&q=80" },
-                { name: "Cebolla Paiteña", img: "https://images.unsplash.com/photo-1618519764620-7403abdbfee9?auto=format&fit=crop&w=250&q=80" },
-                { name: "Pimiento Verde", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=250&q=80" },
-                { name: "Papa Chola", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
-                { name: "Zanahoria", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
-                { name: "Lechuga", img: "https://images.unsplash.com/photo-1622484211148-716598e0db01?auto=format&fit=crop&w=250&q=80" }
-            ],
-            lacteos: [
-                { name: "Leche Entera", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=250&q=80" },
-                { name: "Queso Criollo / Mesa", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?auto=format&fit=crop&w=250&q=80" },
-                { name: "Yogurt", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=250&q=80" },
-                { name: "Mantequilla", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=250&q=80" },
-                { name: "Cubeta de Huevos", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=250&q=80" }
-            ],
-            bebidas: [
-                { name: "Agua Mineral / Sin gas", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" },
-                { name: "Jugos de cartón", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=250&q=80" },
-                { name: "Gaseosas", img: "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=250&q=80" },
-                { name: "Café Soluble", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" }
-            ],
-            salud: [
-                { name: "Jabón de Tocador", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?auto=format&fit=crop&w=250&q=80" },
-                { name: "Champú", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=250&q=80" },
-                { name: "Crema Dental", img: "https://images.unsplash.com/photo-1559591937-e6b368fe7444?auto=format&fit=crop&w=250&q=80" },
-                { name: "Papel Higiénico", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=250&q=80" }
-            ],
-            aseo: [
-                { name: "Detergente para Ropa (Deja)", img: "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=250&q=80" },
-                { name: "Pinoclin / Desinfectante", img: "https://images.unsplash.com/photo-1563453392-403530584df5?auto=format&fit=crop&w=250&q=80" },
-                { name: "Aromatell", img: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=250&q=80" },
-                { name: "Suavizante de Ropa", img: "https://images.unsplash.com/photo-1610557892470-55d9e80e0bce?auto=format&fit=crop&w=250&q=80" },
-                { name: "Jabón de Ropa en Barra", img: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=250&q=80" },
-                { name: "Lavavajillas (Líquido/Pasta)", img: "https://images.unsplash.com/photo-1585832770485-e68a5dbfad52?auto=format&fit=crop&w=250&q=80" },
-                { name: "Trapeador para el Piso", img: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=250&q=80" },
-                { name: "Esponja para Platos", img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&w=250&q=80" },
-                { name: "Escoba para Barrer", img: "https://images.unsplash.com/photo-1562259920-2da33a042940?auto=format&fit=crop&w=250&q=80" }
-            ]
-        };
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, onSnapshot, orderBy, doc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js"; 
 
-        window.cargarProductos = function(categoria) {
-            document.getElementById("catalogo-titulo").innerText = categoria.toUpperCase();
-            document.getElementById("box-wrapper-categorias").classList.add("hidden");
-            document.getElementById("box-productos").classList.remove("hidden");
-            document.getElementById("btnVolverCategorias").classList.remove("hidden");
-            
-            const boxProductos = document.getElementById("box-productos");
-            boxProductos.innerHTML = "";
-            baseCatálago[categoria].forEach(p => {
-                boxProductos.innerHTML += `
-                    <div class="prod-card" onclick="enviarSolicitudDirecta('${p.name}', '${p.img}')">
-                        <img src="${p.img}" alt="${p.name}">
-                        <div class="name">${p.name}</div>
-                    </div>`;
-            });
-        }
+const ADMIN_EMAIL = "david1997basurto@gmail.com"; 
 
-        window.enviarSolicitudDirecta = async function(nombre, img) {
-            try {
-                await addDoc(collection(db, "compras"), {
-                    nombre: nombre,
-                    monto: 0, 
-                    foto: img,
-                    fecha: new Date(),
-                    usuario: auth.currentUser.email
-                });
-                alert("🎯 Solicitud enviada con éxito.");
-                cerrarElCatalogo();
-            } catch (e) {
-                alert("Error al enviar solicitud: " + e.message);
-            }
-        }
+const firebaseConfig = {
+apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI",
+authDomain: "gestion-compras-cpb.firebaseapp.com",
+projectId: "gestion-compras-cpb",
+storageBucket: "gestion-compras-cpb.firebasestorage.app",
+messagingSenderId: "643471531807",
+appId: "1:643471531807:web:9c254668692760ea6a9a2a"
+}; 
 
-        function cerrarElCatalogo() {
-            document.getElementById("catalogo-screen").classList.add("hidden");
-            resetearVistaCatalogo();
-        }
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+let unsubscribeSnapshot = null; 
 
-        function resetearVistaCatalogo() {
-            document.getElementById("catalogo-titulo").innerText = "Catálogo Familiar";
-            document.getElementById("box-wrapper-categorias").classList.remove("hidden");
-            document.getElementById("box-productos").classList.add("hidden");
-            document.getElementById("btnVolverCategorias").classList.add("hidden");
-        }
+// DICCIONARIO COMPLETO ADAPTADO Y EXPANDIDO CON IMÁGENES REALES EN HD
+const baseCatálago = {
+frutas_verduras: [
+{ name: "Tomate de Árbol", img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=250&q=80" },
+{ name: "Guineo / Plátano", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=250&q=80" },
+{ name: "Frutillas", img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" },
+{ name: "Piña", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
+{ name: "Naranjas", img: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=250&q=80" },
+{ name: "Maracuyá", img: "https://images.unsplash.com/photo-1619472714243-7bb0d1951f43?auto=format&fit=crop&w=250&q=80" },
+{ name: "Tomate Riñón", img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=250&q=80" },
+{ name: "Cebolla Paiteña", img: "https://images.unsplash.com/photo-1618519764620-7403abdbfee9?auto=format&fit=crop&w=250&q=80" },
+{ name: "Pimiento Verde", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=250&q=80" },
+{ name: "Papa Chola", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
+{ name: "Zanahoria", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+{ name: "Lechuga", img: "https://images.unsplash.com/photo-1622484211148-716598e0db01?auto=format&fit=crop&w=250&q=80" }
+],
+panaderia: [
+{ name: "Pan de Molde", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=250&q=80" },
+{ name: "Croissants", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=250&q=80" }
+],
+reposteria: [
+{ name: "Polvo de Hornear", img: "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=250&q=80" },
+{ name: "Esencia de Vainilla", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=250&q=80" }
+],
+lacteos: [
+{ name: "Leche Entera", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=250&q=80" },
+{ name: "Queso Criollo / Mesa", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?auto=format&fit=crop&w=250&q=80" },
+{ name: "Yogurt", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=250&q=80" },
+{ name: "Mantequilla", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=250&q=80" },
+{ name: "Cubeta de Huevos", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=250&q=80" }
+],
+secos: [
+{ name: "Arroz Integral / Blanco", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=250&q=80" },
+{ name: "Fideos / Pasta", img: "https://images.unsplash.com/photo-1621961401348-f099ce520184?auto=format&fit=crop&w=250&q=80" }
+],
+carnes: [
+{ name: "Carne de Res", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=250&q=80" },
+{ name: "Pechuga de Pollo", img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=250&q=80" }
+],
+snacks: [
+{ name: "Papas Fritas", img: "https://images.unsplash.com/photo-1566478431377-9f15d6467166?auto=format&fit=crop&w=250&q=80" },
+{ name: "Chocolates", img: "https://images.unsplash.com/photo-1548907040-4d42b52145ea?auto=format&fit=crop&w=250&q=80" }
+],
+bebidas: [
+{ name: "Agua Mineral / Sin gas", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" },
+{ name: "Jugos de cartón", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=250&q=80" },
+{ name: "Gaseosas", img: "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=250&q=80" },
+{ name: "Café Soluble", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" }
+],
+salud: [
+{ name: "Jabón de Tocador", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?auto=format&fit=crop&w=250&q=80" },
+{ name: "Champú", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=250&q=80" },
+{ name: "Crema Dental", img: "https://images.unsplash.com/photo-1559591937-e6b368fe7444?auto=format&fit=crop&w=250&q=80" },
+{ name: "Papel Higiénico", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=250&q=80" }
+],
+aseo: [
+{ name: "Detergente para Ropa (Deja)", img: "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=250&q=80" },
+{ name: "Pinoclin / Desinfectante", img: "https://images.unsplash.com/photo-1563453392-403530584df5?auto=format&fit=crop&w=250&q=80" },
+{ name: "Aromatell", img: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=250&q=80" },
+{ name: "Suavizante de Ropa", img: "https://images.unsplash.com/photo-1610557892470-55d9e80e0bce?auto=format&fit=crop&w=250&q=80" },
+{ name: "Jabón de Ropa en Barra", img: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=250&q=80" },
+{ name: "Lavavajillas (Líquido/Pasta)", img: "https://images.unsplash.com/photo-1585832770485-e68a5dbfad52?auto=format&fit=crop&w=250&q=80" },
+{ name: "Trapeador para el Piso", img: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=250&q=80" },
+{ name: "Esponja para Platos", img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&w=250&q=80" },
+{ name: "Escoba para Barrer", img: "https://images.unsplash.com/photo-1562259920-2da33a042940?auto=format&fit=crop&w=250&q=80" }
+],
+mascotas: [
+{ name: "Comida para Perros", img: "https://images.unsplash.com/photo-1589924691995-400dc9ebd109?auto=format&fit=crop&w=250&q=80" },
+{ name: "Comida para Gatos", img: "https://images.unsplash.com/photo-1569591159212-b02ea8a9f239?auto=format&fit=crop&w=250&q=80" }
+]
+}; 
 
-        document.getElementById("btnMenuSolicitar").addEventListener("click", () => {
-            document.getElementById("catalogo-screen").classList.remove("hidden");
-        });
-        document.getElementById("btnCerrarCatalogo").addEventListener("click", cerrarElCatalogo);
-        document.getElementById("btnVolverCategorias").addEventListener("click", resetearVistaCatalogo);
+window.cargarProductos = function(categoria) {
+const placeholderText = document.getElementById("txtSearchPlaceholder");
+const boxCategoriasWrapper = document.getElementById("box-categorias-wrapper");
+const boxProductos = document.getElementById("box-productos");
+const btnVolver = document.getElementById("btnVolverCategorias"); 
+
+placeholderText.innerText = "Buscar en " + categoria.replace('_', ' ').toUpperCase();
+boxCategoriasWrapper.classList.add("hidden");
+boxProductos.classList.remove("hidden");
+btnVolver.classList.remove("hidden"); 
+
+boxProductos.innerHTML = "";
+if(baseCatálago[categoria]) {
+baseCatálago[categoria].forEach(p => {
+boxProductos.innerHTML += `<div class="prod-card" onclick="enviarSolicitudDirecta('${p.name}', '${p.img}')">
+<img src="${p.img}" alt="${p.name}">
+<div class="name">${p.name}</div>
+</div>`;
+});
+}
+} 
+
+window.enviarSolicitudDirecta = async function(nombre, img) {
+try {
+await addDoc(collection(db, "compras"), {
+nombre: nombre,
+monto: 0,
+foto: img,
+fecha: new Date(),
+usuario: auth.currentUser.email
+});
+alert("🎯 Solicitud enviada con éxito.");
+cerrarElCatalogo();
+} catch (e) {
+alert("Error al enviar solicitud: " + e.message);
+}
+} 
+
+function cerrarElCatalogo() {
+document.getElementById("catalogo-screen").classList.add("hidden");
+resetearVistaCatalogo();
+} 
+
+function resetearVistaCatalogo() {
+document.getElementById("txtSearchPlaceholder").innerText = "Agregar nuevo producto...";
+document.getElementById("box-categorias-wrapper").classList.remove("hidden");
+document.getElementById("box-productos").classList.add("hidden");
+document.getElementById("btnVolverCategorias").classList.add("hidden");
+} 
+
+document.getElementById("btnMenuSolicitar").addEventListener("click", () => {
+document.getElementById("catalogo-screen").classList.remove("hidden");
+});
+document.getElementById("btnCerrarCatalogo").addEventListener("click", cerrarElCatalogo);
+document.getElementById("btnVolverCategorias").addEventListener("click", resetearVistaCatalogo);
 
 
-        // --- CONFIGURACIÓN Y OBSERVADORES DE FIREBASE INTERFAZ ---
-        const loginCard = document.getElementById("login-card");
-        const portalCard = document.getElementById("portal-card");
+// --- LÓGICA DE FIREBASE ---
+const loginCard = document.getElementById("login-card");
+const portalCard = document.getElementById("portal-card"); 
 
-        onSnapshot(doc(db, "configuracion", "interfaz"), (docSnap) => {
-            if (docSnap.exists()) {
-                const c = docSnap.data();
-                if(c.titulo) { document.getElementById("txtMainTitulo").innerHTML = c.titulo; document.getElementById("txtLoginTitulo").innerHTML = c.titulo; }
-                if(c.subtítulo) { document.getElementById("txtMainSub").innerText = c.subtítulo; document.getElementById("txtLoginSub").innerText = c.subtítulo; }
-                if(c.fondo) document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('${c.fondo}')`;
-                if(c.avatar) document.getElementById("imgAvatar").src = c.avatar;
-                if(c.btn1Text) document.getElementById("btnMenuSolicitar").innerText = c.btn1Text;
-                if(c.btn1Color) document.getElementById("btnMenuSolicitar").style.backgroundColor = c.btn1Color;
-                if(c.btn2Text) document.getElementById("btnMenuComprar").innerText = c.btn2Text;
-                if(c.btn2Color) document.getElementById("btnMenuComprar").style.backgroundColor = c.btn2Color;
-                if(c.btn3Text) document.getElementById("btnMenuAjustes").innerText = c.btn3Text;
-                if(c.btn3Color) document.getElementById("btnMenuAjustes").style.backgroundColor = c.btn3Color;
-            }
-        });
+onSnapshot(doc(db, "configuracion", "interfaz"), (docSnap) => {
+if (docSnap.exists()) {
+const c = docSnap.data();
+if(c.titulo) { document.getElementById("txtMainTitulo").innerHTML = c.titulo; document.getElementById("txtLoginTitulo").innerHTML = c.titulo; }
+if(c.subtítulo) { document.getElementById("txtMainSub").innerText = c.subtítulo; document.getElementById("txtLoginSub").innerText = c.subtítulo; }
+if(c.fondo) document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('${c.fondo}')`;
+if(c.avatar) document.getElementById("imgAvatar").src = c.avatar;
+if(c.btn1Text) document.getElementById("btnMenuSolicitar").innerText = c.btn1Text;
+if(c.btn1Color) document.getElementById("btnMenuSolicitar").style.backgroundColor = c.btn1Color;
+if(c.btn2Text) document.getElementById("btnMenuComprar").innerText = c.btn2Text;
+if(c.btn2Color) document.getElementById("btnMenuComprar").style.backgroundColor = c.btn2Color;
+if(c.btn3Text) document.getElementById("btnMenuAjustes").innerText = c.btn3Text;
+if(c.btn3Color) document.getElementById("btnMenuAjustes").style.backgroundColor = c.btn3Color;
+}
+}); 
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                loginCard.classList.add("hidden");
-                portalCard.classList.remove("hidden");
-                document.getElementById("userNameField").innerText = user.displayName || "Usuario CPB";
-                
-                const q = query(collection(db, "compras"), orderBy("fecha", "desc"));
-                unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
-                    const contenedor = document.getElementById("historialCompras");
-                    contenedor.innerHTML = ""; 
-                    snapshot.forEach((doc) => {
-                        const data = doc.data();
-                        contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block; margin-top:2px;">$${data.monto} — Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}" alt="Item"></div>`;
-                    });
-                });
-            } else {
-                if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
-                portalCard.classList.add("hidden");
-                loginCard.classList.remove("hidden");
-            }
-        });
+onAuthStateChanged(auth, (user) => {
+if (user) {
+loginCard.classList.add("hidden");
+portalCard.classList.remove("hidden");
+document.getElementById("userNameField").innerText = user.displayName || "Usuario CPB"; 
 
-        document.getElementById("btnShareUrl").addEventListener("click", async () => {
-            const shareData = {
-                title: 'Sistema de Compras Familiar CPB',
-                text: 'Hola familia, les comparto el enlace de nuestro sistema de compras para organizar el hogar.',
-                url: window.location.href
-            };
-            if (navigator.share) {
-                try { await navigator.share(shareData); } catch (err) { abrirWhatsApp(shareData.text, shareData.url); }
-            } else { abrirWhatsApp(shareData.text, shareData.url); }
-        });
+const q = query(collection(db, "compras"), orderBy("fecha", "desc"));
+unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+const contenedor = document.getElementById("historialCompras");
+contenedor.innerHTML = "";
+snapshot.forEach((doc) => {
+const data = doc.data();
+contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block; margin-top:2px;">${data.monto} — Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}" alt="Item"></div>`;
+});
+});
+} else {
+if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
+portalCard.classList.add("hidden");
+loginCard.classList.remove("hidden");
+}
+}); 
 
-        function abrirWhatsApp(text, url) {
-            const mensajeEncriptado = encodeURIComponent(`${text}\n\n👉 Accede aquí: ${url}`);
-            window.open(`https://api.whatsapp.com/send?text=${mensajeEncriptado}`, '_blank');
-        }
+document.getElementById("btnShareUrl").addEventListener("click", async () => {
+const shareData = {
+title: 'Sistema de Compras Familiar CPB',
+text: 'Hola familia, les comparto el enlace de nuestro sistema de compras para organizar el hogar.',
+url: window.location.href
+};
+if (navigator.share) {
+try { await navigator.share(shareData); } catch (err) { abrirWhatsApp(shareData.text, shareData.url); }
+} else { abrirWhatsApp(shareData.text, shareData.url); }
+}); 
 
-        document.getElementById("btnLogin").addEventListener("click", () => signInWithPopup(auth, provider));
-        document.getElementById("btnLogOut").addEventListener("click", () => signOut(auth));
-        document.getElementById("btnMenuComprar").addEventListener("click", () => alert("Módulo consolidado de compras familiares."));
-        
-        document.getElementById("btnMenuAjustes").addEventListener("click", () => {
-            const emailActivo = auth.currentUser ? auth.currentUser.email.toLowerCase() : "";
-            if (emailActivo === ADMIN_EMAIL.toLowerCase()) {
-                alert("⚙️ El panel dinámico de control se administra directamente desde la base de datos de Firebase para máxima seguridad.");
-            } else {
-                alert("❌ ACCESO DENEGADO: Módulo de control absoluto exclusivo para el Administrador.");
-            }
-        });
-    </script>
+function abrirWhatsApp(text, url) {
+const mensajeEncriptado = encodeURIComponent(`${text}\n\n👉 Accede aquí: ${url}`);
+window.open(`https://api.whatsapp.com/send?text=${mensajeEncriptado}`, '_blank');
+} 
+
+document.getElementById("btnLogin").addEventListener("click", () => signInWithPopup(auth, provider));
+document.getElementById("btnLogOut").addEventListener("click", () => { signOut(auth); });
+document.getElementById("btnMenuComprar").addEventListener("click", () => alert("Módulo consolidado de compras familiares.")); 
+
+document.getElementById("btnMenuAjustes").addEventListener("click", () => {
+const emailActivo = auth.currentUser ? auth.currentUser.email.toLowerCase() : "";
+if (emailActivo === ADMIN_EMAIL.toLowerCase()) {
+alert("⚙️ El panel dinámico de control se administra directamente desde la base de datos de Firebase para máxima seguridad.");
+} else {
+alert("❌ ACCESO DENEGADO: Módulo de control absoluto exclusivo para el Administrador.");
+}
+});
+</script>
 </body>
 </html>
