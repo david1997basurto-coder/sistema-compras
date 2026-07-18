@@ -1,6 +1,7 @@
 /******************************************************************
  * APP.JS - SISTEMA DE COMPRAS FAMILIAR CPB
  * Archivo de ampliación optimizado para CLOUD FIRESTORE.
+ * CORRECCIÓN: Intercepción en fase de captura para frenar el envío inmediato.
  ******************************************************************/
 
 console.clear();
@@ -14,21 +15,30 @@ const seleccionesTemporales = {};
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM del Sistema de Compras cargado correctamente.");
 
-    // 1. CAPTURAR CLICS EN EL BOTÓN "+" EN TIEMPO REAL
+    // INDICAMOS 'TRUE' AL FINAL PARA USAR LA FASE DE CAPTURA
+    // Esto intercepta el clic ANTES de que llegue a las funciones de tu index.html
     document.body.addEventListener("click", (e) => {
-        // Detecta si se hace clic en el botón "+" o en el icono dentro de él
-        if (e.target.matches('.btn-agregar-mas, .btn-agregar-mas *') || e.target.textContent.trim() === '+') {
+        
+        // Verificamos si es el "+" ORIGINAL (y nos aseguramos de ignorar el "+" del nuevo contador)
+        const esBotonMasOriginal = 
+            (e.target.matches('.btn-agregar-mas, .btn-agregar-mas *') && !e.target.closest('.control-cantidad-contenedor')) || 
+            (e.target.textContent.trim() === '+' && !e.target.closest('.control-cantidad-contenedor'));
+
+        if (esBotonMasOriginal) {
+            // ¡CONGELAMOS EL EVENTO! Detiene por completo el envío inmediato de tu index.html
             e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
             
             const botonMas = e.target.closest('button') || e.target;
             const tarjetaProducto = botonMas.closest('.tarjeta-producto, .product-card') || botonMas.parentElement;
             
-            // Obtenemos el nombre del producto para usarlo como identificador temporal
+            // Obtenemos el nombre del producto
             const productoNombre = tarjetaProducto.querySelector('h3, .product-title, .Pan\\ de\\ Molde')?.textContent.trim() || "Producto Sin Nombre";
             
             transformarTarjetaAContador(tarjetaProducto, productoNombre, botonMas);
         }
-    });
+    }, true); // <--- Este 'true' activa el escudo de interceptación avanzada
 
     // 2. INICIAR LA ESCUCHA EN TIEMPO REAL DESDE CLOUD FIRESTORE
     inicializarEscuchaFirestore();
@@ -66,7 +76,7 @@ function transformarTarjetaAContador(tarjeta, productoId, botonOriginal) {
     tarjeta.appendChild(contenedorContador);
     const txtCantidad = contenedorContador.querySelector('.txt-cantidad');
 
-    // Manejo del botón restar
+    // Manejo del botón restar (Operación local normal)
     contenedorContador.querySelector('.btn-restar').addEventListener('click', (e) => {
         e.stopPropagation();
         if (seleccionesTemporales[productoId] > 1) {
@@ -75,22 +85,22 @@ function transformarTarjetaAContador(tarjeta, productoId, botonOriginal) {
         }
     });
 
-    // Manejo del botón sumar
+    // Manejo del botón sumar (Operación local normal)
     contenedorContador.querySelector('.btn-sumar').addEventListener('click', (e) => {
         e.stopPropagation();
         seleccionesTemporales[productoId]++;
         txtCantidad.textContent = seleccionesTemporales[productoId];
     });
 
-    // Manejo del botón definitivo "Agregar"
+    // Envío definitivo a la Base de Datos al pulsar el botón azul "Agregar"
     contenedorContador.querySelector('.btn-confirmar-agregar').addEventListener('click', (e) => {
         e.stopPropagation();
         const cantidadFinal = seleccionesTemporales[productoId];
         
-        // Guardar directamente en la colección de Firestore
+        // Guardar la cantidad real elegida en Firestore
         registrarPedidoFirestore(productoId, cantidadFinal, tarjeta);
 
-        // Devolver la tarjeta a su estado original
+        // Devolver la interfaz a su estado inicial
         contenedorContador.remove();
         botonOriginal.style.display = 'block';
         delete seleccionesTemporales[productoId];
@@ -98,17 +108,15 @@ function transformarTarjetaAContador(tarjeta, productoId, botonOriginal) {
 }
 
 /**
- * Inserta el pedido de forma instantánea en la colección 'pedidos' de Cloud Firestore
+ * Inserta el pedido final en la colección 'pedidos' de Cloud Firestore
  */
 function registrarPedidoFirestore(productoId, cantidad, tarjeta) {
-    console.log(`Enviando a Firestore: ${cantidad} unidades de "${productoId}"`);
+    console.log(`Subiendo a Firestore de forma definitiva: ${cantidad} unidades de "${productoId}"`);
     
-    // Extrae el precio limpio de la interfaz del producto
     const precioTexto = tarjeta.querySelector('span, .precio, p').textContent.replace('$', '').trim();
     const precioUnitario = parseFloat(precioTexto) || 0.00;
     const totalPedido = precioUnitario * cantidad;
 
-    // Verificamos que la variable de Firestore esté disponible de forma global (usualmente se llama 'db')
     if (typeof db !== 'undefined' && typeof db.collection === 'function') {
         db.collection('pedidos').add({
             producto: productoId,
@@ -118,43 +126,37 @@ function registrarPedidoFirestore(productoId, cantidad, tarjeta) {
             fecha: new Date()
         })
         .then((docRef) => {
-            console.log("Pedido registrado en Firestore con ID: ", docRef.id);
+            console.log("Pedido guardado exitosamente con ID: ", docRef.id);
+            // Pintamos un cartel de éxito propio para confirmar la acción de este botón
+            mostrarNotificacionExito("Solicitud enviada con éxito.");
         })
         .catch((error) => {
-            console.error("Error al añadir el pedido a Firestore: ", error);
+            console.error("Error al añadir el pedido: ", error);
         });
     } else {
-        console.warn("Instancia de Firestore ('db') no detectada globalmente. El proceso se ejecutó de forma local.");
+        console.warn("Instancia 'db' de Firestore no detectada globalmente.");
     }
 }
 
 /**
  * Escucha cambios en tiempo real en la colección 'productos' de Cloud Firestore
- * Actualiza automáticamente los precios y las imágenes si cambian en la base de datos
  */
 function inicializarEscuchaFirestore() {
     if (typeof db !== 'undefined' && typeof db.collection === 'function') {
-        
-        // El método onSnapshot es el encargado del "Tiempo Real" en Firestore
         db.collection('productos').onSnapshot((snapshot) => {
             snapshot.forEach((doc) => {
                 const datos = doc.data();
                 if (!datos) return;
 
-                // Buscamos las tarjetas de producto en el HTML para actualizarlas sobre la marcha
                 const elementosTarjeta = document.querySelectorAll('.tarjeta-producto, .product-card');
                 elementosTarjeta.forEach(tarjeta => {
-                    const titulo = tarjeta.querySelector('h3, .product-title')?.textContent.trim();
+                    const titulo = tarjeta.querySelector('h3, .product-title, .Pan\\ de\\ Molde')?.textContent.trim();
                     
-                    // Si el nombre en el HTML coincide con el campo 'nombre' en Firestore
                     if (titulo === datos.nombre) {
-                        // 1. Actualizar el Precio al instante
                         const elementoPrecio = tarjeta.querySelector('.precio, span');
                         if (elementoPrecio && datos.precio !== undefined) {
                             elementoPrecio.textContent = `$ ${parseFloat(datos.precio).toFixed(2)}`;
                         }
-
-                        // 2. Actualizar la Imagen al instante
                         const elementoImg = tarjeta.querySelector('img');
                         if (elementoImg && datos.imagenUrl) {
                             elementoImg.src = datos.imagenUrl;
@@ -166,4 +168,24 @@ function inicializarEscuchaFirestore() {
             console.error("Error en la escucha de Firestore en tiempo real: ", error);
         });
     }
+}
+
+/**
+ * Dibuja un aviso flotante de éxito exclusivo para las confirmaciones de app.js
+ */
+function mostrarNotificacionExito(mensaje) {
+    const alerta = document.createElement('div');
+    alerta.style.position = 'fixed';
+    alerta.style.top = '20px';
+    alerta.style.right = '20px';
+    alerta.style.background = '#4caf50';
+    alerta.style.color = '#fff';
+    alerta.style.padding = '12px 25px';
+    alerta.style.borderRadius = '8px';
+    alerta.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+    alerta.style.zIndex = '100000';
+    alerta.style.fontWeight = 'bold';
+    alerta.innerHTML = `🎯 ${mensaje}`;
+    document.body.appendChild(alerta);
+    setTimeout(() => alerta.remove(), 3000);
 }
