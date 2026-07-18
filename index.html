@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sistema de Compras Familiar CPV</title>
+    <title>Sistema de Compras Familiar CPB</title>
     <style>
         :root {
             --primary-glow: #10b981;
@@ -57,12 +57,12 @@
         .icon-top:hover { opacity: 1; }
 
         .avatar-container {
-            width: 110px;
-            height: 110px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             border: 3px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             overflow: hidden;
             background: #2d3748;
         }
@@ -74,8 +74,8 @@
             object-position: top; 
         }
 
-        h1 { font-size: 28px; font-weight: 700; margin: 0 0 8px 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); color: #ffffff; line-height: 1.2; }
-        .subtitle { color: #e2e8f0; font-size: 14px; margin: 0 0 35px 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); max-width: 90%; }
+        h1 { font-size: 32px; font-weight: 700; margin: 0 0 12px 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); color: #ffffff; line-height: 1.2; }
+        .subtitle { color: #ffffff; font-size: 16px; margin: 0 0 35px 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); max-width: 90%; font-weight: 400; }
 
         .menu-actions { width: 100%; display: flex; flex-direction: column; gap: 14px; }
 
@@ -115,28 +115,29 @@
 </head>
 <body>
 
-    <!-- PORTAL DE ACCESO -->
+    <!-- PORTAL DE ACCESO (LOGIN) -->
     <div id="login-card" class="app-card">
-        <h1 id="txtLoginTitulo">Acceso a la familia CPV</h1>
+        <h1 id="txtLoginTitulo">Sistema de Compras<br>Familiar CPB</h1>
         <div id="txtLoginSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
-        <button id="btnLogin" class="btn-cpb" style="background: white; color: #1a202c; border-radius: 25px;">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:20px;">
+        <button id="btnLogin" class="btn-cpb" style="background: white; color: #1a202c; border-radius: 25px; padding: 16px 24px; font-size: 18px;">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:22px;">
             Continuar con Google
         </button>
     </div>
 
-    <!-- PORTAL PRINCIPAL -->
+    <!-- PORTAL PRINCIPAL (LOGUEADO) -->
     <div id="portal-card" class="app-card hidden">
         <div class="top-user-bar">
             <span id="userNameField">Cargando...</span>
             <span id="btnLogOut" class="icon-top" title="Cerrar Sesión">↪️</span>
         </div>
 
+        <!-- El círculo se mantiene intacto y arriba del título como en la captura original -->
         <div class="avatar-container">
             <img id="imgAvatar" src="perfil.jpg.jpeg" alt="Perfil Familiar">
         </div>
 
-        <h1 id="txtMainTitulo">Sistema de Compra<br>Familia CPV</h1>
+        <h1 id="txtMainTitulo">Sistema de Compras<br>Familiar CPB</h1>
         <div id="txtMainSub" class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
         
         <div class="menu-actions">
@@ -164,7 +165,7 @@
             <p style="font-size: 11px; color: #94a3b8; margin-top: -5px; text-align: center;">Acceso exclusivo de Administrador</p>
             
             <label>Nombre del Sistema</label>
-            <input type="text" id="cfgTitulo" placeholder="Sistema de Compra Familia CPV">
+            <input type="text" id="cfgTitulo" placeholder="Sistema de Compras Familiar CPB">
             
             <label>Eslogan / Letras del Subtítulo</label>
             <input type="text" id="cfgSub" placeholder="Organiza las compras de tu hogar de forma inteligente.">
@@ -204,21 +205,33 @@
         import { getFirestore, collection, addDoc, query, onSnapshot, orderBy, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-        // BLINDAJE DE SEGURIDAD ABSOLUTO
+        // SEGURIDAD EXCLUSIVA
         const ADMIN_EMAIL = "david1997basurto@gmail.com";
 
-        const firebaseConfig = { apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI", authDomain: "gestion-compras-cpb.firebaseapp.com", projectId: "gestion-compras-cpb", storageBucket: "gestion-compras-cpb.firebasestorage.app", messagingSenderId: "643471531807", appId: "1:643471531807:web:9c254668692760ea6a9a2a" };
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI", 
+            authDomain: "gestion-compras-cpb.firebaseapp.com", 
+            projectId: "gestion-compras-cpb", 
+            storageBucket: "gestion-compras-cpb.firebasestorage.app", 
+            messagingSenderId: "643471531807", 
+            appId: "1:643471531807:web:9c254668692760ea6a9a2a" 
+        };
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
         let unsubscribeSnapshot = null;
 
-        // Escucha cambios en Firebase para renderizar la interfaz personalizada
+        // Referencias de UI corregidas para romper el bucle
+        const loginCard = document.getElementById("login-card");
+        const portalCard = document.getElementById("portal-card");
+
+        // Escucha en tiempo real de Firebase
         onSnapshot(doc(db, "configuracion", "interfaz"), (docSnap) => {
             if (docSnap.exists()) {
                 const c = docSnap.data();
-                if(c.titulo) { document.getElementById("txtMainTitulo").innerHTML = c.titulo; document.getElementById("txtLoginTitulo").innerText = c.titulo; }
+                if(c.titulo) { document.getElementById("txtMainTitulo").innerHTML = c.titulo; document.getElementById("txtLoginTitulo").innerHTML = c.titulo; }
                 if(c.subtítulo) { document.getElementById("txtMainSub").innerText = c.subtítulo; document.getElementById("txtLoginSub").innerText = c.subtítulo; }
                 if(c.fondo) document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('${c.fondo}')`;
                 if(c.avatar) document.getElementById("imgAvatar").src = c.avatar;
@@ -233,12 +246,12 @@
             }
         });
 
-        // Manejo del estado de la sesión familiar
+        // Ciclo de Autenticación corregido (Rompe el bucle de renderizado)
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loginCard.classList.add("hidden");
                 portalCard.classList.remove("hidden");
-                document.getElementById("userNameField").innerText = user.displayName || "Usuario CPV";
+                document.getElementById("userNameField").innerText = user.displayName || "Usuario CPB";
                 
                 const q = query(collection(db, "compras"), orderBy("fecha", "desc"));
                 unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
@@ -261,18 +274,19 @@
         document.getElementById("btnMenuSolicitar").addEventListener("click", () => { document.getElementById("despliegue-solicitud").classList.toggle("hidden"); document.getElementById("despliegue-ajustes").classList.add("hidden"); });
         document.getElementById("btnMenuComprar").addEventListener("click", () => alert("Módulo consolidado de compras familiares."));
         
-        // RESTRICCIÓN INQUEBRANTABLE: SÓLO ACCEDE DAVID BAZURTO
+        // Control de Ajustes exclusivo
         document.getElementById("btnMenuAjustes").addEventListener("click", () => {
             const emailActivo = auth.currentUser ? auth.currentUser.email.toLowerCase() : "";
             if (emailActivo === ADMIN_EMAIL.toLowerCase()) {
                 document.getElementById("despliegue-ajustes").classList.toggle("hidden");
                 document.getElementById("despliegue-solicitud").classList.add("hidden");
             } else {
-                alert("❌ ACCESO DENEGADO: Módulo de control absoluto exclusivo para David Bazurto.");
+                alert("❌ ACCESO DENEGADO: Módulo de control absoluto exclusivo para David Basurto.");
             }
         });
 
-        // Envío de la personalización completa a Firebase
+        // Guardado de personalización en la Base de Datos
+        document.getElementById("btnAplicarChanges").removeAttribute; 
         document.getElementById("btnAplicarCambios").addEventListener("click", async () => {
             try {
                 await setDoc(doc(db, "configuracion", "interfaz"), {
@@ -289,13 +303,13 @@
                     placeholder1: document.getElementById("cfgPlaceholder1").value || null,
                     placeholder2: document.getElementById("cfgPlaceholder2").value || null
                 }, { merge: true });
-                alert("🎯 ¡Control Total! Configuración general del sistema guardada con éxito.");
+                alert("🎯 Configuración general guardada con éxito.");
             } catch (error) {
                 alert("Error de guardado: " + error.message);
             }
         });
 
-        // Registro de compras familiares
+        // Registro de Compras
         document.getElementById("btnGuardarDatos").addEventListener("click", async () => {
             const producto = document.getElementById("producto").value;
             const precio = document.getElementById("precio").value;
