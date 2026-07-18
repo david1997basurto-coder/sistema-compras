@@ -52,34 +52,40 @@
             font-weight: 600;
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
-        .top-user-bar span.user-name { color: #ffffff; margin-right: 4px; }
+        /* Separación elegante para el nombre del usuario */
+        .top-user-bar span.user-name { color: #ffffff; margin-right: 6px; }
         
-        /* ESTILO COPIADO FIELMENTE DE LA IMAGEN (CÍRCULO GRIS CON ICONO) */
+        /* Efecto premium de vidrio esmerilado para los botones superiores */
         .icon-top { 
             cursor: pointer; 
             width: 36px; 
             height: 36px; 
-            background: rgba(255, 255, 255, 0.15); 
+            background: rgba(255, 255, 255, 0.18); 
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border-radius: 50%; 
             display: inline-flex; 
             align-items: center; 
             justify-content: center; 
-            transition: background 0.2s, transform 0.1s;
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
             color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .icon-top:hover { background: rgba(255, 255, 255, 0.25); }
+        .icon-top:hover { background: rgba(255, 255, 255, 0.28); box-shadow: 0 4px 12px rgba(0,0,0,0.35); }
         .icon-top:active { transform: scale(0.95); }
         .icon-top svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
+        /* Sombra mejorada con mayor profundidad para el círculo de perfil */
         .avatar-container {
             width: 140px;
             height: 140px;
             border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
             margin-bottom: 20px;
             overflow: hidden;
             background: #2d3748;
+            transition: transform 0.3s ease;
         }
         
         .avatar-container img {
