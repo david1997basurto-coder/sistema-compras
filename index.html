@@ -89,7 +89,7 @@
         h1 { font-size: 32px; font-weight: 700; margin: 0 0 12px 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); color: #ffffff; line-height: 1.2; }
         .subtitle { color: #ffffff; font-size: 16px; margin: 0 0 35px 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); max-width: 90%; font-weight: 400; }
 
-        .menu-actions { width: 100%; display: flex; flex-direction: column; gap: 14px; }
+        .menu-actions { width: 100%; display: flex; flex-direction: column; gap: 14px; margin-bottom: 25px; }
 
         .btn-cpb {
             width: 100%;
@@ -112,50 +112,42 @@
         .btn-comprar { background-color: var(--btn-comprar); color: #2d3748; }
         .btn-ajustes { background-color: rgba(74, 85, 104, 0.9); color: white; border: 1px solid rgba(255,255,255,0.1); }
 
-        .form-box { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 20px; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; margin-top: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left; }
-        .form-box h3 { margin: 0 0 10px 0; font-size: 18px; color: #2bc48a; text-align: center;}
-        .form-box label { font-size: 12px; color: #94a3b8; font-weight: 600; margin-bottom: -6px; display: block;}
-        
-        input { width: 100%; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; box-sizing: border-box; font-size: 15px; background: rgba(255,255,255,0.05); color: white; margin-bottom: 5px; }
-        input:focus { outline: none; border-color: var(--btn-solicitar); }
-        
-        .lista-seccion { margin-top: 10px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .lista-seccion { margin-top: 15px; width: 100%; max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
         .compra-tarjeta { background: rgba(255, 255, 255, 0.08); padding: 12px; border-left: 4px solid var(--btn-solicitar); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
         .img-catalogo { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; }
         .hidden { display: none !important; }
 
-        /* ESTILOS DEL NUEVO PORTAL DE CATÁLOGO COMPLETO OVERLAY */
+        /* INTERFAZ DEL CATÁLOGO DE PANTALLA COMPLETA PREMIUM */
         .catalogo-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            z-index: 9999; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            z-index: 9999; display: flex; flex-direction: column; padding: 24px; box-sizing: border-box;
         }
         .cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
-        .cat-header h2 { margin: 0; font-size: 24px; color: #ffffff; }
+        .cat-header h2 { margin: 0; font-size: 24px; color: #ffffff; font-weight: 700; }
         .btn-cerrar-cat { background: rgba(255,255,255,0.1); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; font-weight: bold; cursor: pointer; font-size: 16px; }
         
-        /* Contenedores de Grid */
-        .grid-categorias, .grid-productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; overflow-y: auto; flex: 1; padding-bottom: 20px; }
+        .grid-categorias, .grid-productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; overflow-y: auto; flex: 1; padding-bottom: 20px; }
         @media(max-width: 360px) { .grid-categorias, .grid-productos { grid-template-columns: 1fr; } }
 
         .cat-card {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px; padding: 20px; text-align: center; cursor: pointer;
-            transition: background 0.2s, transform 0.2s; display: flex; flex-direction: column; align-items: center; gap: 8px;
+            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px; padding: 24px 16px; text-align: center; cursor: pointer;
+            transition: background 0.2s, transform 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
-        .cat-card:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
-        .cat-card .emoji { font-size: 32px; }
-        .cat-card .title { font-size: 15px; font-weight: 600; color: white; }
+        .cat-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-3px); border-color: var(--btn-solicitar); }
+        .cat-card .emoji { font-size: 36px; }
+        .cat-card .title { font-size: 16px; font-weight: 600; color: white; }
 
         .prod-card {
-            background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px; padding: 12px; text-align: center; cursor: pointer;
-            display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.2s;
+            background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px; padding: 12px; text-align: center; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 10px; transition: transform 0.2s, border-color 0.2s;
         }
-        .prod-card:hover { transform: scale(1.02); border-color: var(--btn-solicitar); }
-        .prod-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; background: #2d3748; }
-        .prod-card .name { font-size: 14px; font-weight: 600; color: #f1f5f9; }
-        .btn-volver-cat { background: #4a5568; color: white; border: none; padding: 10px 16px; border-radius: 20px; font-weight: 600; margin-bottom: 15px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; }
+        .prod-card:hover { transform: scale(1.03); border-color: var(--btn-solicitar); background: rgba(30, 41, 59, 0.9); }
+        .prod-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; background: #1e293b; }
+        .prod-card .name { font-size: 14px; font-weight: 600; color: #f1f5f9; padding: 0 4px; }
+        .btn-volver-cat { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 10px 18px; border-radius: 20px; font-weight: 600; margin-bottom: 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; backdrop-filter: blur(4px); }
     </style>
 </head>
 <body>
@@ -195,56 +187,11 @@
             <button id="btnMenuAjustes" class="btn-cpb btn-ajustes">⚙️ Ajustes del Sistema</button>
         </div>
 
-        <!-- MÓDULO SOLICITAR COMPRA REFACTORIZADO CON PRE-LLENADO -->
-        <div id="despliegue-solicitud" class="form-box hidden">
-            <h3 id="lblSolTitulo">Nueva Solicitud</h3>
-            <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:5px;">
-                <label>Producto</label>
-                <button id="btnAbrirCatalogo" style="background:var(--btn-solicitar); border:none; color:white; font-size:11px; padding:4px 8px; border-radius:12px; cursor:pointer; font-weight:bold;">📦 Abrir Catálogo</button>
-            </div>
-            <input type="text" id="producto" placeholder="Nombre del producto o use el catálogo">
-            <label>Precio</label>
-            <input type="number" id="precio" placeholder="Precio ($)">
-            <label>Link de Foto</label>
-            <input type="text" id="fotoUrl" placeholder="Link del catálogo (Opcional)">
-            <button id="btnGuardarDatos" class="btn-cpb btn-solicitar" style="padding: 10px; margin-top: 10px;">Enviar Solicitud</button>
-            <div class="lista-seccion"><div id="historialCompras"></div></div>
-        </div>
-
-        <!-- PANEL DE CONTROL TOTAL EXCLUSIVO (DAVID BAZURTO) -->
-        <div id="despliegue-ajustes" class="form-box hidden" style="max-height: 400px; overflow-y: auto;">
-            <h3 style="color: #f59e0b;">🛠️ Panel de Control Total</h3>
-            <p style="font-size: 11px; color: #94a3b8; margin-top: -5px; text-align: center;">Acceso exclusivo de Administrador</p>
-            
-            <label>Nombre del Sistema</label>
-            <input type="text" id="cfgTitulo" placeholder="Sistema de Compras Familiar CPB">
-            <label>Eslogan / Letras del Subtítulo</label>
-            <input type="text" id="cfgSub" placeholder="Organiza las compras de tu hogar de forma inteligente.">
-            <label>Foto de Portada (Fondo)</label>
-            <input type="text" id="cfgFondo" placeholder="foto_familiar.jpg.jpeg">
-            <label>Foto dentro del Círculo (Avatar)</label>
-            <input type="text" id="cfgAvatar" placeholder="perfil.jpg.jpeg">
-            <label>Botón 1 (Texto e Icono)</label>
-            <input type="text" id="cfgBtn1Text" placeholder="🛒 Solicitar Compra">
-            <label>Color Botón 1 (Hexadecimal)</label>
-            <input type="text" id="cfgBtn1Color" placeholder="#2bc48a">
-            <label>Botón 2 (Texto e Icono)</label>
-            <input type="text" id="cfgBtn2Text" placeholder="✔️ Comprar Ahora">
-            <label>Color Botón 2 (Hexadecimal)</label>
-            <input type="text" id="cfgBtn2Color" placeholder="#e2e8f0">
-            <label>Botón 3 (Texto e Icono)</label>
-            <input type="text" id="cfgBtn3Text" placeholder="⚙️ Ajustes del Sistema">
-            <label>Color Botón 3 (Hexadecimal)</label>
-            <input type="text" id="cfgBtn3Color" placeholder="#4a5568">
-            <label>Contenido interno: Guía Campo Producto</label>
-            <input type="text" id="cfgPlaceholder1" placeholder="Nombre del producto">
-            <label>Contenido interno: Guía Campo Precio</label>
-            <input type="text" id="cfgPlaceholder2" placeholder="Precio ($)">
-            <button id="btnAplicarCambios" class="btn-cpb" style="padding: 10px; margin-top: 15px; background:#10b981; color: white;">Guardar Cambios Globales</button>
-        </div>
+        <!-- SECCIÓN DE SEGUIMIENTO HISTÓRICO VISIBLE EN EL PANEL PRINCIPAL -->
+        <div class="lista-seccion"><div id="historialCompras"></div></div>
     </div>
 
-    <!-- PANTALLA COMPLETA: CATÁLOGO DIGITAL INTELIGENTE ECUADOR -->
+    <!-- PANTALLA COMPLETA DE INMEDIATO: CATÁLOGO CON FOTOGRAFÍAS REALES -->
     <div id="catalogo-screen" class="catalogo-overlay hidden">
         <div class="cat-header">
             <h2 id="catalogo-titulo">Catálogo Familiar</h2>
@@ -253,7 +200,7 @@
         
         <button id="btnVolverCategorias" class="btn-volver-cat hidden">← Volver a Categorías</button>
 
-        <!-- Vista 1: Categorías Disponibles -->
+        <!-- Vista de Categorías -->
         <div id="box-categorias" class="grid-categorias">
             <div class="cat-card" onclick="cargarProductos('frutas')"><span class="emoji">🥝</span><span class="title">Frutas</span></div>
             <div class="cat-card" onclick="cargarProductos('verduras')"><span class="emoji">🥦</span><span class="title">Verduras y Legumbres</span></div>
@@ -263,13 +210,13 @@
             <div class="cat-card" onclick="cargarProductos('aseo')"><span class="emoji">🧹</span><span class="title">Aseo y Limpieza</span></div>
         </div>
 
-        <!-- Vista 2: Productos de la Categoría -->
+        <!-- Vista de Productos con Imágenes Reales -->
         <div id="box-productos" class="grid-productos hidden"></div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, query, onSnapshot, orderBy, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, orderBy, doc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
         const ADMIN_EMAIL = "david1997basurto@gmail.com";
@@ -289,53 +236,53 @@
         const provider = new GoogleAuthProvider();
         let unsubscribeSnapshot = null;
 
-        // BASE DE DATOS LOCAL DEL CATÁLOGO (OPTIMIZADO PARA ECUADOR)
+        // DICCIONARIO RECONSTRUIDO CON FOTOGRAFÍAS REALES Y DE ALTA DEFINICIÓN
         const baseCatálago = {
             frutas: [
-                { name: "Tomate de Árbol", img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?w=150" },
-                { name: "Guineo / Plátano", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=150" },
-                { name: "Frutillas", img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=150" },
-                { name: "Piña", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=150" },
-                { name: "Naranjas", img: "https://images.unsplash.com/photo-1547514701-42782101795e?w=150" },
-                { name: "Maracuyá", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?w=150" }
+                { name: "Tomate de Árbol", img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=250&q=80" },
+                { name: "Guineo / Plátano", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=250&q=80" },
+                { name: "Frutillas", img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" },
+                { name: "Piña", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
+                { name: "Naranjas", img: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=250&q=80" },
+                { name: "Maracuyá", img: "https://images.unsplash.com/photo-1619472714243-7bb0d1951f43?auto=format&fit=crop&w=250&q=80" }
             ],
             verduras: [
-                { name: "Tomate Riñón", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?w=150" },
-                { name: "Cebolla Paiteña", img: "https://images.unsplash.com/photo-1618519764620-7403abdbfee9?w=150" },
-                { name: "Pimiento Verde", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=150" },
-                { name: "Papa Chola", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=150" },
-                { name: "Zanahoria", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=150" },
-                { name: "Lechuga", img: "https://images.unsplash.com/photo-1622484211148-716598e0db01?w=150" }
+                { name: "Tomate Riñón", img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=250&q=80" },
+                { name: "Cebolla Paiteña", img: "https://images.unsplash.com/photo-1618519764620-7403abdbfee9?auto=format&fit=crop&w=250&q=80" },
+                { name: "Pimiento Verde", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=250&q=80" },
+                { name: "Papa Chola", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
+                { name: "Zanahoria", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+                { name: "Lechuga", img: "https://images.unsplash.com/photo-1622484211148-716598e0db01?auto=format&fit=crop&w=250&q=80" }
             ],
             lacteos: [
-                { name: "Leche Entera", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=150" },
-                { name: "Queso Criollo / Mesa", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?w=150" },
-                { name: "Yogurt", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=150" },
-                { name: "Mantequilla", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=150" },
-                { name: "Cubeta de Huevos", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?w=150" }
+                { name: "Leche Entera", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=250&q=80" },
+                { name: "Queso Criollo / Mesa", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?auto=format&fit=crop&w=250&q=80" },
+                { name: "Yogurt", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=250&q=80" },
+                { name: "Mantequilla", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=250&q=80" },
+                { name: "Cubeta de Huevos", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=250&q=80" }
             ],
             bebidas: [
-                { name: "Agua Mineral / Sin gas", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?w=150" },
-                { name: "Jugos de cartón", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=150" },
-                { name: "Gaseosas", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=150" },
-                { name: "Café Soluble", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=150" }
+                { name: "Agua Mineral / Sin gas", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?auto=format&fit=crop&w=250&q=80" },
+                { name: "Jugos de cartón", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=250&q=80" },
+                { name: "Gaseosas", img: "https://images.unsplash.com/photo-1543257580-7269da773bf5?auto=format&fit=crop&w=250&q=80" },
+                { name: "Café Soluble", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=250&q=80" }
             ],
             salud: [
-                { name: "Jabón de Tocador", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?w=150" },
-                { name: "Champú", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=150" },
-                { name: "Crema Dental", img: "https://images.unsplash.com/photo-1559591937-e6b368fe7444?w=150" },
-                { name: "Papel Higiénico", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=150" }
+                { name: "Jabón de Tocador", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?auto=format&fit=crop&w=250&q=80" },
+                { name: "Champú", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=250&q=80" },
+                { name: "Crema Dental", img: "https://images.unsplash.com/photo-1559591937-e6b368fe7444?auto=format&fit=crop&w=250&q=80" },
+                { name: "Papel Higiénico", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=250&q=80" }
             ],
             aseo: [
-                { name: "Detergente para Ropa (Deja)", img: "https://images.unsplash.com/photo-1610557892470-55d9e80e0bce?w=150" },
-                { name: "Pinoclin / Desinfectante", img: "https://images.unsplash.com/photo-1563453392-403530584df5?w=150" },
-                { name: "Aromatell", img: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=150" },
-                { name: "Suavizante de Ropa", img: "https://images.unsplash.com/photo-1610557892470-55d9e80e0bce?w=150" },
-                { name: "Jabón de Ropa en Barra", img: "https://images.unsplash.com/photo-1590502593747-42a996133562?w=150" },
-                { name: "Lavavajillas (Líquido/Pasta)", img: "https://images.unsplash.com/photo-1585832770485-e68a5dbfad52?w=150" },
-                { name: "Trapeador para el Piso", img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?w=150" },
-                { name: "Esponja para Platos", img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?w=150" },
-                { name: "Escoba para Barrer", img: "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?w=150" }
+                { name: "Detergente para Ropa (Deja)", img: "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=250&q=80" },
+                { name: "Pinoclin / Desinfectante", img: "https://images.unsplash.com/photo-1563453392-403530584df5?auto=format&fit=crop&w=250&q=80" },
+                { name: "Aromatell", img: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=250&q=80" },
+                { name: "Suavizante de Ropa", img: "https://images.unsplash.com/photo-1610557892470-55d9e80e0bce?auto=format&fit=crop&w=250&q=80" },
+                { name: "Jabón de Ropa en Barra", img: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=250&q=80" },
+                { name: "Lavavajillas (Líquido/Pasta)", img: "https://images.unsplash.com/photo-1585832770485-e68a5dbfad52?auto=format&fit=crop&w=250&q=80" },
+                { name: "Trapeador para el Piso", img: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=250&q=80" },
+                { name: "Esponja para Platos", img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&w=250&q=80" },
+                { name: "Escoba para Barrer", img: "https://images.unsplash.com/photo-1562259920-2da33a042940?auto=format&fit=crop&w=250&q=80" }
             ]
         };
 
@@ -353,17 +300,27 @@
             boxProductos.innerHTML = "";
             baseCatálago[categoria].forEach(p => {
                 boxProductos.innerHTML += `
-                    <div class="prod-card" onclick="seleccionarProducto('${p.name}', '${p.img}')">
+                    <div class="prod-card" onclick="enviarSolicitudDirecta('${p.name}', '${p.img}')">
                         <img src="${p.img}" alt="${p.name}">
                         <div class="name">${p.name}</div>
                     </div>`;
             });
         }
 
-        window.seleccionarProducto = function(nombre, img) {
-            document.getElementById("producto").value = nombre;
-            document.getElementById("fotoUrl").value = img;
-            cerrarElCatalogo();
+        window.enviarSolicitudDirecta = async function(nombre, img) {
+            try {
+                await addDoc(collection(db, "compras"), {
+                    nombre: nombre,
+                    monto: 0, 
+                    foto: img,
+                    fecha: new Date(),
+                    usuario: auth.currentUser.email
+                });
+                alert("🎯 Solicitud enviada con éxito.");
+                cerrarElCatalogo();
+            } catch (e) {
+                alert("Error al enviar solicitud: " + e.message);
+            }
         }
 
         function cerrarElCatalogo() {
@@ -378,14 +335,14 @@
             document.getElementById("btnVolverCategorias").classList.add("hidden");
         }
 
-        document.getElementById("btnAbrirCatalogo").addEventListener("click", () => {
+        document.getElementById("btnMenuSolicitar").addEventListener("click", () => {
             document.getElementById("catalogo-screen").classList.remove("hidden");
         });
         document.getElementById("btnCerrarCatalogo").addEventListener("click", cerrarElCatalogo);
         document.getElementById("btnVolverCategorias").addEventListener("click", resetearVistaCatalogo);
 
 
-        // --- LÓGICA DE FIREBASE INTACTA ---
+        // --- LÓGICA DE FIREBASE ---
         const loginCard = document.getElementById("login-card");
         const portalCard = document.getElementById("portal-card");
 
@@ -402,8 +359,6 @@
                 if(c.btn2Color) document.getElementById("btnMenuComprar").style.backgroundColor = c.btn2Color;
                 if(c.btn3Text) document.getElementById("btnMenuAjustes").innerText = c.btn3Text;
                 if(c.btn3Color) document.getElementById("btnMenuAjustes").style.backgroundColor = c.btn3Color;
-                if(c.placeholder1) document.getElementById("producto").placeholder = c.placeholder1;
-                if(c.placeholder2) document.getElementById("precio").placeholder = c.placeholder2;
             }
         });
 
@@ -446,46 +401,16 @@
         }
 
         document.getElementById("btnLogin").addEventListener("click", () => signInWithPopup(auth, provider));
-        document.getElementById("btnLogOut").addEventListener("click", () => { signOut(auth); document.getElementById("despliegue-solicitud").classList.add("hidden"); document.getElementById("despliegue-ajustes").classList.add("hidden"); });
-        document.getElementById("btnMenuSolicitar").addEventListener("click", () => { document.getElementById("despliegue-solicitud").classList.toggle("hidden"); document.getElementById("despliegue-ajustes").classList.add("hidden"); });
+        document.getElementById("btnLogOut").addEventListener("click", () => { signOut(auth); });
         document.getElementById("btnMenuComprar").addEventListener("click", () => alert("Módulo consolidado de compras familiares."));
         
         document.getElementById("btnMenuAjustes").addEventListener("click", () => {
             const emailActivo = auth.currentUser ? auth.currentUser.email.toLowerCase() : "";
             if (emailActivo === ADMIN_EMAIL.toLowerCase()) {
-                document.getElementById("despliegue-ajustes").classList.toggle("hidden");
-                document.getElementById("despliegue-solicitud").classList.add("hidden");
+                alert("⚙️ El panel dinámico de control se administra directamente desde la base de datos de Firebase para máxima seguridad.");
             } else {
-                alert("❌ ACCESO DENEGADO: Módulo de control absoluto exclusivo para David Basurto.");
+                alert("❌ ACCESO DENEGADO: Módulo de control absoluto exclusivo para el Administrador.");
             }
-        });
-
-        document.getElementById("btnAplicarCambios").addEventListener("click", async () => {
-            try {
-                await setDoc(doc(db, "configuracion", "interfaz"), {
-                    titulo: document.getElementById("cfgTitulo").value || null,
-                    subtítulo: document.getElementById("cfgSub").value || null,
-                    fondo: document.getElementById("cfgFondo").value || null,
-                    avatar: document.getElementById("cfgAvatar").value || null,
-                    btn1Text: document.getElementById("cfgBtn1Text").value || null,
-                    btn1Color: document.getElementById("cfgBtn1Color").value || null,
-                    btn2Text: document.getElementById("cfgBtn2Text").value || null,
-                    btn2Color: document.getElementById("cfgBtn2Color").value || null,
-                    btn3Text: document.getElementById("cfgBtn3Text").value || null,
-                    btn3Color: document.getElementById("cfgBtn3Color").value || null,
-                    placeholder1: document.getElementById("cfgPlaceholder1").value || null,
-                    placeholder2: document.getElementById("cfgPlaceholder2").value || null
-                }, { merge: true });
-                alert("🎯 Configuración general guardada con éxito.");
-            } catch (error) { alert("Error de guardado: " + error.message); }
-        });
-
-        document.getElementById("btnGuardarDatos").addEventListener("click", async () => {
-            const producto = document.getElementById("producto").value;
-            const precio = document.getElementById("precio").value;
-            const fotoUrl = document.getElementById("fotoUrl").value || "https://via.placeholder.com/150";
-            if(!producto || !precio) return alert("Complete los campos obligatorios.");
-            try { await addDoc(collection(db, "compras"), { nombre: producto, monto: Number(precio), foto: fotoUrl, fecha: new Date(), usuario: auth.currentUser.email }); document.getElementById("producto").value = ""; document.getElementById("precio").value = ""; document.getElementById("fotoUrl").value = ""; } catch (e) { alert("Error: " + e.message); }
         });
     </script>
 </body>
