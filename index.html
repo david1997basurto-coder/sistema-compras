@@ -52,10 +52,8 @@
             font-weight: 600;
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
-        /* Separación elegante para el nombre del usuario */
         .top-user-bar span.user-name { color: #ffffff; margin-right: 6px; }
         
-        /* Efecto premium de vidrio esmerilado para los botones superiores */
         .icon-top { 
             cursor: pointer; 
             width: 36px; 
@@ -75,7 +73,6 @@
         .icon-top:active { transform: scale(0.95); }
         .icon-top svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-        /* Sombra mejorada con mayor profundidad para el círculo de perfil */
         .avatar-container {
             width: 140px;
             height: 140px;
@@ -85,15 +82,9 @@
             margin-bottom: 20px;
             overflow: hidden;
             background: #2d3748;
-            transition: transform 0.3s ease;
         }
         
-        .avatar-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top; 
-        }
+        .avatar-container img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 
         h1 { font-size: 32px; font-weight: 700; margin: 0 0 12px 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); color: #ffffff; line-height: 1.2; }
         .subtitle { color: #ffffff; font-size: 16px; margin: 0 0 35px 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); max-width: 90%; font-weight: 400; }
@@ -132,6 +123,39 @@
         .compra-tarjeta { background: rgba(255, 255, 255, 0.08); padding: 12px; border-left: 4px solid var(--btn-solicitar); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
         .img-catalogo { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; }
         .hidden { display: none !important; }
+
+        /* ESTILOS DEL NUEVO PORTAL DE CATÁLOGO COMPLETO OVERLAY */
+        .catalogo-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 9999; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box;
+        }
+        .cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
+        .cat-header h2 { margin: 0; font-size: 24px; color: #ffffff; }
+        .btn-cerrar-cat { background: rgba(255,255,255,0.1); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; font-weight: bold; cursor: pointer; font-size: 16px; }
+        
+        /* Contenedores de Grid */
+        .grid-categorias, .grid-productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; overflow-y: auto; flex: 1; padding-bottom: 20px; }
+        @media(max-width: 360px) { .grid-categorias, .grid-productos { grid-template-columns: 1fr; } }
+
+        .cat-card {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px; padding: 20px; text-align: center; cursor: pointer;
+            transition: background 0.2s, transform 0.2s; display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .cat-card:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+        .cat-card .emoji { font-size: 32px; }
+        .cat-card .title { font-size: 15px; font-weight: 600; color: white; }
+
+        .prod-card {
+            background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px; padding: 12px; text-align: center; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.2s;
+        }
+        .prod-card:hover { transform: scale(1.02); border-color: var(--btn-solicitar); }
+        .prod-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; background: #2d3748; }
+        .prod-card .name { font-size: 14px; font-weight: 600; color: #f1f5f9; }
+        .btn-volver-cat { background: #4a5568; color: white; border: none; padding: 10px 16px; border-radius: 20px; font-weight: 600; margin-bottom: 15px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; }
     </style>
 </head>
 <body>
@@ -150,17 +174,11 @@
     <div id="portal-card" class="app-card hidden">
         <div class="top-user-bar">
             <span id="userNameField" class="user-name">Cargando...</span>
-            
-            <!-- BOTÓN DE COMPARTIR SITIO FAMILIAR -->
             <span id="btnShareUrl" class="icon-top" title="Compartir Sitio Familiar">
                 <svg viewBox="0 0 24 24" style="fill: currentColor; stroke: none;"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
             </span>
-            
-            <!-- BOTÓN EXACTO DE CERRAR SESIÓN DE LA IMAGEN ([→) -->
             <span id="btnLogOut" class="icon-top" title="Cerrar Sesión">
-                <svg viewBox="0 0 24 24">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
-                </svg>
+                <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
             </span>
         </div>
 
@@ -177,11 +195,14 @@
             <button id="btnMenuAjustes" class="btn-cpb btn-ajustes">⚙️ Ajustes del Sistema</button>
         </div>
 
-        <!-- MÓDULO SOLICITAR COMPRA -->
+        <!-- MÓDULO SOLICITAR COMPRA REFACTORIZADO CON PRE-LLENADO -->
         <div id="despliegue-solicitud" class="form-box hidden">
             <h3 id="lblSolTitulo">Nueva Solicitud</h3>
-            <label>Producto</label>
-            <input type="text" id="producto" placeholder="Nombre del producto">
+            <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:5px;">
+                <label>Producto</label>
+                <button id="btnAbrirCatalogo" style="background:var(--btn-solicitar); border:none; color:white; font-size:11px; padding:4px 8px; border-radius:12px; cursor:pointer; font-weight:bold;">📦 Abrir Catálogo</button>
+            </div>
+            <input type="text" id="producto" placeholder="Nombre del producto o use el catálogo">
             <label>Precio</label>
             <input type="number" id="precio" placeholder="Precio ($)">
             <label>Link de Foto</label>
@@ -197,38 +218,53 @@
             
             <label>Nombre del Sistema</label>
             <input type="text" id="cfgTitulo" placeholder="Sistema de Compras Familiar CPB">
-            
             <label>Eslogan / Letras del Subtítulo</label>
             <input type="text" id="cfgSub" placeholder="Organiza las compras de tu hogar de forma inteligente.">
-            
             <label>Foto de Portada (Fondo)</label>
             <input type="text" id="cfgFondo" placeholder="foto_familiar.jpg.jpeg">
-            
             <label>Foto dentro del Círculo (Avatar)</label>
             <input type="text" id="cfgAvatar" placeholder="perfil.jpg.jpeg">
-
             <label>Botón 1 (Texto e Icono)</label>
             <input type="text" id="cfgBtn1Text" placeholder="🛒 Solicitar Compra">
             <label>Color Botón 1 (Hexadecimal)</label>
             <input type="text" id="cfgBtn1Color" placeholder="#2bc48a">
-
             <label>Botón 2 (Texto e Icono)</label>
             <input type="text" id="cfgBtn2Text" placeholder="✔️ Comprar Ahora">
             <label>Color Botón 2 (Hexadecimal)</label>
             <input type="text" id="cfgBtn2Color" placeholder="#e2e8f0">
-            
             <label>Botón 3 (Texto e Icono)</label>
             <input type="text" id="cfgBtn3Text" placeholder="⚙️ Ajustes del Sistema">
             <label>Color Botón 3 (Hexadecimal)</label>
             <input type="text" id="cfgBtn3Color" placeholder="#4a5568">
-
             <label>Contenido interno: Guía Campo Producto</label>
             <input type="text" id="cfgPlaceholder1" placeholder="Nombre del producto">
             <label>Contenido interno: Guía Campo Precio</label>
             <input type="text" id="cfgPlaceholder2" placeholder="Precio ($)">
-
             <button id="btnAplicarCambios" class="btn-cpb" style="padding: 10px; margin-top: 15px; background:#10b981; color: white;">Guardar Cambios Globales</button>
         </div>
+    </div>
+
+    <!-- PANTALLA COMPLETA: CATÁLOGO DIGITAL INTELIGENTE ECUADOR -->
+    <div id="catalogo-screen" class="catalogo-overlay hidden">
+        <div class="cat-header">
+            <h2 id="catalogo-titulo">Catálogo Familiar</h2>
+            <button id="btnCerrarCatalogo" class="btn-cerrar-cat">✕</button>
+        </div>
+        
+        <button id="btnVolverCategorias" class="btn-volver-cat hidden">← Volver a Categorías</button>
+
+        <!-- Vista 1: Categorías Disponibles -->
+        <div id="box-categorias" class="grid-categorias">
+            <div class="cat-card" onclick="cargarProductos('frutas')"><span class="emoji">🥝</span><span class="title">Frutas</span></div>
+            <div class="cat-card" onclick="cargarProductos('verduras')"><span class="emoji">🥦</span><span class="title">Verduras y Legumbres</span></div>
+            <div class="cat-card" onclick="cargarProductos('lacteos')"><span class="emoji">🥛</span><span class="title">Lácteos y Huevos</span></div>
+            <div class="cat-card" onclick="cargarProductos('bebidas')"><span class="emoji">🥤</span><span class="title">Bebidas y Jugos</span></div>
+            <div class="cat-card" onclick="cargarProductos('salud')"><span class="emoji">🧼</span><span class="title">Salud y Bienestar</span></div>
+            <div class="cat-card" onclick="cargarProductos('aseo')"><span class="emoji">🧹</span><span class="title">Aseo y Limpieza</span></div>
+        </div>
+
+        <!-- Vista 2: Productos de la Categoría -->
+        <div id="box-productos" class="grid-productos hidden"></div>
     </div>
 
     <script type="module">
@@ -253,6 +289,103 @@
         const provider = new GoogleAuthProvider();
         let unsubscribeSnapshot = null;
 
+        // BASE DE DATOS LOCAL DEL CATÁLOGO (OPTIMIZADO PARA ECUADOR)
+        const baseCatálago = {
+            frutas: [
+                { name: "Tomate de Árbol", img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?w=150" },
+                { name: "Guineo / Plátano", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=150" },
+                { name: "Frutillas", img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=150" },
+                { name: "Piña", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=150" },
+                { name: "Naranjas", img: "https://images.unsplash.com/photo-1547514701-42782101795e?w=150" },
+                { name: "Maracuyá", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?w=150" }
+            ],
+            verduras: [
+                { name: "Tomate Riñón", img: "https://images.unsplash.com/photo-1595855759920-86582396756a?w=150" },
+                { name: "Cebolla Paiteña", img: "https://images.unsplash.com/photo-1618519764620-7403abdbfee9?w=150" },
+                { name: "Pimiento Verde", img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=150" },
+                { name: "Papa Chola", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=150" },
+                { name: "Zanahoria", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=150" },
+                { name: "Lechuga", img: "https://images.unsplash.com/photo-1622484211148-716598e0db01?w=150" }
+            ],
+            lacteos: [
+                { name: "Leche Entera", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=150" },
+                { name: "Queso Criollo / Mesa", img: "https://images.unsplash.com/photo-1528750955925-53f5a3ce4d06?w=150" },
+                { name: "Yogurt", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=150" },
+                { name: "Mantequilla", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=150" },
+                { name: "Cubeta de Huevos", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?w=150" }
+            ],
+            bebidas: [
+                { name: "Agua Mineral / Sin gas", img: "https://images.unsplash.com/photo-1608885898957-a599ff15671f?w=150" },
+                { name: "Jugos de cartón", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=150" },
+                { name: "Gaseosas", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=150" },
+                { name: "Café Soluble", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=150" }
+            ],
+            salud: [
+                { name: "Jabón de Tocador", img: "https://images.unsplash.com/photo-1607006342456-ba275cd34840?w=150" },
+                { name: "Champú", img: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=150" },
+                { name: "Crema Dental", img: "https://images.unsplash.com/photo-1559591937-e6b368fe7444?w=150" },
+                { name: "Papel Higiénico", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=150" }
+            ],
+            aseo: [
+                { name: "Detergente para Ropa (Deja)", img: "https://images.unsplash.com/photo-1610557892470-55d9e80e0bce?w=150" },
+                { name: "Pinoclin / Desinfectante", img: "https://images.unsplash.com/photo-1563453392-403530584df5?w=150" },
+                { name: "Aromatell", img: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=150" },
+                { name: "Suavizante de Ropa", img: "https://images.unsplash.com/photo-1610557892470-55d9e80e0bce?w=150" },
+                { name: "Jabón de Ropa en Barra", img: "https://images.unsplash.com/photo-1590502593747-42a996133562?w=150" },
+                { name: "Lavavajillas (Líquido/Pasta)", img: "https://images.unsplash.com/photo-1585832770485-e68a5dbfad52?w=150" },
+                { name: "Trapeador para el Piso", img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?w=150" },
+                { name: "Esponja para Platos", img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?w=150" },
+                { name: "Escoba para Barrer", img: "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?w=150" }
+            ]
+        };
+
+        window.cargarProductos = function(categoria) {
+            const titulo = document.getElementById("catalogo-titulo");
+            const boxCategorias = document.getElementById("box-categorias");
+            const boxProductos = document.getElementById("box-productos");
+            const btnVolver = document.getElementById("btnVolverCategorias");
+
+            titulo.innerText = categoria.toUpperCase();
+            boxCategorias.classList.add("hidden");
+            boxProductos.classList.remove("hidden");
+            btnVolver.classList.remove("hidden");
+
+            boxProductos.innerHTML = "";
+            baseCatálago[categoria].forEach(p => {
+                boxProductos.innerHTML += `
+                    <div class="prod-card" onclick="seleccionarProducto('${p.name}', '${p.img}')">
+                        <img src="${p.img}" alt="${p.name}">
+                        <div class="name">${p.name}</div>
+                    </div>`;
+            });
+        }
+
+        window.seleccionarProducto = function(nombre, img) {
+            document.getElementById("producto").value = nombre;
+            document.getElementById("fotoUrl").value = img;
+            cerrarElCatalogo();
+        }
+
+        function cerrarElCatalogo() {
+            document.getElementById("catalogo-screen").classList.add("hidden");
+            resetearVistaCatalogo();
+        }
+
+        function resetearVistaCatalogo() {
+            document.getElementById("catalogo-titulo").innerText = "Catálogo Familiar";
+            document.getElementById("box-categorias").classList.remove("hidden");
+            document.getElementById("box-productos").classList.add("hidden");
+            document.getElementById("btnVolverCategorias").classList.add("hidden");
+        }
+
+        document.getElementById("btnAbrirCatalogo").addEventListener("click", () => {
+            document.getElementById("catalogo-screen").classList.remove("hidden");
+        });
+        document.getElementById("btnCerrarCatalogo").addEventListener("click", cerrarElCatalogo);
+        document.getElementById("btnVolverCategorias").addEventListener("click", resetearVistaCatalogo);
+
+
+        // --- LÓGICA DE FIREBASE INTACTA ---
         const loginCard = document.getElementById("login-card");
         const portalCard = document.getElementById("portal-card");
 
@@ -302,16 +435,9 @@
                 text: 'Hola familia, les comparto el enlace de nuestro sistema de compras para organizar el hogar.',
                 url: window.location.href
             };
-
             if (navigator.share) {
-                try {
-                    await navigator.share(shareData);
-                } catch (err) {
-                    abrirWhatsApp(shareData.text, shareData.url);
-                }
-            } else {
-                abrirWhatsApp(shareData.text, shareData.url);
-            }
+                try { await navigator.share(shareData); } catch (err) { abrirWhatsApp(shareData.text, shareData.url); }
+            } else { abrirWhatsApp(shareData.text, shareData.url); }
         });
 
         function abrirWhatsApp(text, url) {
@@ -351,9 +477,7 @@
                     placeholder2: document.getElementById("cfgPlaceholder2").value || null
                 }, { merge: true });
                 alert("🎯 Configuración general guardada con éxito.");
-            } catch (error) {
-                alert("Error de guardado: " + error.message);
-            }
+            } catch (error) { alert("Error de guardado: " + error.message); }
         });
 
         document.getElementById("btnGuardarDatos").addEventListener("click", async () => {
