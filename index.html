@@ -199,10 +199,10 @@ align-items: center; justify-content: center; gap: 8px; min-height: 108px; box-s
 .bg-papeleria   { background-color: #2e363b; }
 .bg-mascotas    { background-color: #332d2b; }
 
-/* GRID DE PRODUCTOS MINIMALISTA COMPACTO */
+/* GRID DE PRODUCTOS MINIMALISTA COMPACTO MEJORADO */
 .grid-productos { 
 display: grid; 
-grid-template-columns: repeat(3, 1fr); 
+grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); 
 gap: 10px; 
 padding-top: 14px; 
 }
@@ -212,15 +212,15 @@ border: 1px solid #2d2d35;
 border-radius: 14px; 
 padding: 8px; 
 text-align: center; 
-cursor: pointer;
 display: flex; 
 flex-direction: column; 
 align-items: center; 
+justify-content: space-between;
 gap: 6px; 
 transition: transform 0.1s;
 box-sizing: border-box;
+min-height: 210px;
 }
-.prod-card:active { transform: scale(0.95); }
 .prod-card img { 
 width: 100%; 
 aspect-ratio: 1 / 1; 
@@ -230,7 +230,7 @@ background: #232329;
 }
 .prod-card .name { 
 font-size: 11px; 
-font-weight: 500; 
+font-weight: 600; 
 color: #e4e4e7; 
 line-height: 1.25; 
 text-align: center;
@@ -238,7 +238,18 @@ display: -webkit-box;
 -webkit-line-clamp: 2; 
 -webkit-box-orient: vertical; 
 overflow: hidden; 
-min-height: 28px; 
+padding: 0 2px;
+}
+.prod-card .desc {
+font-size: 9.5px;
+color: #a1a1aa;
+line-height: 1.2;
+text-align: center;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow: hidden;
+margin-top: 2px;
 padding: 0 2px;
 }
 
@@ -385,26 +396,80 @@ let unsubscribeSnapshot = null;
 // --- BASE DE DATOS MASIVA Y REAL DEL MERCADO ECUATORIANO ---
 const baseCatálago = {
 frutas_verduras: [
-{ name: "Tomate Riñón", img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=250&q=80" },
-{ name: "Cebolla Paiteña", img: "https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=250&q=80" },
-{ name: "Papa Chola", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
-{ name: "Zanahoria Amarilla", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
-{ name: "Plátano Verde (Barraganete)", img: "https://images.unsplash.com/photo-1566393028639-d108a42c46a7?auto=format&fit=crop&w=250&q=80" },
-{ name: "Plátano Maduro", img: "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=250&q=80" },
-{ name: "Limón Sutil", img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
-{ name: "Aguacate Criollo", img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
-{ name: "Piña Golden", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
-{ name: "Maracuyá", img: "https://images.unsplash.com/photo-1534432194684-44931a37c814?auto=format&fit=crop&w=250&q=80" },
-{ name: "Yuca", img: "https://images.unsplash.com/photo-1590005354167-6da97870c913?auto=format&fit=crop&w=250&q=80" },
-{ name: "Cebolla Blanca Larga", img: "https://images.unsplash.com/photo-1514517604298-cf80e0fb7f1e?auto=format&fit=crop&w=250&q=80" },
-{ name: "Pimiento Verde", img: "https://images.unsplash.com/photo-1563565042-432a588b3687?auto=format&fit=crop&w=250&q=80" },
-{ name: "Choclo Tierno", img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
-{ name: "Yerbita / Cilantro", img: "https://images.unsplash.com/photo-1614882894176-bf1059f1be0c?auto=format&fit=crop&w=250&q=80" },
-{ name: "Brócoli", img: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=250&q=80" },
-{ name: "Tomate de Árbol", img: "https://images.unsplash.com/photo-1610450914442-99a224ef4da2?auto=format&fit=crop&w=250&q=80" },
-{ name: "Naranjilla", img: "https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&w=250&q=80" },
-{ name: "Frutillas", img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" },
-{ name: "Papaya", img: "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=250&q=80" }
+    { name: "Banano (Guineo)", desc: "Base de la exportación y dieta nacional.", price: 0.10, img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Plátano Verde (Barraganete)", desc: "Esencial para bolones, tigrillos y caldos.", price: 0.25, img: "https://images.unsplash.com/photo-1566393028639-d108a42c46a7?auto=format&fit=crop&w=250&q=80" },
+    { name: "Plátano Maduro", desc: "Consumido frito, asado o en repostería.", price: 0.25, img: "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=250&q=80" },
+    { name: "Orito", desc: "Banano pequeño y muy dulce.", price: 0.15, img: "https://images.unsplash.com/photo-1543218024-57a70143c369?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mango", desc: "En variedades como de chupó, de canela o de manga.", price: 0.50, img: "https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=250&q=80" },
+    { name: "Piña Golden", desc: "Principalmente la variedad Golden.", price: 1.50, img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
+    { name: "Papaya", desc: "Consumida en jugos o porciones matutinas.", price: 1.20, img: "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=250&q=80" },
+    { name: "Sandía", desc: "Muy popular en las zonas costeras.", price: 2.50, img: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=250&q=80" },
+    { name: "Melón", desc: "Variedades cantalupo y esmeralda.", price: 1.30, img: "https://images.unsplash.com/photo-1571506191605-e366da669ba2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Maracuyá", desc: "Conocida como \"la fruta de la pasión\", usada para jugos y salsas.", price: 0.35, img: "https://images.unsplash.com/photo-1534432194684-44931a37c814?auto=format&fit=crop&w=250&q=80" },
+    { name: "Guayaba", desc: "Utilizada para dulces y jaleas.", price: 0.40, img: "https://images.unsplash.com/photo-1534432194684-44931a37c814?auto=format&fit=crop&w=250&q=80" },
+    { name: "Guanábana", desc: "Fruta de pulpa blanca y dulce para jugos.", price: 3.00, img: "https://images.unsplash.com/photo-1610450914442-99a224ef4da2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pitahaya", desc: "Tanto la amarilla (nativa de Palora) como la roja.", price: 2.00, img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
+    { name: "Naranjilla", desc: "Indispensable para jugos, canelazos y el tradicional seco de chivo.", price: 0.25, img: "https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tamarindo", desc: "Utilizado para refrescos ácidos.", price: 0.75, img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
+    { name: "Granadilla", desc: "Muy consumida por niños por su facilidad de digestión.", price: 0.40, img: "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=250&q=80" },
+    { name: "Taxo", desc: "Fruta andina ácida usada para jugos y helados.", price: 0.30, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tomate de Árbol", desc: "Esencial para jugos y el ají de mesa ecuatoriano.", price: 0.30, img: "https://images.unsplash.com/photo-1610450914442-99a224ef4da2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Chirimoya", desc: "De pulpa dulce y cremosa.", price: 2.50, img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
+    { name: "Babaco", desc: "Fruta andina usada casi exclusivamente para dulces en almíbar.", price: 1.80, img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=250&q=80" },
+    { name: "Arazá", desc: "Fruta amazónica muy ácida para jugos.", price: 1.25, img: "https://images.unsplash.com/photo-1534432194684-44931a37c814?auto=format&fit=crop&w=250&q=80" },
+    { name: "Chonta", desc: "Fruto de palmera amazónica que se consume cocinado.", price: 1.50, img: "https://images.unsplash.com/photo-1590005354167-6da97870c913?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zapote", desc: "De pulpa anaranjada y dulce.", price: 1.00, img: "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=250&q=80" },
+    { name: "Achotillo", desc: "Similar al rambután, de temporada en la Costa.", price: 1.50, img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" },
+    { name: "Naranja", desc: "Variedades para jugo y de mesa.", price: 0.15, img: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mandarina", desc: "Consumo masivo en época de cosecha serrana.", price: 0.15, img: "https://images.unsplash.com/photo-1552089123-2d26226fc2b7?auto=format&fit=crop&w=250&q=80" },
+    { name: "Limón Sutil", desc: "Pequeño y muy ácido, clave para ceviches.", price: 0.10, img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
+    { name: "Limón Meyer / Real", desc: "Más grande y menos ácido.", price: 0.20, img: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=250&q=80" },
+    { name: "Toronja", desc: "Consumida en ayunas o jugos.", price: 0.60, img: "https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&w=250&q=80" },
+    { name: "Aguacate Criollo", desc: "Variedades Hass y el fuerte nacional (guatemalteco).", price: 0.75, img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=250&q=80" },
+    { name: "Frutillas", desc: "Cultivada extensamente en provincias como Tungurahua.", price: 1.50, img: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=250&q=80" },
+    { name: "Mora de Castilla", desc: "Base para jugos, batidos y la colada morada.", price: 1.00, img: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Manzana", desc: "Variedades locales (pequeñas y ácidas) e importadas.", price: 0.40, img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pera", desc: "Producción local en los valles andinos.", price: 0.40, img: "https://images.unsplash.com/photo-1514986879802-efecfb9ab47e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Durazno / Melocotón", desc: "Consumido fresco o en abrillantados.", price: 0.50, img: "https://images.unsplash.com/photo-1595124201382-702b331fe372?auto=format&fit=crop&w=250&q=80" },
+    { name: "Uvilla", desc: "Pequeña fruta dorada, ácida y alta en vitamina C.", price: 0.80, img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=250&q=80" },
+    { name: "Capulí", desc: "Cereza deadlines andina que aparece en los primeros meses del año.", price: 1.00, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=250&q=80" },
+    { name: "Higo", desc: "Consumido tierno en el tradicional \"dulce de higos\" con queso.", price: 0.30, img: "https://images.unsplash.com/photo-1562967916-eb82221dfb92?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tuna", desc: "Fruta espinosa de zonas secas como los valles de Pichincha e Imbabura.", price: 0.50, img: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=250&q=80" },
+    { name: "Papa Chola", desc: "Más de 300 variedades nativas (Súper Chola, Cecilia, Uvilla, etc.).", price: 0.40, img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
+    { name: "Yuca", desc: "Base de la comida amazónica y costeña (en yapingachos o panes).", price: 0.45, img: "https://images.unsplash.com/photo-1590005354167-6da97870c913?auto=format&fit=crop&w=250&q=80" },
+    { name: "Camote", desc: "Variedades morada y amarilla.", price: 0.40, img: "https://images.unsplash.com/photo-1590005354167-6da97870c913?auto=format&fit=crop&w=250&q=80" },
+    { name: "Melloco", desc: "Tubérculo andino pequeño y de textura viscosa.", price: 0.60, img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
+    { name: "Oca", desc: "Tubérculo andino dulce que se asolea antes de cocinar.", price: 0.50, img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zanahoria Blanca (Arracacha)", desc: "Muy usada en sopas de bebés y locros.", price: 0.70, img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zanahoria Amarilla", desc: "Consumo diario en ensaladas y estofados.", price: 0.30, img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+    { name: "Rábano", desc: "Usado principalmente en ensaladas crudas.", price: 0.20, img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=250&q=80" },
+    { name: "Lechuga", desc: "Variedades crespa, romana, de seda y morada.", price: 0.50, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Col / Repollo", desc: "Col blanca y col morada para ensaladas y caldos.", price: 0.60, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Brócoli", desc: "Cultivado masivamente en la Sierra para consumo local y exportación.", price: 0.80, img: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=250&q=80" },
+    { name: "Coliflor", desc: "Usada en caiguas rellenas, sopas o gratinados.", price: 0.70, img: "https://images.unsplash.com/photo-1453227588063-bb302b62f50b?auto=format&fit=crop&w=250&q=80" },
+    { name: "Espinaca", desc: "Consumida en cremas y ensaladas.", price: 0.50, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Acelga", desc: "Muy común en los huertos andinos.", price: 0.45, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Col de Bruselas", desc: "Consumo menor pero presente en mercados urbanos.", price: 1.20, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Tomate Riñón", desc: "El tomate rojo estándar de mesa.", price: 0.40, img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cebolla Paiteña", desc: "Esencial para los curtidos de los encebollados y ceviches.", price: 0.45, img: "https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cebolla Blanca Larga", desc: "Base para todos los refritos (\"mapahuira\" o refrito base).", price: 0.35, img: "https://images.unsplash.com/photo-1514517604298-cf80e0fb7f1e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Cebolla Perla", desc: "Usada en menor medida para ensaladas o guisos específicos.", price: 0.50, img: "https://images.unsplash.com/photo-1514517604298-cf80e0fb7f1e?auto=format&fit=crop&w=250&q=80" },
+    { name: "Pimiento Verde", desc: "Principalmente verde, seguido por el rojo y amarillo.", price: 0.30, img: "https://images.unsplash.com/photo-1563565042-432a588b3687?auto=format&fit=crop&w=250&q=80" },
+    { name: "Ajo", desc: "Condimento diario insustituible.", price: 0.15, img: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zucchini (Calabacín)", desc: "Verde y amarillo, popular en zonas urbanas.", price: 0.60, img: "https://images.unsplash.com/photo-1563565042-432a588b3687?auto=format&fit=crop&w=250&q=80" },
+    { name: "Berenjena", desc: "Consumo moderado en guisos.", price: 0.75, img: "https://images.unsplash.com/photo-1563565042-432a588b3687?auto=format&fit=crop&w=250&q=80" },
+    { name: "Arveja", desc: "Consumida tierna en arroces y ensaladas de ensaladilla.", price: 0.80, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Fréjol Tierno (Poroto)", desc: "Base para la fanesca y menestras.", price: 0.90, img: "https://images.unsplash.com/photo-1551462147-3a919e3e536c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Haba", desc: "Consumida cocida con queso en la Sierra.", price: 0.45, img: "https://images.unsplash.com/photo-1551462147-3a919e3e536c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Choclo Tierno", desc: "Usado para humitas, tortas y mote pillo.", price: 0.40, img: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=250&q=80" },
+    { name: "Vainita (Judía Verde)", desc: "Común en arroces compuestos y ensaladas.", price: 0.60, img: "https://images.unsplash.com/photo-1551462147-3a919e3e536c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Garbanzo y Lenteja", desc: "Consumidos mayormente en grano seco rehidratado.", price: 0.80, img: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zapallo", desc: "Calabaza grande usada para sopas y dulces.", price: 1.50, img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Zambo", desc: "Similar al zapallo, su semilla tostada (pepa de zambo) es muy cotizada.", price: 1.20, img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Achogcha (Caigua)", desc: "Verdura hueca que se consume rellena de carne o queso.", price: 0.25, img: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=250&q=80" },
+    { name: "Yerbita / Cilantro", desc: "Toque final obligatorio de caldos y ceviches en la Costa.", price: 0.15, img: "https://images.unsplash.com/photo-1614882894176-bf1059f1be0c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Perejil", desc: "Usado diariamente en la Sierra para sazonar.", price: 0.15, img: "https://images.unsplash.com/photo-1614882894176-bf1059f1be0c?auto=format&fit=crop&w=250&q=80" },
+    { name: "Apio", desc: "Bases para dar sabor a caldos y fondos de sopa.", price: 0.25, img: "https://images.unsplash.com/photo-1614882894176-bf1059f1be0c?auto=format&fit=crop&w=250&q=80" }
 ],
 panaderia: [
 { name: "Pan Enrollado / Reventado", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=250&q=80" },
@@ -541,16 +606,29 @@ btnVolver.classList.remove("hidden");
 
 boxProductos.innerHTML = "";
 if(baseCatálago[categoria]) {
-baseCatálago[categoria].forEach(p => {
-boxProductos.innerHTML += `<div class="prod-card" onclick="enviarSolicitudDirecta('${p.name}', '${p.img}')">
+baseCatálago[categoria].forEach((p, idx) => {
+const descHTML = p.desc ? `<div class="desc">${p.desc}</div>` : '';
+const defPrice = p.price !== undefined ? p.price.toFixed(2) : "0.00";
+
+boxProductos.innerHTML += `<div class="prod-card">
 <img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
-<div class="name">${p.name}</div>
+<div style="flex:1; width:100%; display:flex; flex-direction:column; justify-content:flex-start;">
+    <div class="name">${p.name}</div>
+    ${descHTML}
+</div>
+<div style="display:flex; align-items:center; justify-content:space-between; width:100%; border-top:1px solid #2d2d35; padding-top:6px; margin-top:4px; gap:4px;">
+    <div style="display:flex; align-items:center; color:#10b981; font-weight:700; font-size:12px;">
+        <span style="margin-right:2px;">$</span>
+        <input type="number" id="price-input-${categoria}-${idx}" step="0.01" value="${defPrice}" style="width:46px; background:#232329; border:1px solid #3f3f46; color:white; border-radius:6px; padding:3px; font-size:11px; font-weight:600; text-align:center; outline:none;">
+    </div>
+    <button onclick="let priceVal = parseFloat(document.getElementById('price-input-${categoria}-${idx}').value)||0; enviarSolicitudDirecta('${p.name}', '${p.img}', priceVal)" style="background:#10b981; color:white; border:none; width:26px; height:26px; border-radius:50%; font-size:14px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center;">+</button>
+</div>
 </div>`;
 });
 }
 } 
 
-// Buscador inteligente local en tiempo real
+// Buscador inteligente local en tiempo real con soporte para descripciones y precios variables
 document.getElementById("inputBuscadorPremium").addEventListener("input", (e) => {
 const queryTexto = e.target.value.toLowerCase().trim();
 const boxCategoriasWrapper = document.getElementById("box-categorias-wrapper");
@@ -569,7 +647,7 @@ btnVolver.classList.remove("hidden");
 let coincidencias = [];
 Object.keys(baseCatálago).forEach(cat => {
 baseCatálago[cat].forEach(p => {
-if(p.name.toLowerCase().includes(queryTexto)) {
+if(p.name.toLowerCase().includes(queryTexto) || (p.desc && p.desc.toLowerCase().includes(queryTexto))) {
 coincidencias.push(p);
 }
 });
@@ -577,10 +655,24 @@ coincidencias.push(p);
 
 boxProductos.innerHTML = "";
 if(coincidencias.length > 0) {
-coincidencias.forEach(p => {
-boxProductos.innerHTML += `<div class="prod-card" onclick="enviarSolicitudDirecta('${p.name}', '${p.img}')">
+coincidencias.forEach((p, idx) => {
+const descHTML = p.desc ? `<div class="desc">${p.desc}</div>` : '';
+const defPrice = p.price !== undefined ? p.price.toFixed(2) : "0.00";
+const uniqueId = `search-${idx}-${Math.floor(Math.random()*1000)}`;
+
+boxProductos.innerHTML += `<div class="prod-card">
 <img src="${p.img}" alt="${p.name}" onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
-<div class="name">${p.name}</div>
+<div style="flex:1; width:100%; display:flex; flex-direction:column; justify-content:flex-start;">
+    <div class="name">${p.name}</div>
+    ${descHTML}
+</div>
+<div style="display:flex; align-items:center; justify-content:space-between; width:100%; border-top:1px solid #2d2d35; padding-top:6px; margin-top:4px; gap:4px;">
+    <div style="display:flex; align-items:center; color:#10b981; font-weight:700; font-size:12px;">
+        <span style="margin-right:2px;">$</span>
+        <input type="number" id="price-input-${uniqueId}" step="0.01" value="${defPrice}" style="width:46px; background:#232329; border:1px solid #3f3f46; color:white; border-radius:6px; padding:3px; font-size:11px; font-weight:600; text-align:center; outline:none;">
+    </div>
+    <button onclick="let priceVal = parseFloat(document.getElementById('price-input-${uniqueId}').value)||0; enviarSolicitudDirecta('${p.name}', '${p.img}', priceVal)" style="background:#10b981; color:white; border:none; width:26px; height:26px; border-radius:50%; font-size:14px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center;">+</button>
+</div>
 </div>`;
 });
 } else {
@@ -588,11 +680,11 @@ boxProductos.innerHTML = `<div style="grid-column: span 3; padding: 40px 10px; c
 }
 });
 
-window.enviarSolicitudDirecta = async function(nombre, img) {
+window.enviarSolicitudDirecta = async function(nombre, img, precio = 0) {
 try {
 await addDoc(collection(db, "compras"), {
 nombre: nombre,
-monto: 0,
+monto: precio,
 foto: img,
 fecha: new Date(),
 usuario: auth.currentUser.email
@@ -655,7 +747,8 @@ const contenedor = document.getElementById("historialCompras");
 contenedor.innerHTML = "";
 snapshot.forEach((doc) => {
 const data = doc.data();
-contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block; margin-top:2px;">${data.monto} — Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}" alt="Item" onerror="this.onerror=null; this.src='https://placehold.co/100x100/232329/ffffff?text=Item';"></div>`;
+const displayMonto = (data.monto !== undefined && data.monto !== 0) ? `$${parseFloat(data.monto).toFixed(2)}` : 'Pendiente';
+contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block; margin-top:2px;">Precio: ${displayMonto} — Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}" alt="Item" onerror="this.onerror=null; this.src='https://placehold.co/100x100/232329/ffffff?text=Item';"></div>`;
 });
 });
 } else {
