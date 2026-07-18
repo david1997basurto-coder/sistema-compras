@@ -227,8 +227,6 @@ aspect-ratio: 1 / 1;
 object-fit: cover; 
 border-radius: 10px; 
 background: #232329; 
--webkit-touch-callout: none;
--webkit-user-select: none;
 user-select: none;
 cursor: pointer;
 }
@@ -261,6 +259,33 @@ padding: 0 2px;
 background: #232329; color: white; border: none; padding: 10px 16px; border-radius: 20px;
 font-weight: 600; margin-top: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; font-size: 13px;
 }
+
+/* MODAL MODERNO DE PERSONALIZACIÓN */
+.modal-url-overlay {
+position: fixed; top:0; left:0; width:100%; height:100%;
+background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px); z-index: 100000;
+display: flex; align-items: center; justify-content: center;
+opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+}
+.modal-url-overlay.active { opacity: 1; pointer-events: auto; }
+.modal-url-box {
+background: #1c1c21; border: 1px solid #2d2d35; border-radius: 20px;
+width: 90%; max-width: 360px; padding: 22px; box-sizing: border-box;
+box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+transform: scale(0.9); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.modal-url-overlay.active .modal-url-box { transform: scale(1); }
+.modal-url-title { font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 6px; text-align: left; display: flex; align-items: center; gap: 6px; }
+.modal-url-subtitle { font-size: 12px; color: #a1a1aa; margin-bottom: 16px; text-align: left; line-height: 1.4; }
+.modal-url-input { width: 100%; background: #232329; border: 1px solid #3f3f46; border-radius: 12px; padding: 12px; font-size: 13px; color: white; outline: none; box-sizing: border-box; transition: border-color 0.2s; }
+.modal-url-input:focus { border-color: var(--primary-glow); }
+.modal-url-buttons { display: flex; gap: 10px; margin-top: 18px; justify-content: flex-end; }
+.modal-url-btn { border: none; padding: 10px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+.btn-url-cancel { background: #2d2d35; color: #e4e4e7; }
+.btn-url-cancel:hover { background: #3f3f46; }
+.btn-url-save { background: var(--primary-glow); color: white; }
+.btn-url-save:hover { filter: brightness(1.1); }
 </style>
 </head>
 <body> 
@@ -374,6 +399,19 @@ Continuar con Google
 <div id="box-productos" class="grid-productos hidden"></div>
 </div>
 </div> 
+
+<!-- MODAL ELEGANTE REEMPLAZO DE PROMPT NATIVO -->
+<div id="modalUrlPersonalizar" class="modal-url-overlay">
+<div class="modal-url-box">
+<div class="modal-url-title">✨ Personalizar imagen</div>
+<div class="modal-url-subtitle">Pega el nuevo enlace o URL de la imagen que prefieras para este producto.</div>
+<input type="text" id="inputModalUrl" class="modal-url-input" placeholder="https://ejemplo.com/imagen.jpg" autocomplete="off">
+<div class="modal-url-buttons">
+<button id="btnModalUrlCancelar" class="modal-url-btn btn-url-cancel">Cancelar</button>
+<button id="btnModalUrlGuardar" class="modal-url-btn btn-url-save">Guardar</button>
+</div>
+</div>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
@@ -597,35 +635,63 @@ mascotas: [
 ]
 }; 
 
-// --- ALGORITMO DE PULSACIÓN LARGA (LONG PRESS) ---
-window.iniciarPulsacionLarga = function(elemento, categoria, idx, esBusqueda) {
-    elemento.timeoutPulsacion = setTimeout(() => {
-        let nuevoLink = prompt("✨ Personalizar Producto\n\nPegue el URL o link de la nueva imagen de su preferencia:", elemento.src);
-        if (nuevoLink && nuevoLink.trim() !== "") {
-            elemento.src = nuevoLink.trim();
-            if (!esBusqueda) {
-                if (baseCatálago[categoria] && baseCatálago[categoria][idx]) {
-                    baseCatálago[categoria][idx].img = nuevoLink.trim();
-                }
-            } else {
-                let nombreProd = elemento.alt;
-                Object.keys(baseCatálago).forEach(cat => {
-                    baseCatálago[cat].forEach(p => {
-                        if (p.name === nombreProd) {
-                            p.img = nuevoLink.trim();
-                        }
-                    });
-                });
-            }
-        }
-    }, 800);
+// --- INTERFAZ SUTIL DE DOBLE CLIC (DOUBLE CLICK CUSTOMIZER) ---
+let elementoActualParaUrl = null;
+let categoriaActualParaUrl = "";
+let indexActualParaUrl = null;
+let esBusquedaActualParaUrl = false;
+
+window.solicitarCambioUrl = function(elemento, categoria, idx, esBusqueda) {
+    elementoActualParaUrl = elemento;
+    categoriaActualParaUrl = categoria;
+    indexActualParaUrl = idx;
+    esBusquedaActualParaUrl = esBusqueda;
+    
+    const modal = document.getElementById("modalUrlPersonalizar");
+    const input = document.getElementById("inputModalUrl");
+    
+    input.value = elemento.src;
+    modal.classList.add("active");
+    input.focus();
+    input.select();
 };
 
-window.cancelarPulsacionLarga = function(elemento) {
-    if (elemento.timeoutPulsacion) {
-        clearTimeout(elemento.timeoutPulsacion);
+function cerrarModalUrl() {
+    document.getElementById("modalUrlPersonalizar").classList.remove("active");
+    elementoActualParaUrl = null;
+}
+
+document.getElementById("btnModalUrlCancelar").addEventListener("click", cerrarModalUrl);
+
+document.getElementById("btnModalUrlGuardar").addEventListener("click", () => {
+    const nuevoLink = document.getElementById("inputModalUrl").value.trim();
+    if (nuevoLink !== "" && elementoActualParaUrl) {
+        elementoActualParaUrl.src = nuevoLink;
+        
+        if (!esBusquedaActualParaUrl) {
+            if (baseCatálago[categoriaActualParaUrl] && baseCatálago[categoriaActualParaUrl][indexActualParaUrl]) {
+                baseCatálago[categoriaActualParaUrl][indexActualParaUrl].img = nuevoLink;
+            }
+        } else {
+            let nombreProd = elementoActualParaUrl.alt;
+            Object.keys(baseCatálago).forEach(cat => {
+                baseCatálago[cat].forEach(p => {
+                    if (p.name === nombreProd) {
+                        p.img = nuevoLink;
+                    }
+                });
+            });
+        }
     }
-};
+    cerrarModalUrl();
+});
+
+// Permitir guardar al presionar 'Enter' dentro del input del modal
+document.getElementById("inputModalUrl").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        document.getElementById("btnModalUrlGuardar").click();
+    }
+});
 
 window.cargarProductos = function(categoria) {
 const boxCategoriasWrapper = document.getElementById("box-categorias-wrapper");
@@ -646,12 +712,7 @@ const defPrice = p.price !== undefined ? p.price.toFixed(2) : "0.00";
 
 boxProductos.innerHTML += `<div class="prod-card">
 <img src="${p.img}" alt="${p.name}" 
-     onmousedown="iniciarPulsacionLarga(this, '${categoria}', ${idx}, false)" 
-     ontouchstart="iniciarPulsacionLarga(this, '${categoria}', ${idx}, false)" 
-     onmouseup="cancelarPulsacionLarga(this)" 
-     onmouseleave="cancelarPulsacionLarga(this)" 
-     ontouchend="cancelarPulsacionLarga(this)" 
-     ontouchmove="cancelarPulsacionLarga(this)"
+     ondblclick="solicitarCambioUrl(this, '${categoria}', ${idx}, false)"
      onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
 <div style="flex:1; width:100%; display:flex; flex-direction:column; justify-content:flex-start;">
     <div class="name">${p.name}</div>
@@ -703,12 +764,7 @@ const uniqueId = `search-${idx}-${Math.floor(Math.random()*1000)}`;
 
 boxProductos.innerHTML += `<div class="prod-card">
 <img src="${p.img}" alt="${p.name}" 
-     onmousedown="iniciarPulsacionLarga(this, '', null, true)" 
-     ontouchstart="iniciarPulsacionLarga(this, '', null, true)" 
-     onmouseup="cancelarPulsacionLarga(this)" 
-     onmouseleave="cancelarPulsacionLarga(this)" 
-     ontouchend="cancelarPulsacionLarga(this)" 
-     ontouchmove="cancelarPulsacionLarga(this)"
+     ondblclick="solicitarCambioUrl(this, '', null, true)"
      onerror="this.onerror=null; this.src='https://placehold.co/250x250/232329/ffffff?text=${encodeURIComponent(p.name)}';">
 <div style="flex:1; width:100%; display:flex; flex-direction:column; justify-content:flex-start;">
     <div class="name">${p.name}</div>
