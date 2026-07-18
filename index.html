@@ -2,166 +2,149 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sistema de Compras Familiar CPB</title>
     <style>
+        :root {
+            --primary-glow: #10b981;
+            --btn-solicitar: #2bc48a;
+            --btn-comprar: #e2e8f0;
+            --btn-ajustes: #4a5568;
+            --text-light: #ffffff;
+        }
+
         body {
-            font-family: 'Segoe UI', -apple-system, Arial, sans-serif;
-            background-image: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.8)), url('foto_familiar.jpg.jpeg');
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('foto_familiar.jpg.jpeg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-color: #141b2d;
             margin: 0;
             padding: 0;
+            color: var(--text-light);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            max-width: 460px;
-            width: 90%;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            text-align: center;
             box-sizing: border-box;
         }
 
-        h1 {
-            color: #1a202c;
-            font-size: 24px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .subtitle {
-            color: #4a5568;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .btn-portal {
+        .app-card {
             width: 100%;
-            padding: 15px;
+            max-width: 480px;
+            padding: 20px 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .top-user-bar {
+            position: absolute;
+            top: -40px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+        .top-user-bar span { color: #f1f5f9; }
+        .icon-top { cursor: pointer; opacity: 0.8; transition: opacity 0.2s; font-size: 16px; }
+        .icon-top:hover { opacity: 1; }
+
+        .avatar-container {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            margin-bottom: 15px;
+            overflow: hidden;
+            background: #2d3748;
+        }
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 { font-size: 28px; font-weight: 700; margin: 0 0 8px 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); color: #ffffff; line-height: 1.2; }
+        .subtitle { color: #e2e8f0; font-size: 14px; margin: 0 0 35px 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); max-width: 90%; }
+
+        .menu-actions { width: 100%; display: flex; flex-direction: column; gap: 14px; }
+
+        .btn-cpb {
+            width: 100%;
+            padding: 14px 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 25px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
         }
+        .btn-cpb:active { transform: scale(0.98); }
 
-        .btn-google {
-            background-color: white;
-            color: #2d3748;
-            border: 1px solid #cbd5e0;
-        }
-        .btn-google img { width: 22px; height: 22px; margin-right: 12px; }
-        .btn-google:hover { background-color: #f7fafc; }
+        .btn-solicitar { background-color: var(--btn-solicitar); color: white; }
+        .btn-comprar { background-color: var(--btn-comprar); color: #2d3748; }
+        .btn-ajustes { background-color: rgba(74, 85, 104, 0.9); color: white; border: 1px solid rgba(255,255,255,0.1); }
 
-        .btn-solicitar { background-color: #2bc48a; color: white; }
-        .btn-solicitar:hover { background-color: #23a975; }
-
-        .btn-comprar { background-color: white; color: #4a5568; border: 1px solid #cbd5e0; }
-        .btn-comprar:hover { background-color: #f7fafc; }
-
-        .btn-ajustes { background-color: #4a5568; color: white; font-size: 14px; padding: 10px; }
-        .btn-ajustes:hover { background-color: #2d3748; }
-
-        .sub-link {
-            color: #718096;
-            font-size: 13px;
-            text-decoration: underline;
-            cursor: pointer;
-            display: block;
-            margin-top: 15px;
-        }
-
+        .form-box { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 20px; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; margin-top: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        input { width: 100%; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; box-sizing: border-box; font-size: 15px; background: rgba(255,255,255,0.05); color: white; }
+        input:focus { outline: none; border-color: var(--btn-solicitar); }
+        .lista-seccion { margin-top: 10px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .compra-tarjeta { background: rgba(255, 255, 255, 0.08); padding: 12px; border-left: 4px solid var(--btn-solicitar); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+        .img-catalogo { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; }
         .hidden { display: none !important; }
-
-        .form-group { margin-bottom: 15px; text-align: left; }
-        input {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #cbd5e0;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 15px;
-            background-color: #f8fafc;
-        }
-
-        .lista-seccion {
-            margin-top: 20px;
-            text-align: left;
-            max-height: 250px;
-            overflow-y: auto;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 15px;
-        }
-        .compra-tarjeta {
-            background: #f8fafc;
-            padding: 12px;
-            border-left: 4px solid #2bc48a;
-            margin-bottom: 8px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .img-catalogo { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA 1: ACCESO -->
-    <div id="login-card" class="glass-card">
+    <div id="login-card" class="app-card">
         <h1>Acceso a la familia CPB</h1>
         <div class="subtitle">Ingresa para administrar las compras del hogar.</div>
-        
-        <button id="btnLogin" class="btn-portal btn-google">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+        <button id="btnLogin" class="btn-cpb" style="background: white; color: #1a202c; border-radius: 25px;">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:20px;">
             Continuar con Google
         </button>
-        
-        <span class="sub-link">Más opciones de inicio de sesión</span>
     </div>
 
-    <!-- PANTALLA 2: PORTAL PRINCIPAL -->
-    <div id="portal-card" class="glass-card hidden">
-        <h1>Sistema de Compras Familiar CPB</h1>
-        <div class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
-        
-        <button id="btnMenuSolicitar" class="btn-portal btn-solicitar">📥 Solicitar Compra</button>
-        <button id="btnMenuComprar" class="btn-portal btn-comprar">🛒 Comprar Ahora</button>
-        <button id="btnMenuAjustes" class="btn-portal btn-ajustes">⚙️ Ajustes del Sistema</button>
-
-        <!-- Bloque Desplegable Interno -->
-        <div id="despliegue-solicitud" class="hidden">
-            <div class="form-group" style="margin-top: 20px;">
-                <input type="text" id="producto" placeholder="Nombre del producto">
-            </div>
-            <div class="form-group">
-                <input type="number" id="precio" placeholder="Precio ($)">
-            </div>
-            <div class="form-group">
-                <input type="text" id="fotoUrl" placeholder="Enlace/Link del catálogo (Opcional)">
-            </div>
-            <button id="btnGuardarDatos" class="btn-portal btn-solicitar" style="padding: 12px; font-size: 15px;">Enviar Solicitud</button>
-            
-            <div class="lista-seccion">
-                <div id="historialCompras"></div>
-            </div>
+    <div id="portal-card" class="app-card hidden">
+        <div class="top-user-bar">
+            <span id="userNameField">Cargando...</span>
+            <span class="icon-top">⚙️</span>
+            <span id="btnLogOut" class="icon-top" title="Cerrar Sesión">🚪</span>
         </div>
 
-        <span id="btnLogOut" class="sub-link">Cerrar Sesión</span>
+        <div class="avatar-container">
+            <img src="perfil.jpg.jpeg" alt="Perfil Familiar">
+        </div>
+
+        <h1>Sistema de Compras<br>Familiar CPB</h1>
+        <div class="subtitle">Organiza las compras de tu hogar de forma inteligente.</div>
+        
+        <div class="menu-actions">
+            <button id="btnMenuSolicitar" class="btn-cpb btn-solicitar">🛒 Solicitar Compra</button>
+            <button id="btnMenuComprar" class="btn-cpb btn-comprar">✔️ Comprar Ahora</button>
+            <button id="btnMenuAjustes" class="btn-cpb btn-ajustes">⚙️ Ajustes del Sistema</button>
+        </div>
+
+        <div id="despliegue-solicitud" class="form-box hidden">
+            <input type="text" id="producto" placeholder="Nombre del producto">
+            <input type="number" id="precio" placeholder="Precio ($)">
+            <input type="text" id="fotoUrl" placeholder="Link del catálogo (Opcional)">
+            <button id="btnGuardarDatos" class="btn-cpb btn-solicitar" style="padding: 10px;">Enviar Solicitud</button>
+            <div class="lista-seccion"><div id="historialCompras"></div></div>
+        </div>
     </div>
 
     <script type="module">
@@ -169,115 +152,46 @@
         import { getFirestore, collection, addDoc, query, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI",
-            authDomain: "gestion-compras-cpb.firebaseapp.com",
-            projectId: "gestion-compras-cpb",
-            storageBucket: "gestion-compras-cpb.firebasestorage.app",
-            messagingSenderId: "643471531807",
-            appId: "1:643471531807:web:9c254668692760ea6a9a2a"
-        };
-
+        const firebaseConfig = { apiKey: "AIzaSyDkGmM0hMoOqQ5ughxqiCZxcN3bvlsSltI", authDomain: "gestion-compras-cpb.firebaseapp.com", projectId: "gestion-compras-cpb", storageBucket: "gestion-compras-cpb.firebasestorage.app", messagingSenderId: "643471531807", appId: "1:643471531807:web:9c254668692760ea6a9a2a" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
-
         const loginCard = document.getElementById("login-card");
         const portalCard = document.getElementById("portal-card");
-        let unsubscribeSnapshot = null; // Variable de control para limpiar la base de datos al cerrar sesión
+        let unsubscribeSnapshot = null;
 
-        // Control de flujo seguro de pantallas
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loginCard.classList.add("hidden");
                 portalCard.classList.remove("hidden");
-                
-                // Cargar la base de datos ÚNICAMENTE cuando el usuario está 100% validado
+                document.getElementById("userNameField").innerText = user.displayName || "Usuario CPB";
                 const q = query(collection(db, "compras"), orderBy("fecha", "desc"));
                 unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
                     const contenedor = document.getElementById("historialCompras");
                     contenedor.innerHTML = ""; 
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        contenedor.innerHTML += `
-                            <div class="compra-tarjeta">
-                                <div>
-                                    <strong>${data.nombre}</strong> — $${data.monto}
-                                    <br><small style="color:#718096;">Por: ${data.usuario || 'Familiar'}</small>
-                                </div>
-                                <img class="img-catalogo" src="${data.foto}" alt="Catálogo">
-                            </div>
-                        `;
+                        contenedor.innerHTML += `<div class="compra-tarjeta"><div><strong>${data.nombre}</strong><small style="color:#cbd5e1; display:block; margin-top:2px;">$${data.monto} — Por: ${data.usuario.split('@')[0]}</small></div><img class="img-catalogo" src="${data.foto}" alt="Item"></div>`;
                     });
-                }, (error) => {
-                    console.error("Error en base de datos controlado:", error.message);
                 });
-
             } else {
-                // Si no hay usuario, limpiar la escucha activa de la base de datos y mandar al login
-                if (unsubscribeSnapshot) {
-                    unsubscribeSnapshot();
-                    unsubscribeSnapshot = null;
-                }
+                if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
                 portalCard.classList.add("hidden");
                 loginCard.classList.remove("hidden");
             }
         });
-
-        // Ejecución limpia mediante Popup
-        document.getElementById("btnLogin").addEventListener("click", () => {
-            signInWithPopup(auth, provider).catch((error) => {
-                console.error("Error de login:", error.message);
-                alert("Para iniciar sesión correctamente, asegúrese de abrir el enlace en el navegador independiente de su celular (Chrome o Safari).");
-            });
-        });
-
-        document.getElementById("btnLogOut").addEventListener("click", () => {
-            signOut(auth);
-            document.getElementById("despliegue-solicitud").classList.add("hidden");
-        });
-
-        const btnMenuSolicitar = document.getElementById("btnMenuSolicitar");
-        const despliegueSolicitud = document.getElementById("despliegue-solicitud");
-
-        btnMenuSolicitar.addEventListener("click", () => {
-            despliegueSolicitud.classList.toggle("hidden");
-        });
-
-        document.getElementById("btnMenuComprar").addEventListener("click", () => {
-            alert("Módulo de compras consolidado.");
-        });
-
-        document.getElementById("btnMenuAjustes").addEventListener("click", () => {
-            alert("Panel de Control del Desarrollador CPB activo.");
-        });
-
+        document.getElementById("btnLogin").addEventListener("click", () => signInWithPopup(auth, provider));
+        document.getElementById("btnLogOut").addEventListener("click", () => { signOut(auth); document.getElementById("despliegue-solicitud").classList.add("hidden"); });
+        document.getElementById("btnMenuSolicitar").addEventListener("click", () => document.getElementById("despliegue-solicitud").classList.toggle("hidden"));
+        document.getElementById("btnMenuComprar").addEventListener("click", () => alert("Módulo de compras consolidado."));
+        document.getElementById("btnMenuAjustes").addEventListener("click", () => alert("Panel de Control Activo."));
         document.getElementById("btnGuardarDatos").addEventListener("click", async () => {
             const producto = document.getElementById("producto").value;
             const precio = document.getElementById("precio").value;
             const fotoUrl = document.getElementById("fotoUrl").value || "https://via.placeholder.com/150";
-
-            if(!producto || !precio) {
-                alert("Complete los campos obligatorios.");
-                return;
-            }
-
-            try {
-                await addDoc(collection(db, "compras"), {
-                    nombre: producto,
-                    monto: Number(precio),
-                    foto: fotoUrl,
-                    fecha: new Date(),
-                    usuario: auth.currentUser.email
-                });
-                alert("Solicitud guardada en la nube.");
-                document.getElementById("producto").value = "";
-                document.getElementById("precio").value = "";
-                document.getElementById("fotoUrl").value = "";
-            } catch (e) {
-                alert("Error al guardar: " + e.message);
-            }
+            if(!producto || !precio) return alert("Complete los campos obligatorios.");
+            try { await addDoc(collection(db, "compras"), { nombre: producto, monto: Number(precio), foto: fotoUrl, fecha: new Date(), usuario: auth.currentUser.email }); document.getElementById("producto").value = ""; document.getElementById("precio").value = ""; document.getElementById("fotoUrl").value = ""; } catch (e) { alert("Error: " + e.message); }
         });
     </script>
 </body>
